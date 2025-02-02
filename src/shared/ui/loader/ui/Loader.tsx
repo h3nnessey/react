@@ -3,6 +3,10 @@ import styles from './Loader.module.scss';
 
 export class Loader extends Component {
   render() {
-    return <span className={styles.loader}></span>;
+    return (
+      <div className={styles.container}>
+        <span className={styles.loader}></span>
+      </div>
+    );
   }
 }

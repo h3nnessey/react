@@ -65,13 +65,13 @@ export class SearchProvider extends Component<
         this.setState({
           error: null,
           characters: res.data.results,
-          isLoading: false,
+          isLoading: true,
         });
       } else {
         this.setState({
           error: res.error,
           characters: [],
-          isLoading: false,
+          isLoading: true,
         });
       }
     });
