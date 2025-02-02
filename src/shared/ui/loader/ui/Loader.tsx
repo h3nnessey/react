@@ -1,7 +1,8 @@
 import { Component } from 'react';
+import styles from './Loader.module.scss';
 
 export class Loader extends Component {
   render() {
-    return <p>Loading...</p>;
+    return <span className={styles.loader}></span>;
   }
 }

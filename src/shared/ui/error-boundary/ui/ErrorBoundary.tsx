@@ -1,6 +1,6 @@
 import { Component, type ReactNode, type ErrorInfo } from 'react';
 import { Button } from '../../button';
-import styles from './ErrorBoundary.module.scss';
+import { ErrorMessage } from '../../error-message';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -34,12 +34,13 @@ export class ErrorBoundary extends Component<
   render() {
     if (this.state.hasError) {
       return (
-        <p className={styles.error}>
-          {this.props.fallback || (
-            <h1 className={styles.title}>Oops! Something went wrong.</h1>
-          )}
-          <Button text="Reload the page" onClick={this.handleReloadClick} />
-        </p>
+        this.props.fallback || (
+          <>
+            <ErrorMessage message="Oops, something went wrong">
+              <Button text="Reload the page" onClick={this.handleReloadClick} />
+            </ErrorMessage>
+          </>
+        )
       );
     }
 

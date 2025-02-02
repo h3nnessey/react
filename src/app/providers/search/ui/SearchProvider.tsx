@@ -9,6 +9,7 @@ interface SearchProviderState {
   query: string;
   characters: Character[];
   isLoading: boolean;
+  error: string | null;
 }
 
 interface SearchProviderValue extends SearchProviderState {
@@ -21,6 +22,7 @@ const INITIAL_STATE: SearchProviderState = {
   query: window.localStorage.getItem(LS_KEY) || '',
   characters: [],
   isLoading: false,
+  error: null,
 };
 
 const INITIAL_CONTEXT_VALUE: SearchProviderValue = {
@@ -59,10 +61,19 @@ export class SearchProvider extends Component<
     this.setState({ isLoading: true });
 
     CharactersApi.getCharacters({ name: query }).then(res => {
-      this.setState({
-        characters: res.success ? res.data.results : [],
-        isLoading: false,
-      });
+      if (res.success) {
+        this.setState({
+          error: null,
+          characters: res.data.results,
+          isLoading: false,
+        });
+      } else {
+        this.setState({
+          error: res.error,
+          characters: [],
+          isLoading: false,
+        });
+      }
     });
   };
 

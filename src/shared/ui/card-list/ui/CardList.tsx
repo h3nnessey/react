@@ -16,9 +16,7 @@ export class CardList extends PureComponent<CardListProps> {
 
     return (
       <>
-        {items.length === 0 ? (
-          <p>No results</p>
-        ) : (
+        {items.length === 0 ? null : (
           <div className={styles.cardList}>
             {this.props.items.map(props => (
               <Card key={props.id} {...props} />
