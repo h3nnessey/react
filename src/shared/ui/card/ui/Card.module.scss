@@ -2,13 +2,30 @@
   display: flex;
   gap: 10px;
   border-radius: 10px;
-  border: 1px solid black;
+  border: 1px solid #4a4a4a;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border 0.2s;
+
+  &:hover {
+    border: 1px solid #696969;
+
+    .title {
+      color: #ffffff;
+    }
+  }
 }
 
 .image {
-  width: 50px;
-  height: 50px;
+  width: 80px;
+  height: 80px;
   border-radius: 10px;
+  aspect-ratio: 1/1;
+}
+
+.description,
+.title {
+  transition: 0.2s color;
 }
 
 .about {
@@ -16,9 +33,18 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+  padding: 10px;
+  text-align: left;
+}
+
+.title {
+  font-weight: 500;
+  color: #c3c3c3;
 }
 
 .description {
-  align-self: flex-end;
-  padding-right: 10px;
+  font-weight: 400;
+  color: #b76767;
+  text-transform: capitalize;
+  text-align: right;
 }

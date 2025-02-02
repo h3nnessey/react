@@ -15,7 +15,7 @@ export class Card extends PureComponent<CardProps> {
       <div className={styles.card}>
         <img className={styles.image} src={imageUrl} alt={title} />
         <div className={styles.about}>
-          <p>{title}</p>
+          <p className={styles.title}>{title}</p>
           <p className={styles.description}>{description}</p>
         </div>
       </div>

@@ -22,7 +22,12 @@ export class SearchForm extends Component<SearchFormProps> {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <input ref={this.ref} disabled={disabled} defaultValue={defaultValue} />
+        <input
+          ref={this.ref}
+          disabled={disabled}
+          defaultValue={defaultValue}
+          placeholder="Search something..."
+        />
         <button type="submit" disabled={disabled}>
           search
         </button>
