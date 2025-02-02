@@ -59,10 +59,6 @@ export interface GetCharactersErrorResponse {
   error: string;
 }
 
-export type GetCharactersApiResponse =
-  | GetCharactersOkResponse
-  | GetCharactersErrorResponse;
-
 export type GetCharactersResult =
   | ({ success: false } & GetCharactersErrorResponse)
   | { success: true; data: GetCharactersOkResponse };

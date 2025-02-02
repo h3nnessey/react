@@ -21,13 +21,20 @@ export default class App extends Component<null, AppState> {
 
   render() {
     return (
-      <>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+          padding: '20px',
+        }}
+      >
         {this.state.characters.map(character => (
           <div key={character.id}>
+            <img src={character.image} width={100} height={100} />
             <p>{character.name}</p>
           </div>
         ))}
-      </>
+      </div>
     );
   }
 }

@@ -1,4 +1,4 @@
-import type { GetCharactersApiResponse, GetCharactersResult } from './model';
+import type { GetCharactersResult } from './model';
 import {
   type CharactersQueryParams,
   CHARACTERS_URL,
@@ -19,9 +19,9 @@ export const getCharacters = async (
     });
 
     const response = await fetch(url);
-    const data = (await response.json()) as GetCharactersApiResponse;
+    const data = await response.json();
 
-    if (!response.ok || 'error' in data) {
+    if (!response.ok) {
       return processApiError(data);
     }
 
