@@ -10,7 +10,7 @@ export class Header extends SearchContextComponent {
         <SearchForm
           defaultValue={query}
           disabled={isLoading}
-          onSearch={setQuery}
+          onSubmit={setQuery}
         />
       </header>
     );

@@ -7,53 +7,74 @@ interface SearchProviderProps {
 
 interface SearchProviderState {
   query: string;
-  items: Character[];
+  characters: Character[];
   isLoading: boolean;
-  setQuery: (value: string) => void;
 }
 
-const INITIAL_VALUE = {
-  query: 'rick',
-  items: [],
+interface SearchProviderValue extends SearchProviderState {
+  setQuery: (query: string) => void;
+}
+
+const LS_KEY = 'h3nnessey-search';
+
+const INITIAL_STATE: SearchProviderState = {
+  query: window.localStorage.getItem(LS_KEY) || '',
+  characters: [],
   isLoading: false,
+};
+
+const INITIAL_CONTEXT_VALUE: SearchProviderValue = {
+  ...INITIAL_STATE,
   setQuery: () => {},
 };
 
-export const SearchContext = createContext<SearchProviderState>(INITIAL_VALUE);
+export const SearchContext = createContext<SearchProviderValue>(
+  INITIAL_CONTEXT_VALUE
+);
 
 export class SearchProvider extends Component<
   SearchProviderProps,
   SearchProviderState
 > {
-  state: SearchProviderState = {
-    ...INITIAL_VALUE,
-    setQuery: (newQuery: string) => this.setState({ query: newQuery }),
-  };
+  state: SearchProviderState = INITIAL_STATE;
 
   componentDidMount() {
-    CharactersApi.getCharacters({ name: this.state.query }).then(res => {
-      this.setState({ items: res.success ? res.data.results : [] });
-    });
+    this.updateCharacters();
   }
 
   componentDidUpdate(
-    prevProps: Readonly<SearchProviderProps>,
+    _prevProps: Readonly<SearchProviderProps>,
     prevState: Readonly<SearchProviderState>
   ) {
     if (prevState.query !== this.state.query) {
-      this.setState({ isLoading: true });
-      CharactersApi.getCharacters({ name: this.state.query }).then(res => {
-        this.setState({
-          items: res.success ? res.data.results : [],
-          isLoading: false,
-        });
-      });
+      this.updateCharacters();
     }
   }
 
+  private updateCharacters = () => {
+    const { query } = this.state;
+
+    window.localStorage.setItem(LS_KEY, query);
+
+    this.setState({ isLoading: true });
+
+    CharactersApi.getCharacters({ name: query }).then(res => {
+      this.setState({
+        characters: res.success ? res.data.results : [],
+        isLoading: false,
+      });
+    });
+  };
+
+  setQuery = (query: string) => {
+    this.setState({ query });
+  };
+
   render() {
     return (
-      <SearchContext.Provider value={this.state}>
+      <SearchContext.Provider
+        value={{ ...this.state, setQuery: this.setQuery }}
+      >
         {this.props.children}
       </SearchContext.Provider>
     );

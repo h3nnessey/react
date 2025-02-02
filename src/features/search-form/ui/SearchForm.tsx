@@ -3,18 +3,18 @@ import { createRef, Component, type FormEvent } from 'react';
 interface SearchFormProps {
   disabled: boolean;
   defaultValue: string;
-  onSearch: (query: string) => void;
+  onSubmit: (query: string) => void;
 }
 
 export class SearchForm extends Component<SearchFormProps> {
-  ref = createRef<HTMLInputElement>();
+  private ref = createRef<HTMLInputElement>();
 
-  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  private handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const query = this.ref.current?.value || '';
+    const query = this.ref.current?.value.trim() || '';
 
-    this.props.onSearch(query);
+    this.props.onSubmit(query);
   };
 
   render() {
