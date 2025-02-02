@@ -1,6 +1,22 @@
 .btn {
-  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 10px;
-  border: 1px solid #4a4a4a;
+  padding: 0 20px;
+  border: 1px solid #a1a1a1;
+  text-transform: capitalize;
+  background: transparent;
+  height: 50px;
+  color: #a1a1a1;
+  font-weight: 500;
   cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+
+  &:hover {
+    background: bisque;
+    color: #000000;
+  }
 }

@@ -30,9 +30,7 @@ export class SearchForm extends Component<SearchFormProps> {
           defaultValue={defaultValue}
           placeholder="Search something..."
         />
-        <Button type="submit" disabled={disabled}>
-          search
-        </Button>
+        <Button text="Search" type="submit" disabled={disabled}></Button>
       </form>
     );
   }
