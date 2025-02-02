@@ -1,12 +1,33 @@
 import { Component } from 'react';
+import { CharactersApi, type Character } from '@/shared/api/characters';
 import './styles/global.scss';
 
-export default class App extends Component {
-  render() {
-    if (Math.random() > 0.5) {
-      throw new Error('Render Error');
-    }
+interface AppState {
+  characters: Character[];
+}
 
-    return <h1>Lorem ipsum dolor sit amet.</h1>;
+export default class App extends Component<null, AppState> {
+  state: AppState = {
+    characters: [],
+  };
+
+  componentDidMount() {
+    CharactersApi.getCharacters().then(result => {
+      this.setState({
+        characters: result.success ? result.data.results : [],
+      });
+    });
+  }
+
+  render() {
+    return (
+      <>
+        {this.state.characters.map(character => (
+          <div key={character.id}>
+            <p>{character.name}</p>
+          </div>
+        ))}
+      </>
+    );
   }
 }
