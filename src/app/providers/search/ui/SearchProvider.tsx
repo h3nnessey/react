@@ -58,20 +58,20 @@ export class SearchProvider extends Component<
 
     window.localStorage.setItem(LS_KEY, query);
 
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, error: null, characters: [] });
 
     CharactersApi.getCharacters({ name: query }).then(res => {
       if (res.success) {
         this.setState({
           error: null,
           characters: res.data.results,
-          isLoading: true,
+          isLoading: false,
         });
       } else {
         this.setState({
           error: res.error,
           characters: [],
-          isLoading: true,
+          isLoading: false,
         });
       }
     });
