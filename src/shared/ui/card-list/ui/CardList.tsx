@@ -1,6 +1,6 @@
 import { PureComponent } from 'react';
 import { Card, type CardProps } from '../../card';
-import styles from './CarList.module.scss';
+import styles from './CardList.module.scss';
 
 interface CardListItem extends CardProps {
   id: number;

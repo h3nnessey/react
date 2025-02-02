@@ -1,5 +1,6 @@
 import { createRef, Component, type FormEvent } from 'react';
 import { Input, Button } from '@/shared/ui/';
+import styles from './SearchForm.module.scss';
 
 interface SearchFormProps {
   disabled: boolean;
@@ -22,7 +23,7 @@ export class SearchForm extends Component<SearchFormProps> {
     const { disabled, defaultValue } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form className={styles.form} onSubmit={this.handleSubmit}>
         <Input
           inputRef={this.inputRef}
           disabled={disabled}
