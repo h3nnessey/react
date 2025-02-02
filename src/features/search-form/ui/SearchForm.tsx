@@ -1,24 +1,31 @@
-import { Component, createRef } from 'react';
-import { SearchContext } from '@/app/providers/search';
+import { createRef, Component, type FormEvent } from 'react';
 
-export class SearchForm extends Component {
-  declare context: React.ContextType<typeof SearchContext>;
-  static contextType = SearchContext;
+interface SearchFormProps {
+  disabled: boolean;
+  defaultValue: string;
+  onSearch: (query: string) => void;
+}
 
+export class SearchForm extends Component<SearchFormProps> {
   ref = createRef<HTMLInputElement>();
 
+  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const query = this.ref.current?.value || '';
+
+    this.props.onSearch(query);
+  };
+
   render() {
-    this.context.setSearch('3213123');
+    const { disabled, defaultValue } = this.props;
 
     return (
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-          console.log(this.ref.current?.value);
-        }}
-      >
-        <input ref={this.ref} type="text" />
-        <button type="submit">search</button>
+      <form onSubmit={this.handleSubmit}>
+        <input ref={this.ref} disabled={disabled} defaultValue={defaultValue} />
+        <button type="submit" disabled={disabled}>
+          search
+        </button>
       </form>
     );
   }

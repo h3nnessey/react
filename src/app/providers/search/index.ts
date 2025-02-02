@@ -1,1 +1,2 @@
-export { SearchProvider, SearchContext } from './SearchProvider';
+export { SearchProvider, SearchContext } from './ui/SearchProvider';
+export { SearchContextComponent } from './ui/SearchContextComponent';

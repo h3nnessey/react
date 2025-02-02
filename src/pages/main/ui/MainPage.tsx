@@ -1,16 +1,16 @@
-import { Component } from 'react';
-import { SearchProvider } from '@/app/providers/search';
+import { SearchContextComponent } from '@/app/providers/search';
+import { CharacterCardList } from '@/entities/character';
 import { Header } from '@/widgets/header';
 
-export class MainPage extends Component {
+export class MainPage extends SearchContextComponent {
   render() {
     return (
-      <SearchProvider>
+      <>
         <Header />
         <main>
-          <h1>main page</h1>
+          <CharacterCardList characters={this.context.items} />
         </main>
-      </SearchProvider>
+      </>
     );
   }
 }
