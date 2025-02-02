@@ -1,4 +1,5 @@
 import { createRef, Component, type FormEvent } from 'react';
+import { Input, Button } from '@/shared/ui/';
 
 interface SearchFormProps {
   disabled: boolean;
@@ -7,12 +8,12 @@ interface SearchFormProps {
 }
 
 export class SearchForm extends Component<SearchFormProps> {
-  private ref = createRef<HTMLInputElement>();
+  private inputRef = createRef<HTMLInputElement>();
 
   private handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const query = this.ref.current?.value.trim() || '';
+    const query = this.inputRef.current?.value.trim() || '';
 
     this.props.onSubmit(query);
   };
@@ -22,15 +23,15 @@ export class SearchForm extends Component<SearchFormProps> {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <input
-          ref={this.ref}
+        <Input
+          inputRef={this.inputRef}
           disabled={disabled}
           defaultValue={defaultValue}
           placeholder="Search something..."
         />
-        <button type="submit" disabled={disabled}>
+        <Button type="submit" disabled={disabled}>
           search
-        </button>
+        </Button>
       </form>
     );
   }
