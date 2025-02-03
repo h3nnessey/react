@@ -9,7 +9,7 @@ interface MainPageProps {
   hasError: boolean;
 }
 
-export class MainPage extends SearchContextComponent<MainPageProps> {
+export class MainPage extends SearchContextComponent<unknown, MainPageProps> {
   state: MainPageProps = {
     hasError: false,
   };
