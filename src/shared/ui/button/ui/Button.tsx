@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { classnames } from '@/shared/lib/styling';
 import styles from './Button.module.scss';
@@ -8,14 +7,10 @@ interface ButtonsProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
 }
 
-export class Button extends Component<ButtonsProps> {
-  render() {
-    const { children, className, ...restProps } = this.props;
-
-    return (
-      <button className={classnames(styles.btn, className)} {...restProps}>
-        <span>{children}</span>
-      </button>
-    );
-  }
-}
+export const Button = ({ className, children, ...props }: ButtonsProps) => {
+  return (
+    <button className={classnames(styles.btn, className)} {...props}>
+      <span>{children}</span>
+    </button>
+  );
+};
