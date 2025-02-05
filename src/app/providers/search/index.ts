@@ -1,2 +1,2 @@
-export { SearchProvider, SearchContext } from './lib/SearchProvider';
-export { SearchContextComponent } from './ui/SearchContextComponent';
+export { SearchProvider } from './ui/SearchProvider';
+export { useSearchContext } from './lib/useSearchContext';

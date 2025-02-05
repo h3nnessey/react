@@ -1,12 +1,9 @@
-import { SearchContextComponent } from '@/app/providers/search';
+import { useState } from 'react';
+import { useSearchContext } from '@/app/providers/search';
 import { CardList, Loader, Button, ErrorMessage } from '@/shared/ui/';
 import type { Character } from '@/shared/api/characters';
 import { Header } from '@/widgets/header';
 import styles from './MainPage.module.scss';
-
-interface MainPageState {
-  hasError: boolean;
-}
 
 const characterMapper = ({ id, image, name, status }: Character) => {
   return {
@@ -17,34 +14,32 @@ const characterMapper = ({ id, image, name, status }: Character) => {
   };
 };
 
-export class MainPage extends SearchContextComponent<unknown, MainPageState> {
-  state: MainPageState = {
-    hasError: false,
+export const MainPage = () => {
+  const { characters, isLoading, error } = useSearchContext();
+  const [hasError, setHasError] = useState(false);
+
+  const handleThrowErrorClick = () => {
+    setHasError(true);
   };
 
-  handleThrowErrorClick = () => {
-    this.setState({ hasError: true });
-  };
-
-  render() {
-    if (this.state.hasError) {
-      throw new Error('Test Error');
-    }
-
-    const { characters, isLoading, error } = this.context;
-    const items = characters.map(characterMapper);
-
-    return (
-      <>
-        <Header />
-        <main className={styles.main}>
-          {isLoading ? <Loader /> : <CardList items={items} />}
-          {!isLoading && error && <ErrorMessage message={error} />}
-          <Button className={styles.btn} onClick={this.handleThrowErrorClick}>
-            Throw Error
-          </Button>
-        </main>
-      </>
-    );
+  if (hasError) {
+    throw new Error('Test Error');
   }
-}
+
+  return (
+    <>
+      <Header />
+      <main className={styles.main}>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <CardList items={characters.map(characterMapper)} />
+        )}
+        {!isLoading && error && <ErrorMessage message={error} />}
+        <Button className={styles.btn} onClick={handleThrowErrorClick}>
+          Throw Error
+        </Button>
+      </main>
+    </>
+  );
+};
