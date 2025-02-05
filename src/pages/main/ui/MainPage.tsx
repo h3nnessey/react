@@ -40,7 +40,9 @@ export class MainPage extends SearchContextComponent<unknown, MainPageState> {
         <main className={styles.main}>
           {isLoading ? <Loader /> : <CardList items={items} />}
           {!isLoading && error && <ErrorMessage message={error} />}
-          <Button onClick={this.handleThrowErrorClick}>Throw Error</Button>
+          <Button className={styles.btn} onClick={this.handleThrowErrorClick}>
+            Throw Error
+          </Button>
         </main>
       </>
     );
