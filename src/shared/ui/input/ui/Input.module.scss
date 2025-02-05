@@ -1,24 +1,24 @@
 .input {
-  font-size: 1.5rem;
-  width: 100%;
-  padding: 10px 20px;
   border: none;
   outline: none;
   background: transparent;
+  width: 100%;
+  padding: var(--space-s) var(--space-xm);
+  font-size: var(--font-size-large);
   text-align: center;
-  color: #a1a1a1;
-  font-weight: 500;
-  border-bottom: 1px solid #a1a1a1;
+  color: var(--color-dark-70);
+  font-weight: var(--font-weight-medium);
+  border-bottom: 1px solid var(--color-dark-70);
   transition:
-    color 0.2s,
-    border 0.2s;
+    color var(--transition),
+    border var(--transition);
 
   &:focus {
-    border-bottom: 1px solid #ffffff;
-    color: #ffffff;
+    border-bottom: 1px solid var(--color-light);
+    color: var(--color-light);
   }
 
   &::placeholder {
-    color: #a1a1a1;
+    color: var(--color-dark-70);
   }
 }
