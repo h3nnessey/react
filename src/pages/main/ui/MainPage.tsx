@@ -5,22 +5,22 @@ import { ErrorMessage } from '@/shared/ui/error-message';
 import { Header } from '@/widgets/header';
 import styles from './MainPage.module.scss';
 
-interface MainPageProps {
+interface MainPageState {
   hasError: boolean;
 }
 
-export class MainPage extends SearchContextComponent<unknown, MainPageProps> {
-  state: MainPageProps = {
-    hasError: false,
+const characterMapper = ({ id, image, name, status }: Character) => {
+  return {
+    id,
+    imageUrl: image,
+    title: name,
+    description: status,
   };
+};
 
-  private mapCharacter = ({ id, image, name, status }: Character) => {
-    return {
-      id,
-      imageUrl: image,
-      title: name,
-      description: status,
-    };
+export class MainPage extends SearchContextComponent<unknown, MainPageState> {
+  state: MainPageState = {
+    hasError: false,
   };
 
   private handleThrowErrorClick = () => {
@@ -33,8 +33,7 @@ export class MainPage extends SearchContextComponent<unknown, MainPageProps> {
     }
 
     const { characters, isLoading, error } = this.context;
-
-    const items = characters.map(this.mapCharacter);
+    const items = characters.map(characterMapper);
 
     return (
       <>
