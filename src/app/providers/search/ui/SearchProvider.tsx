@@ -1,93 +1,68 @@
-import { createContext, Component, type ReactNode } from 'react';
-import { Character, CharactersApi } from '@/shared/api/characters';
+import { useState, useEffect, ReactNode } from 'react';
+import { CharactersApi } from '@/shared/api/characters';
+import { SearchProviderValue, SearchContext } from '../lib/SearchContext';
 
 interface SearchProviderProps {
   children?: ReactNode;
 }
 
-interface SearchProviderState {
-  query: string;
-  characters: Character[];
-  isLoading: boolean;
-  error: string | null;
-}
-
-interface SearchProviderValue extends SearchProviderState {
-  setQuery: (query: string) => void;
-}
+type SearchProviderState = Omit<SearchProviderValue, 'setQuery'>;
 
 const LS_KEY = 'h3nnessey-search';
 
 const INITIAL_STATE: SearchProviderState = {
-  query: window.localStorage.getItem(LS_KEY) || '',
-  characters: [],
   isLoading: false,
+  characters: [],
   error: null,
+  query: '',
 };
 
-const INITIAL_CONTEXT_VALUE: SearchProviderValue = {
-  ...INITIAL_STATE,
-  setQuery: () => {},
-};
+export const SearchProvider = ({ children }: SearchProviderProps) => {
+  const [state, setState] = useState<SearchProviderState>({
+    ...INITIAL_STATE,
+    query: window.localStorage.getItem(LS_KEY) || '',
+  });
 
-export const SearchContext = createContext<SearchProviderValue>(
-  INITIAL_CONTEXT_VALUE
-);
+  const setQuery = (query: string) => {
+    setState(current => ({ ...current, query }));
+  };
 
-export class SearchProvider extends Component<
-  SearchProviderProps,
-  SearchProviderState
-> {
-  state: SearchProviderState = INITIAL_STATE;
-
-  componentDidMount() {
-    this.updateCharacters();
-  }
-
-  componentDidUpdate(
-    _prevProps: Readonly<SearchProviderProps>,
-    prevState: Readonly<SearchProviderState>
-  ) {
-    if (prevState.query !== this.state.query) {
-      this.updateCharacters();
-    }
-  }
-
-  updateCharacters = () => {
-    const { query } = this.state;
-
+  const updateCharacters = async (query: string) => {
     window.localStorage.setItem(LS_KEY, query);
 
-    this.setState({ isLoading: true, error: null, characters: [] });
-
-    CharactersApi.getCharacters({ name: query }).then(res => {
-      if (res.success) {
-        this.setState({
-          error: null,
-          characters: res.data.results,
-          isLoading: false,
-        });
-      } else {
-        this.setState({
-          error: res.error,
-          characters: [],
-          isLoading: false,
-        });
-      }
+    setState({
+      isLoading: true,
+      characters: [],
+      error: null,
+      query,
     });
+
+    const results = await CharactersApi.getCharacters({ name: query });
+
+    if (results.success) {
+      setState({
+        isLoading: false,
+        characters: results.data.results,
+        error: null,
+        query,
+      });
+    } else {
+      setState({
+        isLoading: false,
+        characters: [],
+        error: results.error,
+        query,
+      });
+    }
   };
 
-  setQuery = (query: string) => {
-    this.setState({ query });
-  };
+  useEffect(() => {
+    updateCharacters(state.query);
+  }, [state.query]);
 
-  render() {
-    return (
-      <SearchContext.Provider
-        value={{ ...this.state, setQuery: this.setQuery }}
-      >
-        {this.props.children}
-      </SearchContext.Provider>
-    );
-  }
-}
+  return (
+    <SearchContext.Provider value={{ ...state, setQuery }}>
+      {children}
+    </SearchContext.Provider>
+  );
+};
