@@ -9,9 +9,9 @@ interface SearchFormProps {
 }
 
 export class SearchForm extends Component<SearchFormProps> {
-  private inputRef = createRef<HTMLInputElement>();
+  inputRef = createRef<HTMLInputElement>();
 
-  private handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const query = this.inputRef.current?.value.trim() || '';
@@ -30,7 +30,9 @@ export class SearchForm extends Component<SearchFormProps> {
           defaultValue={defaultValue}
           placeholder="Search something..."
         />
-        <Button text="Search" type="submit" disabled={disabled}></Button>
+        <Button type="submit" disabled={disabled}>
+          Search
+        </Button>
       </form>
     );
   }

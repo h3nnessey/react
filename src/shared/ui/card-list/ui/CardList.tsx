@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import { Card, type CardProps } from '../../card';
 import styles from './CardList.module.scss';
 
@@ -10,19 +10,19 @@ interface CardListProps {
   items: CardListItem[];
 }
 
-export class CardList extends PureComponent<CardListProps> {
+export class CardList extends Component<CardListProps> {
   render() {
     const { items } = this.props;
 
     return (
       <>
-        {items.length === 0 ? null : (
+        {items.length > 0 ? (
           <div className={styles.cardList}>
-            {this.props.items.map(props => (
+            {items.map(props => (
               <Card key={props.id} {...props} />
             ))}
           </div>
-        )}
+        ) : null}
       </>
     );
   }

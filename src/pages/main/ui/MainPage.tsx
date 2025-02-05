@@ -1,7 +1,6 @@
 import { SearchContextComponent } from '@/app/providers/search';
+import { CardList, Loader, Button, ErrorMessage } from '@/shared/ui/';
 import type { Character } from '@/shared/api/characters';
-import { CardList, Loader, Button } from '@/shared/ui/';
-import { ErrorMessage } from '@/shared/ui/error-message';
 import { Header } from '@/widgets/header';
 import styles from './MainPage.module.scss';
 
@@ -23,7 +22,7 @@ export class MainPage extends SearchContextComponent<unknown, MainPageState> {
     hasError: false,
   };
 
-  private handleThrowErrorClick = () => {
+  handleThrowErrorClick = () => {
     this.setState({ hasError: true });
   };
 
@@ -41,7 +40,7 @@ export class MainPage extends SearchContextComponent<unknown, MainPageState> {
         <main className={styles.main}>
           {isLoading ? <Loader /> : <CardList items={items} />}
           {!isLoading && error && <ErrorMessage message={error} />}
-          <Button text="Throw Error" onClick={this.handleThrowErrorClick} />
+          <Button onClick={this.handleThrowErrorClick}>Throw Error</Button>
         </main>
       </>
     );

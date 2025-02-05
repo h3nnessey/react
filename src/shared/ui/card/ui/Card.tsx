@@ -1,4 +1,4 @@
-import { PureComponent } from 'react';
+import { Component } from 'react';
 import styles from './Card.module.scss';
 
 export interface CardProps {
@@ -7,7 +7,7 @@ export interface CardProps {
   description: string;
 }
 
-export class Card extends PureComponent<CardProps> {
+export class Card extends Component<CardProps> {
   render() {
     const { imageUrl, title, description } = this.props;
 

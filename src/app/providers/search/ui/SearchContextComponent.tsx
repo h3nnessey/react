@@ -1,5 +1,5 @@
 import { Component, type ContextType } from 'react';
-import { SearchContext } from './SearchProvider';
+import { SearchContext } from '../lib/SearchProvider';
 
 export class SearchContextComponent<
   Props = unknown,

@@ -1,6 +1,7 @@
-import { Component, type ReactNode, type ErrorInfo } from 'react';
-import { Button } from '../../button';
+import { Component } from 'react';
+import type { ReactNode, ErrorInfo } from 'react';
 import { ErrorMessage } from '../../error-message';
+import { Button } from '../../button';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -23,27 +24,29 @@ export class ErrorBoundary extends Component<
     return { hasError: true };
   }
 
-  private handleReloadClick = () => {
-    window.location.reload();
-  };
-
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error(error.message, errorInfo.componentStack);
   }
 
+  handleReloadClick = () => {
+    window.location.reload();
+  };
+
   render() {
+    const { fallback, children } = this.props;
+
     if (this.state.hasError) {
       return (
-        this.props.fallback || (
+        fallback || (
           <>
             <ErrorMessage message="Oops, something went wrong">
-              <Button text="Reload the page" onClick={this.handleReloadClick} />
+              <Button onClick={this.handleReloadClick}>Reload the page</Button>
             </ErrorMessage>
           </>
         )
       );
     }
 
-    return this.props.children;
+    return children;
   }
 }

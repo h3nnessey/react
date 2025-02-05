@@ -1,5 +1,5 @@
-import { Character, CharactersApi } from '@/shared/api/characters';
 import { createContext, Component, type ReactNode } from 'react';
+import { Character, CharactersApi } from '@/shared/api/characters';
 
 interface SearchProviderProps {
   children?: ReactNode;
@@ -53,7 +53,7 @@ export class SearchProvider extends Component<
     }
   }
 
-  private updateCharacters = () => {
+  updateCharacters = () => {
     const { query } = this.state;
 
     window.localStorage.setItem(LS_KEY, query);

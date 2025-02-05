@@ -1,4 +1,4 @@
-import { PureComponent, type ReactNode } from 'react';
+import { Component, type ReactNode } from 'react';
 import styles from './ErrorMessage.module.scss';
 
 interface ErrorMessageProps {
@@ -6,12 +6,14 @@ interface ErrorMessageProps {
   children?: ReactNode;
 }
 
-export class ErrorMessage extends PureComponent<ErrorMessageProps> {
+export class ErrorMessage extends Component<ErrorMessageProps> {
   render() {
+    const { children, message } = this.props;
+
     return (
       <div className={styles.error}>
-        <h2 className={styles.title}>{this.props.message}</h2>
-        {this.props.children}
+        <h2 className={styles.title}>{message}</h2>
+        {children}
       </div>
     );
   }
