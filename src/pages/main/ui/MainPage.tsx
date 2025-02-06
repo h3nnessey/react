@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { useSearchContext } from '@/app/providers/search';
-import { useCharacters, type Character } from '@/shared/api/characters';
+import { useSearchParams } from 'react-router';
+import {
+  useCharacters,
+  QueryParams,
+  type Character,
+} from '@/shared/api/characters';
 import { CardList, Loader, Button, ErrorMessage } from '@/shared/ui/';
 import { Header } from '@/widgets/header';
 import styles from './MainPage.module.scss';
@@ -15,9 +19,11 @@ const characterMapper = ({ id, image, name, status }: Character) => {
 };
 
 export const MainPage = () => {
-  const { query } = useSearchContext();
-  const { data, error, isLoading } = useCharacters(query);
+  const [searchParams] = useSearchParams();
   const [hasError, setHasError] = useState(false);
+  const { data, error, isLoading } = useCharacters(
+    searchParams.get(QueryParams.Name) || ''
+  );
 
   const handleThrowErrorClick = () => {
     setHasError(true);
