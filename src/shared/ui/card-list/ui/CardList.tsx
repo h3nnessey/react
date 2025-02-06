@@ -2,12 +2,8 @@ import { classnames } from '@/shared/lib/styling';
 import { Card, type CardProps } from '../../card';
 import styles from './CardList.module.scss';
 
-interface CardListItem extends Omit<CardProps, 'className'> {
-  id: number;
-}
-
 interface CardListProps {
-  items: CardListItem[];
+  items: CardProps[];
   className?: string;
 }
 

@@ -11,8 +11,19 @@ export const SearchForm = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setSearchParams({
-      [QueryParams.Name]: inputRef.current?.value.trim() || '',
+    const newQuery = inputRef.current?.value.trim() || '';
+
+    setSearchParams(prev => {
+      if (!newQuery) {
+        prev.delete(QueryParams.Name);
+
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [QueryParams.Name]: newQuery,
+      };
     });
   };
 
