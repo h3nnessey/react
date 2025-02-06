@@ -1,11 +1,7 @@
-import { MainPage } from '@/pages/main';
-import { SearchProvider } from './providers/search';
+import { RouterProvider } from 'react-router';
+import { router } from './router';
 import './styles/globals.scss';
 
 export default function App() {
-  return (
-    <SearchProvider>
-      <MainPage />
-    </SearchProvider>
-  );
+  return <RouterProvider router={router} />;
 }

@@ -9,7 +9,7 @@ const LS_KEY = 'h3nnessey-search';
 
 export const SearchProvider = ({ children }: SearchProviderProps) => {
   // page will be used for pagination in the future
-  // observe search params by using useSearchParams
+  // observe search params => remove search provider at all
   const [query, setQuery] = useState(window.localStorage.getItem(LS_KEY) || '');
 
   const updateQuery = (query: string) => {

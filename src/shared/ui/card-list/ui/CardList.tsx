@@ -11,7 +11,7 @@ interface CardListProps {
   className?: string;
 }
 
-export const CardList = ({ items, className }: CardListProps) => {
+export const CardList = ({ items = [], className }: CardListProps) => {
   return (
     <>
       {items.length > 0 ? (
