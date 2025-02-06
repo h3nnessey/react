@@ -3,14 +3,14 @@ import { SearchForm } from '@/features/search-form';
 import styles from './Header.module.scss';
 
 export const Header = () => {
-  const { setQuery, query, isLoading } = useSearchContext();
-
+  const { updateQuery, query } = useSearchContext();
+  // no reason to use search context with items inside here, just change the search params state instead
   return (
     <header className={styles.header}>
       <SearchForm
         defaultValue={query}
-        disabled={isLoading}
-        onSubmit={setQuery}
+        disabled={false}
+        onSubmit={updateQuery}
       />
     </header>
   );

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSearchContext } from '@/app/providers/search';
+import { useCharacters, type Character } from '@/shared/api/characters';
 import { CardList, Loader, Button, ErrorMessage } from '@/shared/ui/';
-import type { Character } from '@/shared/api/characters';
 import { Header } from '@/widgets/header';
 import styles from './MainPage.module.scss';
 
@@ -15,7 +15,8 @@ const characterMapper = ({ id, image, name, status }: Character) => {
 };
 
 export const MainPage = () => {
-  const { characters, isLoading, error } = useSearchContext();
+  const { query } = useSearchContext();
+  const { data, error, isLoading } = useCharacters(query);
   const [hasError, setHasError] = useState(false);
 
   const handleThrowErrorClick = () => {
@@ -30,12 +31,9 @@ export const MainPage = () => {
     <>
       <Header />
       <main className={styles.main}>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <CardList items={characters.map(characterMapper)} />
-        )}
-        {!isLoading && error && <ErrorMessage message={error} />}
+        {isLoading && <Loader />}
+        {error && <ErrorMessage message={error} />}
+        {data && <CardList items={data.results.map(characterMapper)} />}
         <Button className={styles.btn} onClick={handleThrowErrorClick}>
           Throw Error
         </Button>

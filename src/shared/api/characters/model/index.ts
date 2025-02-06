@@ -55,10 +55,20 @@ export interface GetCharactersOkResponse {
   };
 }
 
-export interface GetCharactersErrorResponse {
-  error: string;
+export interface GetCharactersResult {
+  data: GetCharactersOkResponse | null;
+  error: string | null;
 }
 
-export type GetCharactersResult =
-  | ({ success: false } & GetCharactersErrorResponse)
-  | { success: true; data: GetCharactersOkResponse };
+export enum QueryParams {
+  Page = 'page',
+  Name = 'name',
+}
+
+export type CharactersQueryParams = Partial<{
+  [key in QueryParams]: key extends QueryParams.Page ? number : string;
+}>;
+
+export interface GetCharactersRequestState extends GetCharactersResult {
+  isLoading: boolean;
+}
