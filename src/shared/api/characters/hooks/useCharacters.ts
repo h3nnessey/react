@@ -17,10 +17,11 @@ export const useCharacters = (
   useEffect(() => {
     const controller = new AbortController();
 
-    setState({
-      ...initialValue,
+    setState(prev => ({
+      ...prev,
+      error: null,
       isLoading: true,
-    });
+    }));
 
     getCharacters({ name, page }, controller.signal).then(({ data, error }) => {
       setState({
