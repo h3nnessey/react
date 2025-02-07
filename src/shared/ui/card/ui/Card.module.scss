@@ -44,8 +44,13 @@
 }
 
 .title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
   font-weight: var(--font-weight-medium);
   color: #c3c3c3;
+  overflow: hidden;
 }
 
 .description {

@@ -17,7 +17,7 @@ export const Card = ({
 }: CardProps) => {
   return (
     <>
-      <div className={classnames(styles.card, className)}>
+      <div className={classnames(styles.card, className)} title={title}>
         <img className={styles.image} src={imageUrl} alt={title} />
         <div className={styles.about}>
           <p className={styles.title}>{title}</p>
