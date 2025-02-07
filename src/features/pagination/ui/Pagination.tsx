@@ -27,9 +27,9 @@ export const Pagination = ({
           return (
             <Button
               key={page}
-              className={classnames(styles.btn, {
-                [styles.active]: isActive || disabled,
-              })}
+              disabled={disabled}
+              active={isActive}
+              className={styles.btn}
               onClick={() => onPageChange(page)}
             >
               {page}

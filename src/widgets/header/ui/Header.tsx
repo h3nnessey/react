@@ -16,7 +16,7 @@ export const Header = () => {
 
   return (
     <header className={styles.header}>
-      <Button className={styles.btn} onClick={handleThrowErrorClick}>
+      <Button onClick={handleThrowErrorClick} variant="danger">
         Error
       </Button>
       <SearchForm />
