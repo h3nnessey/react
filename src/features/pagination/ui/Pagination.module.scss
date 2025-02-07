@@ -3,3 +3,9 @@
   flex-wrap: wrap;
   gap: var(--space-s);
 }
+
+.active {
+  background-color: var(--color-dark-30);
+  pointer-events: none;
+  user-select: none;
+}

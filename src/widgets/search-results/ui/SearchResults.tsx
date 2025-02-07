@@ -18,19 +18,28 @@ const characterMapper = ({ id, image, name, status }: Character) => {
 };
 
 export const SearchResults = () => {
-  const [searchParams] = useSearchParams();
-  const { data, error, isLoading } = useCharacters(
-    searchParams.get(QueryParams.Name) || ''
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get(QueryParams.Name) || '';
+  const page = Number(searchParams.get(QueryParams.Page)) || 1;
+
+  const { data, error, isLoading } = useCharacters(query, page);
+
+  const handlePaginationChange = (page: number) => {
+    searchParams.set(QueryParams.Page, page.toString());
+    setSearchParams(searchParams);
+  };
 
   return (
     <>
       {isLoading && <Loader />}
       {error && <ErrorMessage message={error} />}
       {data && <CardList items={data.results.map(characterMapper)} />}
-      {!isLoading && data && (
-        <Pagination className={styles.pagination} pages={data.info.pages} />
-      )}
+      <Pagination
+        pages={data?.info.pages || 0}
+        currentPage={page}
+        onPageChange={handlePaginationChange}
+        className={styles.pagination}
+      />
     </>
   );
 };

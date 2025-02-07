@@ -4,15 +4,35 @@ import styles from './Pagination.module.scss';
 
 interface PaginationProps {
   pages: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
   className?: string;
 }
 
-export const Pagination = ({ pages, className }: PaginationProps) => {
+export const Pagination = ({
+  pages,
+  currentPage,
+  onPageChange,
+  className,
+}: PaginationProps) => {
   return (
-    <div className={classnames(styles.pagination, className)}>
-      {Array.from({ length: pages }, (_, index) => index + 1).map(page => (
-        <Button key={page}>{page}</Button>
-      ))}
-    </div>
+    Boolean(pages) && (
+      <div className={classnames(styles.pagination, className)}>
+        {Array.from({ length: pages }, (_, index) => {
+          const page = index + 1;
+          const isActive = page === currentPage;
+
+          return (
+            <Button
+              key={page}
+              className={classnames({ [styles.active]: isActive })}
+              onClick={() => onPageChange(page)}
+            >
+              {page}
+            </Button>
+          );
+        })}
+      </div>
+    )
   );
 };

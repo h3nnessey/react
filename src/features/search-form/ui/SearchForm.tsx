@@ -7,31 +7,23 @@ import styles from './SearchForm.module.scss';
 export const SearchForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
+  const query = searchParams.get(QueryParams.Name) || '';
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newQuery = inputRef.current?.value.trim() || '';
 
-    setSearchParams(prev => {
-      if (!newQuery) {
-        prev.delete(QueryParams.Name);
+    if (query === newQuery) return;
 
-        return prev;
-      }
-
-      return {
-        ...prev,
-        [QueryParams.Name]: newQuery,
-      };
-    });
+    setSearchParams(newQuery ? { [QueryParams.Name]: newQuery } : {});
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <Input
         inputRef={inputRef}
-        defaultValue={searchParams.get(QueryParams.Name) || ''}
+        defaultValue={query}
         placeholder="Search something..."
       />
       <Button type="submit">Search</Button>
