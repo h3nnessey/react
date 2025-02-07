@@ -3,8 +3,9 @@ import { classnames } from '@/shared/lib/styling';
 import styles from './Pagination.module.scss';
 
 interface PaginationProps {
-  pages: number;
+  pages: number | undefined;
   currentPage: number;
+  disabled: boolean;
   onPageChange: (page: number) => void;
   className?: string;
 }
@@ -12,11 +13,12 @@ interface PaginationProps {
 export const Pagination = ({
   pages,
   currentPage,
+  disabled,
   onPageChange,
   className,
 }: PaginationProps) => {
   return (
-    Boolean(pages) && (
+    !!pages && (
       <div className={classnames(styles.pagination, className)}>
         {Array.from({ length: pages }, (_, index) => {
           const page = index + 1;
@@ -25,7 +27,9 @@ export const Pagination = ({
           return (
             <Button
               key={page}
-              className={classnames({ [styles.active]: isActive })}
+              className={classnames(styles.btn, {
+                [styles.active]: isActive || disabled,
+              })}
               onClick={() => onPageChange(page)}
             >
               {page}

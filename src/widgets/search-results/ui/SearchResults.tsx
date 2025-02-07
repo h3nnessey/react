@@ -31,13 +31,16 @@ export const SearchResults = () => {
 
   return (
     <>
-      {isLoading && <Loader />}
-      {error && <ErrorMessage message={error} />}
-      {data && <CardList items={data.results.map(characterMapper)} />}
+      <div className={styles.container}>
+        {isLoading && <Loader />}
+        {error && <ErrorMessage message={error} />}
+        {data && <CardList items={data.results.map(characterMapper)} />}
+      </div>
       <Pagination
-        pages={data?.info.pages || 0}
+        pages={data?.info.pages}
         currentPage={page}
         onPageChange={handlePaginationChange}
+        disabled={isLoading}
         className={styles.pagination}
       />
     </>
