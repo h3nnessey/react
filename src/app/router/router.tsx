@@ -1,6 +1,7 @@
 import { createBrowserRouter, type RouteObject } from 'react-router';
 import { ErrorBoundary } from '@/shared/ui';
 import { MainPage, NotFoundPage } from '@/pages';
+import { CharacterDetails } from '@/widgets';
 
 const routes: RouteObject[] = [
   {
@@ -10,6 +11,12 @@ const routes: RouteObject[] = [
         <MainPage />
       </ErrorBoundary>
     ),
+    children: [
+      {
+        path: '/:id',
+        element: <CharacterDetails />,
+      },
+    ],
   },
   {
     path: '*',
