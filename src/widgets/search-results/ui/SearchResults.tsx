@@ -14,6 +14,7 @@ const characterMapper = ({ id, image, name, status }: Character) => {
     imageUrl: image,
     title: name,
     description: status,
+    className: status.toLowerCase(),
   };
 };
 

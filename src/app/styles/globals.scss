@@ -18,6 +18,8 @@
   --color-dark-30: #696969;
   --color-dark-70: #a1a1a1;
   --color-mark: #b76767;
+  --color-mark-secondary: darkseagreen;
+  --color-mark-third: grey;
   --color-accent: darksalmon;
 
   --font-size-regular: 1.6rem;
@@ -64,4 +66,16 @@ body {
   width: 100%;
   height: 100%;
   margin: 0 auto;
+}
+
+.dead p:last-child {
+  color: var(--color-mark);
+}
+
+.alive p:last-child {
+  color: var(--color-mark-secondary);
+}
+
+.unknown p:last-child {
+  color: var(--color-mark-third);
 }
