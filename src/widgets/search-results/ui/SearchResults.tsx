@@ -1,22 +1,9 @@
 import { useSearchParams } from 'react-router';
-import {
-  useCharacters,
-  QueryParams,
-  type Character,
-} from '@/shared/api/characters';
-import { CardList, Loader, ErrorMessage } from '@/shared/ui/';
+import { useCharacters, QueryParams } from '@/shared/api/characters';
+import { CharacterCardList } from '@/entities/character';
+import { Loader, ErrorMessage } from '@/shared/ui/';
 import { Pagination } from '@/features/pagination';
 import styles from './SearchResults.module.scss';
-
-const characterMapper = ({ id, image, name, status }: Character) => {
-  return {
-    id,
-    imageUrl: image,
-    title: name,
-    description: status,
-    className: status.toLowerCase(),
-  };
-};
 
 export const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -34,8 +21,8 @@ export const SearchResults = () => {
     <>
       <div className={styles.container}>
         {isLoading && <Loader />}
+        {data && <CharacterCardList characters={data.results} />}
         {error && <ErrorMessage message={error} />}
-        {data && <CardList items={data.results.map(characterMapper)} />}
       </div>
       <Pagination
         pages={data?.info.pages}

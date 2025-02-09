@@ -67,15 +67,3 @@ body {
   height: 100%;
   margin: 0 auto;
 }
-
-.dead p:last-child {
-  color: var(--color-mark);
-}
-
-.alive p:last-child {
-  color: var(--color-mark-secondary);
-}
-
-.unknown p:last-child {
-  color: var(--color-mark-third);
-}

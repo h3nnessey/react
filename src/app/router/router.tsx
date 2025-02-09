@@ -1,7 +1,7 @@
 import { createBrowserRouter, type RouteObject } from 'react-router';
 import { ErrorBoundary } from '@/shared/ui';
 import { MainPage, NotFoundPage } from '@/pages';
-import { CharacterDetails } from '@/widgets';
+import { CharacterDetails } from '@/entities/character';
 
 const routes: RouteObject[] = [
   {

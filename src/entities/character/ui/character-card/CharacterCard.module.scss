@@ -59,3 +59,15 @@
   text-transform: capitalize;
   text-align: right;
 }
+
+.dead {
+  color: var(--color-mark);
+}
+
+.alive {
+  color: var(--color-mark-secondary);
+}
+
+.unknown {
+  color: var(--color-mark-third);
+}

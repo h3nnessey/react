@@ -5,10 +5,10 @@ import styles from './MainPage.module.scss';
 export const MainPage = () => {
   return (
     <>
-      <Outlet />
       <Header />
       <main className={styles.main}>
         <SearchResults />
+        <Outlet />
       </main>
     </>
   );
