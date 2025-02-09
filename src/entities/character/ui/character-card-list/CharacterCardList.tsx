@@ -1,5 +1,4 @@
-import type { MouseEvent } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useNavigate } from 'react-router';
 import type { Character } from '@/shared/api/characters';
 import { classnames } from '@/shared/lib/styling';
 import { Button, ErrorMessage, Loader } from '@/shared/ui';
@@ -19,18 +18,7 @@ export const CharacterCardList = ({
   error,
   className,
 }: CharacterCardListProps) => {
-  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleClose = (event: MouseEvent<HTMLDivElement>) => {
-    if (id && event.currentTarget === event.target) {
-      navigate({
-        pathname: '/',
-        search: location.search,
-      });
-    }
-  };
 
   const handleResetClick = () => {
     navigate({ pathname: '/' }, { replace: true });
@@ -45,10 +33,7 @@ export const CharacterCardList = ({
       )}
       {isLoading && <Loader />}
       {!!characters.length && (
-        <div
-          onClick={handleClose}
-          className={classnames(styles.cardList, className)}
-        >
+        <div className={classnames(styles.cardList, className)}>
           {characters.map(character => (
             <CharacterCard key={character.id} {...character} />
           ))}
