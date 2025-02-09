@@ -1,11 +1,20 @@
-import { useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { useCharacter } from '@/shared/api/characters/hooks';
-import { ErrorMessage, Loader } from '@/shared/ui';
+import { Button, ErrorMessage, Loader } from '@/shared/ui';
 import styles from './CharacterDetails.module.scss';
 
 export const CharacterDetails = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { data, error, isLoading } = useCharacter(Number(id));
+
+  const handleClick = () => {
+    navigate({
+      pathname: '/',
+      search: location.search,
+    });
+  };
 
   return (
     <div className={styles.container} key={id}>
@@ -24,12 +33,10 @@ export const CharacterDetails = () => {
                 <th>Status</th>
                 <td>{data.status}</td>
               </tr>
-              {!!data.type && (
-                <tr>
-                  <th>Type</th>
-                  <td>{data.type}</td>
-                </tr>
-              )}
+              <tr>
+                <th>Type</th>
+                <td>{data.type || 'unknown'}</td>
+              </tr>
               <tr>
                 <th>Species</th>
                 <td>{data.species}</td>
@@ -54,6 +61,9 @@ export const CharacterDetails = () => {
           </table>
         </>
       )}
+      <Button onClick={handleClick} className={styles.btn} variant="danger">
+        &times;
+      </Button>
     </div>
   );
 };
