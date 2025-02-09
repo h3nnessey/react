@@ -3,7 +3,9 @@ import type { ReactNode, ErrorInfo } from 'react';
 import { ErrorMessage } from '../../error-message';
 import { Button } from '../../button';
 
-interface ErrorBoundaryProps {
+export const MESSAGE = 'Oops, something went wrong';
+
+export interface ErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
 }
@@ -39,7 +41,7 @@ export class ErrorBoundary extends Component<
       return (
         fallback || (
           <>
-            <ErrorMessage message="Oops, something went wrong">
+            <ErrorMessage message={MESSAGE}>
               <Button onClick={this.handleReloadClick}>Reload the page</Button>
             </ErrorMessage>
           </>
