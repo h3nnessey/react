@@ -2,9 +2,9 @@ import type { ButtonHTMLAttributes, ReactNode } from 'react';
 import { classnames } from '@/shared/lib/styling';
 import styles from './Button.module.scss';
 
-type ButtonVariant = 'primary' | 'secondary' | 'danger';
+export type ButtonVariant = 'primary' | 'secondary' | 'danger';
 
-interface ButtonsProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonsProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   active?: boolean;
   className?: string;
@@ -26,6 +26,7 @@ export const Button = ({
         { [styles.active]: active },
         className
       )}
+      role="button"
       {...props}
     >
       <span>{children}</span>
