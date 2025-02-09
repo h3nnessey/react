@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from 'react-router';
+import { Outlet, useNavigate, useSearchParams } from 'react-router';
 import { useCharacters, QueryParams } from '@/shared/api/characters';
 import { CharacterCardList } from '@/entities/character';
 import { Loader, ErrorMessage } from '@/shared/ui/';
@@ -23,11 +23,17 @@ export const SearchResults = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <>
       <div className={styles.container}>
         {isLoading && <Loader />}
-        {data && <CharacterCardList characters={data.results} />}
+        {data && (
+          <CharacterCardList
+            characters={data.results}
+            className={styles.list}
+          />
+        )}
         {error && <ErrorMessage message={error} />}
+        <Outlet />
       </div>
       <Pagination
         pages={data?.info.pages}
@@ -36,6 +42,6 @@ export const SearchResults = () => {
         disabled={isLoading}
         className={styles.pagination}
       />
-    </div>
+    </>
   );
 };

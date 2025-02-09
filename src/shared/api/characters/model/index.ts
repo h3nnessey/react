@@ -60,6 +60,11 @@ export interface GetCharactersResult {
   error: string | null;
 }
 
+export interface GetCharacterResult {
+  data: Character | null;
+  error: string | null;
+}
+
 export enum QueryParams {
   Page = 'page',
   Name = 'name',
@@ -70,5 +75,9 @@ export type CharactersQueryParams = Partial<{
 }>;
 
 export interface GetCharactersRequestState extends GetCharactersResult {
+  isLoading: boolean;
+}
+
+export interface GetCharacterRequestState extends GetCharacterResult {
   isLoading: boolean;
 }
