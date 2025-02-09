@@ -1,3 +1,7 @@
+import { useParams } from 'react-router';
+
 export const CharacterDetails = () => {
-  return <div>CharacterDetails works!</div>;
+  const { id } = useParams<{ id: string }>();
+
+  return <div>ID {id}</div>;
 };
