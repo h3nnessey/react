@@ -20,6 +20,14 @@
   }
 }
 
+.active {
+  border: 1px solid var(--color-accent);
+
+  &:hover {
+    border: 1px solid var(--color-accent-secondary);
+  }
+}
+
 .image {
   width: 80px;
   height: 80px;

@@ -8,10 +8,52 @@ export const CharacterDetails = () => {
   const { data, error, isLoading } = useCharacter(Number(id));
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} key={id}>
       {isLoading && <Loader />}
       {error && <ErrorMessage message={error} />}
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+      {data && (
+        <>
+          <img src={data.image} alt={data.name} className={styles.image} />
+          <table className={styles.table}>
+            <tbody>
+              <tr>
+                <th>Name</th>
+                <td>{data.name}</td>
+              </tr>
+              <tr>
+                <th>Status</th>
+                <td>{data.status}</td>
+              </tr>
+              {!!data.type && (
+                <tr>
+                  <th>Type</th>
+                  <td>{data.type}</td>
+                </tr>
+              )}
+              <tr>
+                <th>Species</th>
+                <td>{data.species}</td>
+              </tr>
+              <tr>
+                <th>Gender</th>
+                <td>{data.gender}</td>
+              </tr>
+              <tr>
+                <th>Origin</th>
+                <td>{data.origin.name}</td>
+              </tr>
+              <tr>
+                <th>Location</th>
+                <td>{data.location.name}</td>
+              </tr>
+              <tr>
+                <th>Episodes</th>
+                <td>{data.episode.length}</td>
+              </tr>
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
 };
