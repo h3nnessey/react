@@ -18,7 +18,7 @@ export const SearchResults = () => {
   };
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <div className={styles.container}>
         {isLoading && <Loader />}
         {data && <CharacterCardList characters={data.results} />}
@@ -31,6 +31,6 @@ export const SearchResults = () => {
         disabled={isLoading}
         className={styles.pagination}
       />
-    </>
+    </div>
   );
 };

@@ -1,3 +1,10 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xm);
+  flex: 1;
+}
+
 .container {
   position: relative;
   min-height: 490px;
