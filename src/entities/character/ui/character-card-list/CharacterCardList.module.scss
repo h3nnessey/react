@@ -2,5 +2,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
   place-content: center space-between;
+  position: relative;
   gap: var(--space-xm);
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  min-height: 490px;
 }

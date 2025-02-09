@@ -1,7 +1,6 @@
-import { Outlet, useNavigate, useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams, Outlet } from 'react-router';
 import { useCharacters, QueryParams } from '@/shared/api/characters';
 import { CharacterCardList } from '@/entities/character';
-import { Loader, ErrorMessage } from '@/shared/ui/';
 import { Pagination } from '@/features/pagination';
 import styles from './SearchResults.module.scss';
 
@@ -25,21 +24,19 @@ export const SearchResults = () => {
   return (
     <>
       <Pagination
-        pages={data?.info.pages}
+        pages={data?.info.pages || 0}
         currentPage={page}
         onPageChange={handlePaginationChange}
         disabled={isLoading}
         className={styles.pagination}
       />
       <div className={styles.container}>
-        {isLoading && <Loader />}
-        {data && (
-          <CharacterCardList
-            characters={data.results}
-            className={styles.list}
-          />
-        )}
-        {error && <ErrorMessage message={error} />}
+        <CharacterCardList
+          characters={data?.results || []}
+          isLoading={isLoading}
+          error={error}
+          className={styles.list}
+        />
         <Outlet />
       </div>
     </>
