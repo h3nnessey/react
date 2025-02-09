@@ -33,7 +33,7 @@ export const CharacterCard = ({
         title={name}
         onClick={handleClick}
       >
-        <img className={styles.image} src={image} alt={name} />
+        <img className={styles.image} src={image} alt={name} role="img" />
         <div className={styles.about}>
           <p className={styles.title}>{name}</p>
           <p
