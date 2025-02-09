@@ -22,15 +22,6 @@ export const SearchResults = () => {
 
   const { data, error, isLoading } = useCharacters(query, page);
 
-  const handlePaginationChange = (page: number) => {
-    searchParams.set(QueryParams.Page, page.toString());
-
-    navigate({
-      pathname: '/',
-      search: searchParams.toString(),
-    });
-  };
-
   const handleClose = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLElement;
 
@@ -52,7 +43,6 @@ export const SearchResults = () => {
       <Pagination
         pages={data?.info.pages || 0}
         currentPage={page}
-        onPageChange={handlePaginationChange}
         disabled={isLoading}
         className={styles.pagination}
       />

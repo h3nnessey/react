@@ -1,13 +1,14 @@
+import { useLocation, useNavigate } from 'react-router';
+import { QueryParams } from '@/shared/api/characters';
 import { Button } from '@/shared/ui';
 import { classnames } from '@/shared/lib/styling';
 import styles from './Pagination.module.scss';
 
-interface PaginationProps {
+export interface PaginationProps {
   pages: number;
   currentPage: number;
   disabled: boolean;
   limit?: number;
-  onPageChange: (page: number) => void;
   className?: string;
 }
 
@@ -62,11 +63,23 @@ export const Pagination = ({
   pages,
   currentPage,
   disabled,
-  onPageChange,
   limit = 5,
   className,
 }: PaginationProps) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const pagesToRender = getPagesToRender(pages, currentPage, limit);
+
+  const handlePageChange = (page: number) => {
+    const searchParams = new URLSearchParams(location.search);
+
+    searchParams.set(QueryParams.Page, page.toString());
+
+    navigate({
+      pathname: '/',
+      search: searchParams.toString(),
+    });
+  };
 
   return (
     !!pages && (
@@ -77,7 +90,7 @@ export const Pagination = ({
             disabled={disabled}
             className={styles.btn}
             active={currentPage === to}
-            onClick={() => onPageChange(to)}
+            onClick={() => handlePageChange(to)}
           >
             {content}
           </Button>
