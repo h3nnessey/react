@@ -1,43 +1,44 @@
-import { describe, it, expect } from 'vitest';
-import { MemoryRouter, Route, Routes } from 'react-router';
+import { describe, it, expect, vi } from 'vitest';
+import { RouterProvider, createMemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
-import { CharacterDetails } from '@/entities/character';
-import { MainPage, NotFoundPage } from '@/pages';
+import { routes } from './router';
+
+vi.mock('@/pages/MainPage', () => ({
+  MainPage: () => <div>MainPage</div>,
+}));
+
+vi.mock('@/pages/NotFoundPage', () => ({
+  NotFoundPage: () => <div>NotFoundPage</div>,
+}));
+
+vi.mock('@/entities/character/CharacterDetails', () => ({
+  CharacterDetails: () => <div>CharacterDetails</div>,
+}));
 
 describe('Router', () => {
   it('should render main page', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    const router = createMemoryRouter(routes, { initialEntries: ['/'] });
+    render(<RouterProvider router={router} />);
 
-    expect(screen.getByText('Search')).toBeInTheDocument();
+    const mainElement = screen.getByRole('main');
+    expect(mainElement).toBeInTheDocument();
   });
 
   it('should render character details', () => {
-    render(
-      <MemoryRouter initialEntries={['/1']}>
-        <Routes>
-          <Route path="/:id" element={<CharacterDetails />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    const router = createMemoryRouter(routes, { initialEntries: ['/123'] });
+    render(<RouterProvider router={router} />);
 
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    const detailsElement = screen.getByRole('details');
+    expect(detailsElement).toBeInTheDocument();
   });
 
   it('should render not found page', () => {
-    render(
-      <MemoryRouter initialEntries={['/unknown/route']}>
-        <Routes>
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    const router = createMemoryRouter(routes, {
+      initialEntries: ['/unknown/route'],
+    });
+    render(<RouterProvider router={router} />);
 
-    expect(screen.getByText('Page not found')).toBeInTheDocument();
+    const notFoundElement = screen.getByRole('not-found');
+    expect(notFoundElement).toBeInTheDocument();
   });
 });

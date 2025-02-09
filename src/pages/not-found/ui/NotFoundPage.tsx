@@ -11,8 +11,10 @@ export const NotFoundPage = () => {
   };
 
   return (
-    <ErrorMessage message={MESSAGE}>
-      <Button onClick={handleClick}>Go to main page</Button>
-    </ErrorMessage>
+    <div role="not-found">
+      <ErrorMessage message={MESSAGE}>
+        <Button onClick={handleClick}>Go to main page</Button>
+      </ErrorMessage>
+    </div>
   );
 };

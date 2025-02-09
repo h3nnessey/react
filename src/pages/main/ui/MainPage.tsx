@@ -5,7 +5,7 @@ export const MainPage = () => {
   return (
     <>
       <Header />
-      <main className={styles.main}>
+      <main className={styles.main} role="main">
         <SearchResults />
       </main>
     </>

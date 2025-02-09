@@ -18,7 +18,7 @@ export const CharacterDetails = () => {
   };
 
   return (
-    <div className={styles.container} key={id}>
+    <div className={styles.container} key={id} role="details">
       {isLoading && <Loader />}
       {error && <ErrorMessage message={error} />}
       {data && (
