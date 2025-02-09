@@ -24,6 +24,13 @@ export const SearchResults = () => {
 
   return (
     <>
+      <Pagination
+        pages={data?.info.pages}
+        currentPage={page}
+        onPageChange={handlePaginationChange}
+        disabled={isLoading}
+        className={styles.pagination}
+      />
       <div className={styles.container}>
         {isLoading && <Loader />}
         {data && (
@@ -35,13 +42,6 @@ export const SearchResults = () => {
         {error && <ErrorMessage message={error} />}
         <Outlet />
       </div>
-      <Pagination
-        pages={data?.info.pages}
-        currentPage={page}
-        onPageChange={handlePaginationChange}
-        disabled={isLoading}
-        className={styles.pagination}
-      />
     </>
   );
 };

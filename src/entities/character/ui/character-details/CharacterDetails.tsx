@@ -7,6 +7,7 @@ export const CharacterDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
+
   const { data, error, isLoading } = useCharacter(Number(id));
 
   const handleClick = () => {
