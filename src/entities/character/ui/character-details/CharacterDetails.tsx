@@ -23,38 +23,43 @@ export const CharacterDetails = () => {
       {error && <ErrorMessage message={error} />}
       {data && (
         <>
-          <img src={data.image} alt={data.name} className={styles.image} />
+          <img
+            src={data.image}
+            alt={data.name}
+            className={styles.image}
+            role="img"
+          />
           <table className={styles.table}>
             <tbody>
-              <tr>
+              <tr role="name">
                 <th>Name</th>
                 <td>{data.name}</td>
               </tr>
-              <tr>
+              <tr role="status">
                 <th>Status</th>
                 <td>{data.status}</td>
               </tr>
-              <tr>
+              <tr role="type">
                 <th>Type</th>
                 <td>{data.type || 'unknown'}</td>
               </tr>
-              <tr>
+              <tr role="species">
                 <th>Species</th>
                 <td>{data.species}</td>
               </tr>
-              <tr>
+              <tr role="gender">
                 <th>Gender</th>
                 <td>{data.gender}</td>
               </tr>
-              <tr>
+              <tr role="origin">
                 <th>Origin</th>
                 <td>{data.origin.name}</td>
               </tr>
-              <tr>
+              <tr role="location">
                 <th>Location</th>
                 <td>{data.location.name}</td>
               </tr>
-              <tr>
+              <tr role="episodes">
                 <th>Episodes</th>
                 <td>{data.episode.length}</td>
               </tr>
