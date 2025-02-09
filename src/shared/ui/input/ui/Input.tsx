@@ -2,8 +2,8 @@ import type { InputHTMLAttributes, RefObject } from 'react';
 import { classnames } from '@/shared/lib/styling';
 import styles from './Input.module.scss';
 
-type InputProps = InputHTMLAttributes<HTMLInputElement> & {
-  inputRef: RefObject<HTMLInputElement>;
+export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+  inputRef: RefObject<HTMLInputElement> | null;
   className?: string;
 };
 
@@ -12,6 +12,7 @@ export const Input = ({ inputRef, className, ...props }: InputProps) => {
     <input
       className={classnames(styles.input, className)}
       ref={inputRef}
+      role="input"
       {...props}
     />
   );
