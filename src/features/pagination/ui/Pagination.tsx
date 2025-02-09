@@ -24,16 +24,14 @@ const getPagesToRender = (
 
   if (currentPage <= half) {
     start = 1;
-    end = limit;
-  }
-
-  if (currentPage >= maxPages - half) {
-    start = maxPages - limit + 1;
+    end = Math.min(limit, maxPages);
+  } else if (currentPage >= maxPages - half) {
+    start = Math.max(maxPages - limit + 1, 1);
     end = maxPages;
   }
 
   if (start > 1) {
-    pagesToRender.push({ content: String(1), to: 1 });
+    pagesToRender.push({ content: '1', to: 1 });
     if (start > 2) {
       pagesToRender.push({
         content: '...',
@@ -53,6 +51,7 @@ const getPagesToRender = (
         to: Math.min(maxPages, currentPage + limit),
       });
     }
+
     pagesToRender.push({ content: maxPages.toString(), to: maxPages });
   }
 
