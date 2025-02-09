@@ -3,7 +3,7 @@ import { ErrorBoundary } from '@/shared/ui';
 import { MainPage, NotFoundPage } from '@/pages';
 import { CharacterDetails } from '@/entities/character';
 
-const routes: RouteObject[] = [
+export const routes: RouteObject[] = [
   {
     path: '/',
     element: (
