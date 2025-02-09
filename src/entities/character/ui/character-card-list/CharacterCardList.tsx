@@ -5,7 +5,7 @@ import { Button, ErrorMessage, Loader } from '@/shared/ui';
 import { CharacterCard } from '../character-card/CharacterCard';
 import styles from './CharacterCardList.module.scss';
 
-interface CharacterCardListProps {
+export interface CharacterCardListProps {
   characters: Character[];
   isLoading?: boolean;
   error: string | null;
