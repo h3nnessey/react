@@ -1,11 +1,12 @@
 import { useRef, type FormEvent } from 'react';
-import { useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 import { QueryParams } from '@/shared/api/characters';
 import { Input, Button } from '@/shared/ui/';
 import styles from './SearchForm.module.scss';
 
 export const SearchForm = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
   const query = searchParams.get(QueryParams.Name) || '';
 
@@ -16,7 +17,10 @@ export const SearchForm = () => {
 
     if (query === newQuery) return;
 
-    setSearchParams(newQuery ? { [QueryParams.Name]: newQuery } : {});
+    navigate({
+      pathname: '/',
+      search: newQuery ? `?${QueryParams.Name}=${newQuery}` : '',
+    });
   };
 
   return (
