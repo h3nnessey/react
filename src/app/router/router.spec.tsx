@@ -1,19 +1,7 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { RouterProvider, createMemoryRouter } from 'react-router';
 import { render, screen } from '@testing-library/react';
 import { routes } from './router';
-
-vi.mock('@/pages/MainPage', () => ({
-  MainPage: () => <div>MainPage</div>,
-}));
-
-vi.mock('@/pages/NotFoundPage', () => ({
-  NotFoundPage: () => <div>NotFoundPage</div>,
-}));
-
-vi.mock('@/entities/character/CharacterDetails', () => ({
-  CharacterDetails: () => <div>CharacterDetails</div>,
-}));
 
 describe('Router', () => {
   it('should render main page', () => {
