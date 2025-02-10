@@ -1,0 +1,14 @@
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-xm);
+  padding: var(--space-m) 0;
+  flex: 1;
+}
+
+.title {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-bold);
+}

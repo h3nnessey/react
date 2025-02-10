@@ -1,0 +1,70 @@
+:root {
+  --font: 'Montserrat', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+
+  --space-xs: 0.5rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-xm: 2rem;
+  --space-l: 2.5rem;
+  --space-xl: 3rem;
+
+  --container-width: 1400px;
+
+  --color-bg-primary: #282828;
+  --color-bg-secondary: bisque;
+  --color-light: #ffffff;
+  --color-dark: #000000;
+  --color-dark-20: #4a4a4a;
+  --color-dark-30: #696969;
+  --color-dark-70: #a1a1a1;
+  --color-mark: #b76767;
+  --color-mark-secondary: darkseagreen;
+  --color-mark-third: grey;
+  --color-accent: darksalmon;
+  --color-accent-secondary: darkorange;
+
+  --font-size-regular: 1.6rem;
+  --font-size-medium: 2rem;
+  --font-size-large: 2.5rem;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --transition: 0.2s ease;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font: inherit;
+}
+
+html {
+  font-size: 10px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-size: var(--font-size-regular);
+  font-family: var(--font);
+  background: var(--color-bg-primary);
+  color: var(--color-light);
+  min-height: 100vh;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xm);
+  padding: 0 var(--space-xm);
+  max-width: var(--container-width);
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
