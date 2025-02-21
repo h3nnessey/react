@@ -1,18 +1,17 @@
 import { useEffect, useState } from 'react';
-import type { GetCharactersRequestState } from '../model';
-import { getCharacters } from '../base';
+import {
+  getCharacter,
+  type GetCharacterRequestState,
+} from '@/shared/api/characters';
 
-const initialValue: GetCharactersRequestState = {
+const initialValue: GetCharacterRequestState = {
   isLoading: false,
   data: null,
   error: null,
 };
 
-export const useCharacters = (
-  name = '',
-  page = 1
-): GetCharactersRequestState => {
-  const [state, setState] = useState<GetCharactersRequestState>(initialValue);
+export const useCharacter = (id: number): GetCharacterRequestState => {
+  const [state, setState] = useState<GetCharacterRequestState>(initialValue);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -23,7 +22,7 @@ export const useCharacters = (
       isLoading: true,
     }));
 
-    getCharacters({ name, page }, controller.signal).then(({ data, error }) => {
+    getCharacter(id, controller.signal).then(({ data, error }) => {
       setState({
         isLoading: false,
         data,
@@ -34,7 +33,7 @@ export const useCharacters = (
     return () => {
       controller.abort();
     };
-  }, [name, page]);
+  }, [id]);
 
   return state;
 };

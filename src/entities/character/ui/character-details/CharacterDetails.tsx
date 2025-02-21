@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { useCharacter } from '@/shared/api/characters/hooks';
+import { useCharacter } from '@/entities/character';
 import { Button, ErrorMessage, Loader } from '@/shared/ui';
 import styles from './CharacterDetails.module.scss';
 

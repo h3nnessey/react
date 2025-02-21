@@ -6,9 +6,9 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { useCharacters, QueryParams } from '@/shared/api/characters';
-import { CharacterCardList } from '@/entities/character';
-import { Pagination } from '@/features/pagination';
+import { QueryParams } from '@/shared/api/characters';
+import { CharacterCardList, useCharacters } from '@/entities/character';
+import { Pagination } from '@/shared/ui/pagination';
 import styles from './SearchResults.module.scss';
 
 export const SearchResults = () => {
@@ -22,7 +22,7 @@ export const SearchResults = () => {
 
   const { data, error, isLoading } = useCharacters(query, page);
 
-  const handleClose = (event: MouseEvent<HTMLDivElement>) => {
+  const handleCardClose = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLElement;
 
     if (id) {
@@ -38,15 +38,27 @@ export const SearchResults = () => {
     }
   };
 
+  const handlePageChange = (page: number) => {
+    const searchParams = new URLSearchParams(location.search);
+
+    searchParams.set(QueryParams.Page, page.toString());
+
+    navigate({
+      pathname: '/',
+      search: searchParams.toString(),
+    });
+  };
+
   return (
     <>
       <Pagination
         pages={data?.info.pages || 0}
         currentPage={page}
         disabled={isLoading}
+        onPageChange={handlePageChange}
         className={styles.pagination}
       />
-      <div className={styles.container} onClick={handleClose}>
+      <div className={styles.container} onClick={handleCardClose}>
         <CharacterCardList
           characters={data?.results || []}
           isLoading={isLoading}

@@ -5,4 +5,4 @@ export {
   CharacterStatus,
   CharacterGender,
 } from './model';
-export { useCharacters } from './hooks';
+export { getCharacter, getCharacters } from './base';
