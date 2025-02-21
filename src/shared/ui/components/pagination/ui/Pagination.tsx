@@ -1,4 +1,4 @@
-import { Button } from '@/shared/ui';
+import { Button } from '@/shared/ui/components';
 import { classnames } from '@/shared/lib/styling';
 import { getPagesToRender } from '../lib/getPagesToRender';
 import styles from './Pagination.module.scss';

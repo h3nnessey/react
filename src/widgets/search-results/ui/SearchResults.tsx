@@ -8,7 +8,7 @@ import {
 } from 'react-router';
 import { QueryParams } from '@/shared/api/characters';
 import { CharacterCardList, useCharacters } from '@/entities/character';
-import { Pagination } from '@/shared/ui/pagination';
+import { Pagination } from '@/shared/ui/components';
 import styles from './SearchResults.module.scss';
 
 export const SearchResults = () => {

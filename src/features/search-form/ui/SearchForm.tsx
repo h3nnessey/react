@@ -1,7 +1,7 @@
 import { useRef, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { QueryParams } from '@/shared/api/characters';
-import { Input, Button } from '@/shared/ui/';
+import { Input, Button } from '@/shared/ui/components';
 import styles from './SearchForm.module.scss';
 
 export const SearchForm = () => {

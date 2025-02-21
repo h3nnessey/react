@@ -1,5 +1,5 @@
 import { createBrowserRouter, type RouteObject } from 'react-router';
-import { ErrorBoundary } from '@/shared/ui';
+import { ErrorBoundary } from '@/shared/ui/providers';
 import { MainPage, NotFoundPage } from '@/pages';
 import { CharacterDetails } from '@/entities/character';
 

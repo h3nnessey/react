@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import type { ReactNode, ErrorInfo } from 'react';
-import { ErrorMessage } from '../../error-message';
-import { Button } from '../../button';
+import { ErrorMessage } from '../../../components/error-message';
+import { Button } from '../../../components/button';
 
 export const MESSAGE = 'Oops, something went wrong';
 

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import type { Character } from '@/shared/api/characters';
 import { classnames } from '@/shared/lib/styling';
-import { Button, ErrorMessage, Loader } from '@/shared/ui';
+import { Button, ErrorMessage, Loader } from '@/shared/ui/components';
 import { CharacterCard } from '../character-card/CharacterCard';
 import styles from './CharacterCardList.module.scss';
 

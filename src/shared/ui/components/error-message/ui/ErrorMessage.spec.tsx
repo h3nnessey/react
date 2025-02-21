@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { ErrorMessage } from '@/shared/ui';
+import { ErrorMessage } from '@/shared/ui/components';
 
 describe('ErrorMessage Component', () => {
   const message = 'error message';

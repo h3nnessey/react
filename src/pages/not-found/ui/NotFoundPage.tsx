@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Button, ErrorMessage } from '@/shared/ui';
+import { Button, ErrorMessage } from '@/shared/ui/components';
 
 export const MESSAGE = 'Page not found';
 
