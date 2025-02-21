@@ -33,11 +33,9 @@ const characterMock: Character = {
   created: '2017-11-04T18:50:21.651Z',
 };
 
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
-
 const mockUseCharacter = vi.hoisted(() => vi.fn());
 
-vi.mock('@/shared/api/characters/hooks', () => ({
+vi.mock('@/entities/character', () => ({
   useCharacter: mockUseCharacter,
 }));
 
@@ -85,23 +83,17 @@ describe('CharacterDetails', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('name').lastChild).toHaveTextContent(
-      capitalize(characterMock.name)
+    expect(screen.getByRole('name')).toHaveTextContent(characterMock.name);
+    expect(screen.getByRole('status')).toHaveTextContent(characterMock.status);
+    expect(screen.getByRole('species')).toHaveTextContent(
+      characterMock.species
     );
-    expect(screen.getByRole('status').lastChild).toHaveTextContent(
-      capitalize(characterMock.status)
+    expect(screen.getByRole('gender')).toHaveTextContent(characterMock.gender);
+    expect(screen.getByRole('origin')).toHaveTextContent(
+      characterMock.origin.name
     );
-    expect(screen.getByRole('species').lastChild).toHaveTextContent(
-      capitalize(characterMock.species)
-    );
-    expect(screen.getByRole('gender').lastChild).toHaveTextContent(
-      capitalize(characterMock.gender)
-    );
-    expect(screen.getByRole('origin').lastChild).toHaveTextContent(
-      capitalize(characterMock.origin.name)
-    );
-    expect(screen.getByRole('location').lastChild).toHaveTextContent(
-      capitalize(characterMock.location.name)
+    expect(screen.getByRole('location')).toHaveTextContent(
+      characterMock.location.name
     );
     expect(screen.getByRole('episodes')).toHaveTextContent(
       characterMock.episode.length.toString()
