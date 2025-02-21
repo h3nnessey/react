@@ -1,16 +1,11 @@
 import { createBrowserRouter, type RouteObject } from 'react-router';
-import { ErrorBoundary } from '@/shared/ui/providers';
-import { MainPage, NotFoundPage } from '@/pages';
 import { CharacterDetails } from '@/entities/character';
+import { MainPage, NotFoundPage } from '@/pages';
 
 export const routes: RouteObject[] = [
   {
     path: '/',
-    element: (
-      <ErrorBoundary>
-        <MainPage />
-      </ErrorBoundary>
-    ),
+    element: <MainPage />,
     children: [
       {
         path: '/:id',

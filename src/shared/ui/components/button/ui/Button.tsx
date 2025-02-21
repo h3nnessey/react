@@ -4,7 +4,7 @@ import styles from './Button.module.scss';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger';
 
-export interface ButtonsProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   active?: boolean;
   className?: string;
@@ -17,7 +17,7 @@ export const Button = ({
   active = false,
   variant = 'primary',
   ...props
-}: ButtonsProps) => {
+}: ButtonProps) => {
   return (
     <button
       className={classnames(

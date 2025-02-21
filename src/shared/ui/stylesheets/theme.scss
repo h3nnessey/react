@@ -1,0 +1,31 @@
+:root:has(.app-theme-light) {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f0f0f0;
+  --color-light: #000000;
+  --color-dark: #ffffff;
+  --color-dark-20: #b5b5b5;
+  --color-dark-30: #969696;
+  --color-dark-70: #5e5e5e;
+  --color-mark: #489848;
+  --color-mark-secondary: #8f6b8f;
+  --color-mark-third: #d3d3d3;
+  --color-accent: #5f9ea0;
+  --color-accent-secondary: #ff8c00;
+  --transition: 0.2s ease;
+}
+
+:root:has(.app-theme-dark) {
+  --color-bg-primary: #282828;
+  --color-bg-secondary: bisque;
+  --color-light: #ffffff;
+  --color-dark: #000000;
+  --color-dark-20: #4a4a4a;
+  --color-dark-30: #696969;
+  --color-dark-70: #a1a1a1;
+  --color-mark: #b76767;
+  --color-mark-secondary: darkseagreen;
+  --color-mark-third: grey;
+  --color-accent: darksalmon;
+  --color-accent-secondary: darkorange;
+  --transition: 0.2s ease;
+}
