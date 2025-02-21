@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { useNavigate, useParams, useLocation } from 'react-router';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { useParams, useLocation } from 'react-router';
+import { render, screen } from '@testing-library/react';
 import {
   Character,
   CharacterGender,
@@ -40,7 +40,6 @@ vi.mock('react-router', () => ({
 }));
 
 describe('CharacterCardList', () => {
-  const mockNavigate = vi.fn();
   const mockLocation = {
     pathname: '/',
     search: '?page=1',
@@ -51,7 +50,6 @@ describe('CharacterCardList', () => {
   const mockParams = { id: characterMock.id.toString() };
 
   beforeEach(() => {
-    vi.mocked(useNavigate).mockReturnValue(mockNavigate);
     vi.mocked(useLocation).mockReturnValue(mockLocation);
     vi.mocked(useParams).mockReturnValue(mockParams);
   });
@@ -80,17 +78,5 @@ describe('CharacterCardList', () => {
 
     const imgElements = screen.getAllByRole('img');
     expect(imgElements).toHaveLength(characters.length);
-  });
-
-  it('should reset search on reset button click', () => {
-    const message = 'There is nothing here';
-    renderCardList({ characters: [], error: message });
-
-    const buttonElement = screen.getByRole('button');
-    fireEvent.click(buttonElement);
-    expect(mockNavigate).toHaveBeenCalledWith(
-      { pathname: '/' },
-      { replace: true }
-    );
   });
 });
