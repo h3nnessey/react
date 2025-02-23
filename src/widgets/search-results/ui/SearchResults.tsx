@@ -2,9 +2,9 @@ import type { MouseEvent } from 'react';
 import {
   useNavigate,
   useSearchParams,
-  Outlet,
   useLocation,
   useParams,
+  Outlet,
 } from 'react-router';
 import { ErrorMessage, Pagination } from '@/shared/ui/components';
 import {

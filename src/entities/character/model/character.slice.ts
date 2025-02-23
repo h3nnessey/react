@@ -26,5 +26,8 @@ export const charactersSlice = createSlice({
         character => character.id !== action.payload
       );
     },
+    clearFavorites: () => {
+      return initialState;
+    },
   },
 });

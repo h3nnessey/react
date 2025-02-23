@@ -1,4 +1,5 @@
 import { Header, SearchResults } from '@/widgets';
+import { CharactersFlyout } from '@/entities/character';
 import styles from './MainPage.module.scss';
 
 export const MainPage = () => {
@@ -8,6 +9,7 @@ export const MainPage = () => {
       <main className={styles.main} role="main">
         <SearchResults />
       </main>
+      <CharactersFlyout />
     </>
   );
 };

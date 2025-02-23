@@ -42,8 +42,8 @@ export const CharacterCard = (character: Character) => {
         <input
           type="checkbox"
           className={styles.checkbox}
+          checked={isFavorite}
           onClick={handleCheckboxClick}
-          defaultChecked={isFavorite}
         />
         <img className={styles.image} src={image} alt={name} role="img" />
         <div className={styles.about}>
