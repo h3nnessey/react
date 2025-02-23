@@ -21,7 +21,7 @@ export const CharacterDetails = () => {
   };
 
   return (
-    <div className={styles.container} key={id} role="details">
+    <div className={styles.container} key={id} role="character-details">
       {isError && <ErrorMessage message={deserializeError(error)} />}
       {isLoading && <Loader />}
       {data && (
