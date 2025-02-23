@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { classnames } from '@/shared/lib/styling';
-import type { Character } from '../../model';
+import { type Character, type CharacterId } from '../../model';
 import styles from './CharacterCard.module.scss';
 
 export interface CharacterCardProps extends Character {
@@ -18,7 +18,7 @@ export const CharacterCard = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleClick = () => {
+  const handleClick = (id: CharacterId) => {
     navigate(`/${id}${location.search}`);
   };
 
@@ -31,7 +31,7 @@ export const CharacterCard = ({
           className
         )}
         title={name}
-        onClick={handleClick}
+        onClick={() => handleClick(id)}
       >
         <img className={styles.image} src={image} alt={name} role="img" />
         <div className={styles.about}>

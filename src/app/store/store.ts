@@ -1,11 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { characterApi } from '@/entities/character';
+import { charactersSlice } from '@/entities/character/model';
+
+const reducer = combineReducers({
+  [characterApi.reducerPath]: characterApi.reducer,
+  [charactersSlice.name]: charactersSlice.reducer,
+});
 
 export const store = configureStore({
-  reducer: {
-    [characterApi.reducerPath]: characterApi.reducer,
-  },
+  reducer: reducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware().concat(characterApi.middleware),
 });

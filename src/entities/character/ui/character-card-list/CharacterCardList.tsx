@@ -1,7 +1,7 @@
 import { classnames } from '@/shared/lib/styling';
 import { Loader } from '@/shared/ui/components';
 import { CharacterCard } from '../character-card/CharacterCard';
-import { Character } from '../../model';
+import type { Character } from '../../model';
 import styles from './CharacterCardList.module.scss';
 
 export interface CharacterCardListProps {
