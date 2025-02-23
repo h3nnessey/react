@@ -1,31 +1,30 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { CharacterId } from './character.model';
-
-export interface SelectedCharacter {
-  id: CharacterId;
-}
+import type { Character, CharacterId } from './character.model';
 
 export interface SelectedCharactersState {
-  ids: CharacterId[];
+  characters: Character[];
 }
 
 const initialState: SelectedCharactersState = {
-  ids: [],
+  characters: [],
 };
 
 export const charactersSlice = createSlice({
-  name: 'charactersSlice',
+  name: 'characters',
   initialState,
   selectors: {
-    getSelectedCharacters: state => state.ids,
-    isSelected: (state, id: CharacterId) => state.ids.includes(id),
+    getFavorites: state => state.characters,
+    isFavorite: (state, id: CharacterId) =>
+      !!state.characters.find(character => character.id === id),
   },
   reducers: {
-    select: (state, { payload: id }: PayloadAction<CharacterId>) => {
-      state.ids.push(id);
+    addToFavorites: (state, action: PayloadAction<Character>) => {
+      state.characters.push(action.payload);
     },
-    unselect: (state, action: PayloadAction<CharacterId>) => {
-      state.ids = state.ids.filter(id => id !== action.payload);
+    removeFromFavorites: (state, action: PayloadAction<CharacterId>) => {
+      state.characters = state.characters.filter(
+        character => character.id !== action.payload
+      );
     },
   },
 });
