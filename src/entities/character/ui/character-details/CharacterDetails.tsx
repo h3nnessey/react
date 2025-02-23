@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router';
-import { useCharacter } from '@/entities/character';
+import { skipToken } from '@reduxjs/toolkit/query';
 import { Button, ErrorMessage, Loader } from '@/shared/ui/components';
+import { useGetCharacterByIdQuery, deserializeError } from '../../api';
 import styles from './CharacterDetails.module.scss';
 
 export const CharacterDetails = () => {
@@ -8,7 +9,9 @@ export const CharacterDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data, error, isLoading } = useCharacter(Number(id));
+  const { data, isLoading, isError, error } = useGetCharacterByIdQuery(
+    id ?? skipToken
+  );
 
   const handleClick = () => {
     navigate({
@@ -19,8 +22,8 @@ export const CharacterDetails = () => {
 
   return (
     <div className={styles.container} key={id} role="details">
+      {isError && <ErrorMessage message={deserializeError(error)} />}
       {isLoading && <Loader />}
-      {error && <ErrorMessage message={error} />}
       {data && (
         <>
           <img

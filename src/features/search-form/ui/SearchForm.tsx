@@ -1,6 +1,5 @@
 import { useRef, type FormEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-import { QueryParams } from '@/shared/api/characters';
 import { Input, Button } from '@/shared/ui/components';
 import styles from './SearchForm.module.scss';
 
@@ -9,7 +8,7 @@ export const SearchForm = () => {
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const search = searchParams.get(QueryParams.Name) || '';
+  const search = searchParams.get('name') || '';
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,7 +19,7 @@ export const SearchForm = () => {
 
     navigate({
       pathname: '/',
-      search: newQuery ? `?${QueryParams.Name}=${newQuery}` : '',
+      search: newQuery ? `?name=${newQuery}` : '',
     });
   };
 

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router';
-import type { Character } from '@/shared/api/characters';
 import { classnames } from '@/shared/lib/styling';
+import type { Character } from '../../model';
 import styles from './CharacterCard.module.scss';
 
 export interface CharacterCardProps extends Character {

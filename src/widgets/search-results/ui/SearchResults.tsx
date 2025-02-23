@@ -6,9 +6,12 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { QueryParams } from '@/shared/api/characters';
-import { CharacterCardList, useCharacters } from '@/entities/character';
 import { Pagination } from '@/shared/ui/components';
+import {
+  CharacterCardList,
+  useGetCharactersQuery,
+  deserializeError,
+} from '@/entities/character';
 import styles from './SearchResults.module.scss';
 
 export const SearchResults = () => {
@@ -17,10 +20,13 @@ export const SearchResults = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const query = searchParams.get(QueryParams.Name) || '';
-  const page = Number(searchParams.get(QueryParams.Page)) || 1;
+  const name = searchParams.get('name') || '';
+  const page = Number(searchParams.get('page')) || 1;
 
-  const { data, error, isLoading } = useCharacters(query, page);
+  const { data, isLoading, error } = useGetCharactersQuery({
+    page,
+    name,
+  });
 
   const handleCardClose = (event: MouseEvent<HTMLDivElement>) => {
     const target = event.target as HTMLElement;
@@ -41,7 +47,7 @@ export const SearchResults = () => {
   const handlePageChange = (page: number) => {
     const searchParams = new URLSearchParams(location.search);
 
-    searchParams.set(QueryParams.Page, page.toString());
+    searchParams.set('page', page.toString());
 
     navigate({
       pathname: '/',
@@ -62,7 +68,7 @@ export const SearchResults = () => {
         <CharacterCardList
           characters={data?.results || []}
           isLoading={isLoading}
-          error={error}
+          error={deserializeError(error)}
           className={styles.list}
         />
         <Outlet />

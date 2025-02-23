@@ -1,5 +1,7 @@
+export type CharacterId = number;
+
 export interface Character {
-  id: number;
+  id: CharacterId;
   name: string;
   status: CharacterStatus;
   species: CharacterSpecies;
@@ -53,31 +55,4 @@ export interface GetCharactersOkResponse {
     next: string | null;
     prev: string | null;
   };
-}
-
-export interface GetCharactersResult {
-  data: GetCharactersOkResponse | null;
-  error: string | null;
-}
-
-export interface GetCharacterResult {
-  data: Character | null;
-  error: string | null;
-}
-
-export enum QueryParams {
-  Page = 'page',
-  Name = 'name',
-}
-
-export type CharactersQueryParams = Partial<{
-  [key in QueryParams]: key extends QueryParams.Page ? number : string;
-}>;
-
-export interface GetCharactersRequestState extends GetCharactersResult {
-  isLoading: boolean;
-}
-
-export interface GetCharacterRequestState extends GetCharacterResult {
-  isLoading: boolean;
 }
