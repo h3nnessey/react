@@ -26,7 +26,5 @@ export const deserializeError = (error: unknown): ApiErrorResponse => {
     }
   }
 
-  console.log(message);
-
   return message;
 };

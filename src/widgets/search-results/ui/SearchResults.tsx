@@ -6,7 +6,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router';
-import { Pagination } from '@/shared/ui/components';
+import { ErrorMessage, Pagination } from '@/shared/ui/components';
 import {
   CharacterCardList,
   useGetCharactersQuery,
@@ -55,6 +55,10 @@ export const SearchResults = () => {
     });
   };
 
+  if (error) {
+    return <ErrorMessage message={deserializeError(error)} />;
+  }
+
   return (
     <>
       <Pagination
@@ -68,7 +72,6 @@ export const SearchResults = () => {
         <CharacterCardList
           characters={data?.results || []}
           isLoading={isLoading}
-          error={deserializeError(error)}
           className={styles.list}
         />
         <Outlet />

@@ -46,13 +46,3 @@ export enum CharacterSpecies {
   Cronenberg = 'Cronenberg',
   Disease = 'Disease',
 }
-
-export interface GetCharactersOkResponse {
-  results: Character[];
-  info: {
-    count: number;
-    pages: number;
-    next: string | null;
-    prev: string | null;
-  };
-}
