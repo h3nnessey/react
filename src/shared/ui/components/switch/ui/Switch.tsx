@@ -2,7 +2,7 @@ import type { InputHTMLAttributes } from 'react';
 import { classnames } from '@/shared/lib/styling';
 import styles from './Switch.module.scss';
 
-interface SwitchProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface SwitchProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
@@ -13,7 +13,11 @@ export const Switch = ({
   ...props
 }: SwitchProps) => {
   return (
-    <label className={classnames(styles.label, className)} title={title}>
+    <label
+      className={classnames(styles.label, className)}
+      title={title}
+      role="switch"
+    >
       <input
         type="checkbox"
         checked={checked}
