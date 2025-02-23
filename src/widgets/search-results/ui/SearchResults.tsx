@@ -7,11 +7,9 @@ import {
   Outlet,
 } from 'react-router';
 import { ErrorMessage, Pagination } from '@/shared/ui/components';
-import {
-  CharacterCardList,
-  useGetCharactersQuery,
-  deserializeError,
-} from '@/entities/character';
+import { CharacterCardList } from '@/entities/character';
+import { useGetCharactersQuery } from '@/entities/character/api/characterApi';
+import { deserializeError } from '@/entities/character/api/deserializeError';
 import styles from './SearchResults.module.scss';
 
 export const SearchResults = () => {
@@ -68,7 +66,11 @@ export const SearchResults = () => {
         onPageChange={handlePageChange}
         className={styles.pagination}
       />
-      <div className={styles.container} onClick={handleCardClose}>
+      <div
+        className={styles.container}
+        onClick={handleCardClose}
+        data-testid="search-results-container"
+      >
         <CharacterCardList
           characters={data?.results || []}
           isLoading={isLoading}

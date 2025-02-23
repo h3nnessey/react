@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { characterApi } from '@/entities/character';
+import { characterApi } from '@/entities/character/api/characterApi';
 import { charactersSlice } from '@/entities/character/model';
 
 const reducer = combineReducers({
