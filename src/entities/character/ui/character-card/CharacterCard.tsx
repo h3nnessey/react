@@ -1,4 +1,3 @@
-import { ComponentProps } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '@/app/store';
 import { classnames } from '@/shared/lib/styling';
@@ -20,9 +19,7 @@ export const CharacterCard = (character: Character) => {
     navigate(`/${id}${location.search}`);
   };
 
-  const handleCheckboxClick: ComponentProps<'input'>['onClick'] = event => {
-    event.stopPropagation();
-
+  const handleCheckboxChange = () => {
     if (isFavorite) {
       dispatch(charactersSlice.actions.removeFromFavorites(id));
     } else {
@@ -39,12 +36,18 @@ export const CharacterCard = (character: Character) => {
         title={name}
         onClick={() => handleClick(id)}
       >
-        <input
-          type="checkbox"
-          className={styles.checkbox}
-          checked={isFavorite}
-          onClick={handleCheckboxClick}
-        />
+        <label
+          className={styles.favorite}
+          title="Add to favorites"
+          onClick={event => event.stopPropagation()}
+        >
+          <input
+            type="checkbox"
+            className={styles.checkbox}
+            checked={isFavorite}
+            onChange={handleCheckboxChange}
+          />
+        </label>
         <img className={styles.image} src={image} alt={name} role="img" />
         <div className={styles.about}>
           <p className={styles.title}>{name}</p>

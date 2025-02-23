@@ -2,16 +2,34 @@
   position: fixed;
   display: grid;
   place-content: center;
-  gap: 16px;
-  left: 20px;
-  bottom: 20px;
+  gap: var(--space-m);
+  left: 10px;
+  bottom: -100%;
   padding: 10px;
   background: var(--color-bg);
   border: 1px solid var(--color-dark-20);
-  color: yellow;
+  color: var(--color-light);
   backdrop-filter: blur(5px);
+  border-radius: var(--space-s);
+  transition: border var(--transition);
+  animation: reveal var(--transition) forwards;
+
+  &:hover {
+    border: 1px solid var(--color-dark-30);
+  }
+}
+
+@keyframes reveal {
+  from {
+    bottom: -100%;
+  }
+  to {
+    bottom: 10px;
+  }
+}
+
+.title {
   text-align: center;
-  border-radius: 5px;
 }
 
 .controls {
@@ -19,8 +37,31 @@
   gap: var(--space-s);
   justify-content: space-between;
   font-size: 1.5rem;
+}
 
-  button {
-    padding: 5px 10px;
+.link {
+  text-decoration: none;
+}
+
+.link,
+.btn {
+  display: grid;
+  place-content: center;
+  border: 1px solid var(--color-dark-20);
+  background: var(--color-bg);
+  border-radius: var(--space-s);
+  padding: var(--space-s);
+  color: var(--color-dark-70);
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  transition:
+    color var(--transition),
+    border var(--transition),
+    background var(--transition);
+
+  &:hover {
+    color: var(--color-dark);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-dark-30);
   }
 }
