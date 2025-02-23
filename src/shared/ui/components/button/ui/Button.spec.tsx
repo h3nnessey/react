@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Button, ButtonsProps, ButtonVariant } from './Button';
+import { Button, ButtonProps, ButtonVariant } from './Button';
 import styles from './Button.module.scss';
 
 describe('Button Component', () => {
   const children = 'children text';
 
-  const renderButton = (props: ButtonsProps = {}) => {
+  const renderButton = (props: ButtonProps = {}) => {
     return render(<Button {...props}>{children}</Button>);
   };
 
