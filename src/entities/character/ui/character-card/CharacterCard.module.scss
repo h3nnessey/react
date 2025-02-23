@@ -58,13 +58,12 @@
   -webkit-line-clamp: 1;
   line-clamp: 1;
   font-weight: var(--font-weight-medium);
-  color: #c3c3c3;
+  color: var(--color-dark-70);
   overflow: hidden;
 }
 
 .description {
   font-weight: var(--font-weight-regular);
-  color: var(--color-mark);
   text-transform: capitalize;
   text-align: right;
 }
