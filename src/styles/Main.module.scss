@@ -1,0 +1,20 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xm);
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xl);
+}
+
+.list {
+}
+
+.details {
+}
+
+.pagination {
+}

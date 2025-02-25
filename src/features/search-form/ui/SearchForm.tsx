@@ -1,14 +1,13 @@
 import { useRef, type FormEvent } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useRouter } from 'next/router';
 import { Input, Button } from '@/shared/ui/components';
 import styles from './SearchForm.module.scss';
 
 export const SearchForm = () => {
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const search = searchParams.get('name') || '';
+  const search = router.query.name || '';
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,7 +16,7 @@ export const SearchForm = () => {
 
     if (search === newQuery) return;
 
-    navigate({
+    router.push({
       pathname: '/',
       search: newQuery ? `?name=${newQuery}` : '',
     });

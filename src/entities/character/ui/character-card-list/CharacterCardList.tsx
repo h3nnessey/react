@@ -1,5 +1,5 @@
-import { classnames } from '@/shared/lib/styling';
 import { Loader } from '@/shared/ui/components';
+import { classnames } from '@/shared/lib/styling';
 import { CharacterCard } from '../character-card/CharacterCard';
 import type { Character } from '../../model';
 import styles from './CharacterCardList.module.scss';
@@ -19,7 +19,7 @@ export const CharacterCardList = ({
     <div className={styles.container}>
       {isLoading && <Loader />}
       {!!characters.length && (
-        <div className={classnames(styles.cardList, className)}>
+        <div className={classnames(styles.list, className)}>
           {characters.map(character => (
             <CharacterCard key={character.id} {...character} />
           ))}

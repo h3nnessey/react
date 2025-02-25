@@ -1,30 +1,29 @@
-import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+const ERROR_MESSAGE = 'Something went wrong';
 
-type ApiErrorResponse = string;
+const generateErrorObject = (message: string) => {
+  return {
+    success: false as const,
+    error: message,
+  };
+};
 
-function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryError {
-  return typeof error === 'object' && error != null && 'status' in error;
-}
+export const processApiError = (error: unknown) => {
+  let message = ERROR_MESSAGE;
 
-function isServerError(err: unknown): err is { error: string } {
-  return (
-    typeof err === 'object' &&
-    err !== null &&
-    'error' in err &&
-    typeof err.error === 'string'
-  );
-}
-
-export const deserializeError = (error: unknown): ApiErrorResponse => {
-  let message = '';
-
-  if (isFetchBaseQueryError(error)) {
-    if (isServerError(error.data)) {
-      message = error.data.error;
-    } else {
-      message = JSON.stringify(error.data);
-    }
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'error' in error &&
+    typeof error.error === 'string'
+  ) {
+    message = error.error;
   }
 
-  return message;
+  return generateErrorObject(message);
+};
+
+export const processError = (error: unknown) => {
+  const message = error instanceof Error ? error.message : ERROR_MESSAGE;
+
+  return generateErrorObject(message);
 };

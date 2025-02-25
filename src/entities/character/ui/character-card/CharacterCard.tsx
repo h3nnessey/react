@@ -1,22 +1,26 @@
-import { useLocation, useNavigate, useParams } from 'react-router';
-import { useAppDispatch, useAppSelector } from '@/app/store';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { classnames } from '@/shared/lib/styling';
+import { processSearchParams } from '@/shared/lib/url';
 import { charactersSlice } from '../../model';
 import type { Character, CharacterId } from '../../model';
 import styles from './CharacterCard.module.scss';
 
 export const CharacterCard = (character: Character) => {
   const { id, name, image, status } = character;
-  const { id: currentId } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const isFavorite = useAppSelector(state =>
     charactersSlice.selectors.isFavorite(state, id)
   );
+  const { id: currentId } = router.query;
 
   const handleClick = (id: CharacterId) => {
-    navigate(`/${id}${location.search}`);
+    router.push({
+      pathname: '/',
+      query: processSearchParams({ ...router.query, id }),
+    });
   };
 
   const handleCheckboxChange = () => {
@@ -48,7 +52,7 @@ export const CharacterCard = (character: Character) => {
             onChange={handleCheckboxChange}
           />
         </label>
-        <img className={styles.image} src={image} alt={name} role="img" />
+        <Image className={styles.image} src={image} alt={name} role="img" />
         <div className={styles.about}>
           <p className={styles.title}>{name}</p>
           <p

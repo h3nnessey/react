@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { useAppDispatch, useAppSelector } from '@/app/store';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { createDownloadCharactersUrl } from '../../lib';
 import { charactersSlice } from '../../model';
 import styles from './CharactersFlyout.module.scss';
