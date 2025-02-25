@@ -1,5 +1,5 @@
 import type { Character } from '../model';
-import { processApiError, processError } from './deserializeError';
+import { processApiError, processError } from './helpers';
 
 export const BASE_URL = 'https://rickandmortyapi.com/api/character/';
 
@@ -21,26 +21,36 @@ export interface GetCharactersParams {
   page: Query;
 }
 
-export type RequestResult<T> =
-  | { success: false; error: string }
-  | { success: true; data: T };
+export interface RequestResult<T> {
+  data: T;
+  error: string | null;
+}
+
+export type GetCharactersReturnType = Awaited<ReturnType<typeof getCharacters>>;
+
+export type GetCharacterReturnType = Awaited<
+  ReturnType<typeof getCharacterById>
+>;
 
 export const getCharacters = async ({
   id,
   name,
   page,
 }: GetCharactersParams) => {
-  const result = {
-    characters: await getFilteredCharacters({ name, page }),
-    character: id ? await getCharacterById(id.toString()) : null,
-  };
+  let character = null;
+  const characters = await getFilteredCharacters({ name, page });
 
-  return result;
+  if (id) {
+    character = await getCharacterById(id.toString());
+  }
+
+  return {
+    characters,
+    character,
+  };
 };
 
-const getCharacterById = async (
-  id: string
-): Promise<RequestResult<Character>> => {
+const getCharacterById = async (id: string) => {
   const url = new URL(`${BASE_URL}/${id}`);
 
   try {
@@ -52,8 +62,8 @@ const getCharacterById = async (
     }
 
     return {
-      success: true as const,
-      data,
+      data: data as Character,
+      error: null,
     };
   } catch (error: unknown) {
     return processError(error);
@@ -63,9 +73,7 @@ const getCharacterById = async (
 const getFilteredCharacters = async ({
   name,
   page = '1',
-}: Omit<GetCharactersParams, 'id'>): Promise<
-  RequestResult<GetCharactersOkResponse>
-> => {
+}: Omit<GetCharactersParams, 'id'>) => {
   const url = new URL(`${BASE_URL}/?page=${page}`);
 
   if (name) {
@@ -81,8 +89,8 @@ const getFilteredCharacters = async ({
     }
 
     return {
-      success: true,
-      data,
+      error: null,
+      data: data as GetCharactersOkResponse,
     };
   } catch (error: unknown) {
     return processError(error);

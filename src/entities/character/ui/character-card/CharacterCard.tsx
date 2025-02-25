@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/store';
 import { classnames } from '@/shared/lib/styling';
 import { processSearchParams } from '@/shared/lib/url';
 import { charactersSlice } from '../../model';
-import type { Character, CharacterId } from '../../model';
+import type { Character } from '../../model';
 import styles from './CharacterCard.module.scss';
 
 export const CharacterCard = (character: Character) => {
@@ -16,18 +16,20 @@ export const CharacterCard = (character: Character) => {
   );
   const { id: currentId } = router.query;
 
-  const handleClick = (id: CharacterId) => {
-    router.push({
-      pathname: '/',
-      query: processSearchParams({ ...router.query, id }),
-    });
-  };
-
   const handleCheckboxChange = () => {
     if (isFavorite) {
       dispatch(charactersSlice.actions.removeFromFavorites(id));
     } else {
       dispatch(charactersSlice.actions.addToFavorites(character));
+    }
+  };
+
+  const handleClick = () => {
+    if (Number(currentId) !== id) {
+      router.push({
+        pathname: '/',
+        query: processSearchParams({ ...router.query, id }),
+      });
     }
   };
 
@@ -38,7 +40,7 @@ export const CharacterCard = (character: Character) => {
           [styles.active]: Number(currentId) === id,
         })}
         title={name}
-        onClick={() => handleClick(id)}
+        onClick={() => handleClick()}
       >
         <label
           className={styles.favorite}
@@ -46,13 +48,19 @@ export const CharacterCard = (character: Character) => {
           onClick={event => event.stopPropagation()}
         >
           <input
-            type="checkbox"
             className={styles.checkbox}
+            type="checkbox"
             checked={isFavorite}
             onChange={handleCheckboxChange}
           />
         </label>
-        <Image className={styles.image} src={image} alt={name} role="img" />
+        <Image
+          className={styles.image}
+          src={image}
+          width={80}
+          height={80}
+          alt={`${name} image`}
+        />
         <div className={styles.about}>
           <p className={styles.title}>{name}</p>
           <p

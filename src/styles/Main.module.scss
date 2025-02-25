@@ -1,6 +1,6 @@
 .main {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: var(--space-xm);
 }
 
@@ -11,10 +11,5 @@
 }
 
 .list {
-}
-
-.details {
-}
-
-.pagination {
+  flex: 1;
 }

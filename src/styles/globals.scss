@@ -36,3 +36,10 @@ body {
   height: 100%;
   margin: 0 auto;
 }
+
+.link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+}

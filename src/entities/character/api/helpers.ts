@@ -2,7 +2,7 @@ const ERROR_MESSAGE = 'Something went wrong';
 
 const generateErrorObject = (message: string) => {
   return {
-    success: false as const,
+    data: null,
     error: message,
   };
 };

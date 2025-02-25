@@ -26,7 +26,6 @@ export const Button = ({
         { [styles.active]: active },
         className
       )}
-      role="button"
       {...props}
     >
       <span>{children}</span>

@@ -13,11 +13,7 @@ export const Switch = ({
   ...props
 }: SwitchProps) => {
   return (
-    <label
-      className={classnames(styles.label, className)}
-      title={title}
-      role="switch"
-    >
+    <label className={classnames(styles.label, className)} title={title}>
       <input
         type="checkbox"
         checked={checked}
