@@ -1,19 +1,15 @@
 .main {
   display: flex;
   flex-wrap: wrap;
-  position: relative;
   gap: var(--space-xm);
-  padding: var(--space-m) 0;
 }
 
 .container {
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-xl);
-}
-
-.list {
   flex: 1;
+  padding: var(--space-xs) 0;
+  gap: var(--space-xs);
 }
 
 .loader {

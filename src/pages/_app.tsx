@@ -22,13 +22,13 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>Rick and Morty</title>
         <link rel="icon" href="/favicon.svg" />
       </Head>
+      <style jsx global>{`
+        html {
+          font-family: ${montserrat.style.fontFamily};
+        }
+      `}</style>
       <Provider store={store}>
         <ThemeProvider>
-          <style jsx global>{`
-            html {
-              font-family: ${montserrat.style.fontFamily};
-            }
-          `}</style>
           <Component {...pageProps} />
         </ThemeProvider>
       </Provider>

@@ -18,7 +18,7 @@ import styles from '@/styles/main-page/MainPage.module.scss';
 export default function MainPage({
   character,
   characters,
-  params,
+  params: { name, page },
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { isFetching, router } = useRouterRouteChange();
 
@@ -26,7 +26,7 @@ export default function MainPage({
     router.push({
       pathname: '/',
       query: {
-        ...router.query,
+        name,
         page,
       },
     });
@@ -35,19 +35,17 @@ export default function MainPage({
   return (
     <Layout>
       <main className={styles.main}>
-        {isFetching && <Loader className={styles.loader} />}
-        {characters && (
-          <>
-            <Pagination
-              pages={characters.data?.info.pages || 0}
-              currentPage={Number(params.page) || 1}
-              disabled={isFetching}
-              onPageChange={handlePageChange}
-            />
-            <CharacterCardList className={styles.list} {...characters} />
-          </>
-        )}
-        {character && <CharacterDetails {...character} />}
+        <Pagination
+          pages={characters.data?.info.pages || 1}
+          currentPage={Number(page) || 1}
+          disabled={isFetching}
+          onPageChange={handlePageChange}
+        />
+        <div className={styles.container}>
+          {isFetching && <Loader className={styles.loader} />}
+          <CharacterCardList {...characters} />
+          {character && <CharacterDetails {...character} />}
+        </div>
       </main>
     </Layout>
   );

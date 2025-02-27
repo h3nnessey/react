@@ -13,8 +13,8 @@ export interface PaginationProps {
 }
 
 export const Pagination = ({
-  pages,
-  currentPage,
+  pages = 1,
+  currentPage = 1,
   disabled = false,
   limit = 5,
   className,
