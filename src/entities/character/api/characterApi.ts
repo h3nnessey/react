@@ -50,7 +50,7 @@ export const getCharacters = async ({
   };
 };
 
-const getCharacterById = async (id: string) => {
+export const getCharacterById = async (id: string) => {
   const url = new URL(`${BASE_URL}/${id}`);
 
   try {
@@ -70,7 +70,7 @@ const getCharacterById = async (id: string) => {
   }
 };
 
-const getFilteredCharacters = async ({
+export const getFilteredCharacters = async ({
   name,
   page = '1',
 }: Omit<GetCharactersParams, 'id'>) => {

@@ -37,9 +37,15 @@ body {
   margin: 0 auto;
 }
 
-.link::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  cursor: pointer;
+.link {
+  text-decoration: none;
+  font: inherit;
+  color: inherit;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
 }

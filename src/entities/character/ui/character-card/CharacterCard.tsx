@@ -1,8 +1,8 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { classnames } from '@/shared/lib/styling';
-import { processSearchParams } from '@/shared/lib/url';
 import { charactersSlice } from '../../model';
 import type { Character } from '../../model';
 import styles from './CharacterCard.module.scss';
@@ -24,15 +24,6 @@ export const CharacterCard = (character: Character) => {
     }
   };
 
-  const handleClick = () => {
-    if (Number(currentId) !== id) {
-      router.push({
-        pathname: '/',
-        query: processSearchParams({ ...router.query, id }),
-      });
-    }
-  };
-
   return (
     <>
       <div
@@ -40,8 +31,16 @@ export const CharacterCard = (character: Character) => {
           [styles.active]: Number(currentId) === id,
         })}
         title={name}
-        onClick={() => handleClick()}
       >
+        {Number(currentId) !== id && (
+          <Link
+            className="link"
+            href={{
+              pathname: '/',
+              query: { ...router.query, id },
+            }}
+          />
+        )}
         <label
           className={styles.favorite}
           title="Add to favorites"

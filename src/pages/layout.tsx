@@ -1,7 +1,7 @@
 import { Header } from '@/widgets';
 import { CharactersFlyout } from '@/entities/character';
 
-export const Layout = ({ children }: { children: React.ReactNode }) => {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
@@ -9,4 +9,4 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <CharactersFlyout />
     </>
   );
-};
+}

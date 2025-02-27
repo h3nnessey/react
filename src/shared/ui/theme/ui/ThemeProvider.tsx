@@ -15,7 +15,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
 
   return (
     <ThemeContext.Provider value={{ theme, switchTheme, ThemeSwitcher }}>
-      <div className={theme} />
       {children}
     </ThemeContext.Provider>
   );

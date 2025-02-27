@@ -1,7 +1,5 @@
-import { useRouter } from 'next/router';
 import { Button } from '@/shared/ui/components';
 import { classnames } from '@/shared/lib/styling';
-import { processSearchParams } from '@/shared/lib/url';
 import { getPagesToRender } from '../lib/getPagesToRender';
 import styles from './Pagination.module.scss';
 
@@ -11,6 +9,7 @@ export interface PaginationProps {
   disabled?: boolean;
   limit?: number;
   className?: string;
+  onPageChange: (page: number) => void;
 }
 
 export const Pagination = ({
@@ -19,29 +18,20 @@ export const Pagination = ({
   disabled = false,
   limit = 5,
   className,
+  onPageChange,
 }: PaginationProps) => {
-  const router = useRouter();
   const pagesToRender = getPagesToRender(pages, currentPage, limit);
-
-  const handleClick = (to: number) => {
-    if (to !== currentPage) {
-      router.push({
-        pathname: '/',
-        query: processSearchParams({ ...router.query, page: to }),
-      });
-    }
-  };
 
   return (
     !!pages && (
       <div className={classnames(styles.pagination, className)}>
-        {pagesToRender.map(({ content, to }, index) => (
+        {pagesToRender.map(({ content, page }, index) => (
           <Button
             key={index}
             disabled={disabled}
             className={styles.btn}
-            active={currentPage === to}
-            onClick={() => handleClick(to)}
+            active={currentPage === page}
+            onClick={() => onPageChange(page)}
           >
             {content}
           </Button>

@@ -3,7 +3,8 @@ import type {
   GetServerSideProps,
   GetServerSidePropsContext,
 } from 'next';
-import { Pagination } from '@/features';
+import { Loader, Pagination } from '@/shared/ui/components';
+import { useRouterRouteChange } from '@/shared/lib/router';
 import {
   CharacterCardList,
   CharacterDetails,
@@ -11,22 +12,38 @@ import {
   type GetCharactersReturnType,
   type GetCharactersParams,
 } from '../entities/character';
-import { Layout } from './layout';
-import styles from '@/styles/Main.module.scss';
+import Layout from './layout';
+import styles from '@/styles/main-page/MainPage.module.scss';
 
-export default function Home({
+export default function MainPage({
   character,
   characters,
   params,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { isFetching, router } = useRouterRouteChange();
+
+  const handlePageChange = (page: number) => {
+    router.push({
+      pathname: '/',
+      query: {
+        ...router.query,
+        page,
+      },
+    });
+  };
+
   return (
     <Layout>
       <main className={styles.main}>
+        {isFetching && <Loader className={styles.loader} />}
+        {/* add error type narrowing */}
         {characters.data && (
           <>
             <Pagination
               pages={characters.data.info.pages}
               currentPage={Number(params.page) || 1}
+              onPageChange={handlePageChange}
+              disabled={isFetching}
             />
             <CharacterCardList
               className={styles.list}

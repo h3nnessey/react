@@ -1,0 +1,17 @@
+.link {
+  color: var(--color-accent);
+  margin-left: var(--space-s);
+  transition: color var(--transition);
+
+  &:hover {
+    color: var(--color-accent-secondary);
+  }
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  font-size: var(--font-size-medium);
+  text-align: center;
+}
