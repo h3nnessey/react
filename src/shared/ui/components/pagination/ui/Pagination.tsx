@@ -23,7 +23,7 @@ export const Pagination = ({
   const pagesToRender = getPagesToRender(pages, currentPage, limit);
 
   return (
-    !!pages && (
+    pages > 1 && (
       <div className={classnames(styles.pagination, className)}>
         {pagesToRender.map(({ content, page }, index) => (
           <Button

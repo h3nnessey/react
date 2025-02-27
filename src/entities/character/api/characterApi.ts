@@ -28,6 +28,10 @@ export interface RequestResult<T> {
 
 export type GetCharactersReturnType = Awaited<ReturnType<typeof getCharacters>>;
 
+export type GetFilteredCharactersReturnType = Awaited<
+  ReturnType<typeof getFilteredCharacters>
+>;
+
 export type GetCharacterReturnType = Awaited<
   ReturnType<typeof getCharacterById>
 >;

@@ -36,19 +36,15 @@ export default function MainPage({
     <Layout>
       <main className={styles.main}>
         {isFetching && <Loader className={styles.loader} />}
-        {/* add error type narrowing */}
-        {characters.data && (
+        {characters && (
           <>
             <Pagination
-              pages={characters.data.info.pages}
+              pages={characters.data?.info.pages || 0}
               currentPage={Number(params.page) || 1}
-              onPageChange={handlePageChange}
               disabled={isFetching}
+              onPageChange={handlePageChange}
             />
-            <CharacterCardList
-              className={styles.list}
-              characters={characters.data.results}
-            />
+            <CharacterCardList className={styles.list} {...characters} />
           </>
         )}
         {character && <CharacterDetails {...character} />}
