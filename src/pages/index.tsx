@@ -12,7 +12,7 @@ import {
   getCharacters,
   type GetCharactersReturnType,
   type GetCharactersParams,
-} from '../entities/character';
+} from '@/entities/character';
 import Layout from './layout';
 import styles from '@/styles/main-page/MainPage.module.scss';
 

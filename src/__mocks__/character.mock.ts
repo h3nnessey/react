@@ -3,7 +3,7 @@ import {
   CharacterGender,
   CharacterSpecies,
   CharacterStatus,
-} from '@/entities/character';
+} from '@/entities/character/model';
 
 export const characterMock: Character = {
   id: 1,
