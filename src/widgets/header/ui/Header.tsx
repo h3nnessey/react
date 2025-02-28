@@ -6,7 +6,7 @@ export const Header = () => {
   const { ThemeSwitcher } = useTheme();
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} role="header">
       <ThemeSwitcher />
       <SearchForm />
     </header>
