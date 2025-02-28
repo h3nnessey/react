@@ -23,7 +23,7 @@ export const SearchForm = () => {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit} role="search-form">
       <Input
         inputRef={inputRef}
         defaultValue={search}

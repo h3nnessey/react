@@ -5,6 +5,7 @@ import { Pagination } from './Pagination';
 describe('Pagination component', () => {
   const pages = 2;
   const currentPage = 1;
+  const onPageChange = vi.fn();
 
   it('should not render if there is only one page', () => {
     render(
@@ -21,7 +22,7 @@ describe('Pagination component', () => {
       <Pagination
         pages={pages}
         currentPage={currentPage}
-        onPageChange={() => {}}
+        onPageChange={onPageChange}
       />
     );
 
@@ -31,8 +32,6 @@ describe('Pagination component', () => {
   });
 
   it('should call onPageChange with the correct page number', () => {
-    const onPageChange = vi.fn();
-
     render(
       <Pagination
         pages={pages}
