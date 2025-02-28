@@ -2,7 +2,6 @@ import type { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
-
 import { makeStore, type AppStore, type RootState } from '@/store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {

@@ -18,7 +18,7 @@ export const CharactersFlyout = () => {
 
   return (
     !!favorites.length && (
-      <div className={styles.flyout} data-testid="characters-flyout">
+      <div className={styles.flyout} role="characters-flyout">
         <h2 className={styles.title}>
           {favorites.length} characters are selected
         </h2>

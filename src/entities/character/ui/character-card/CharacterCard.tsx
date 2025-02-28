@@ -31,6 +31,7 @@ export const CharacterCard = (character: Character) => {
           [styles.active]: Number(currentId) === id,
         })}
         title={name}
+        role="character-card"
       >
         {Number(currentId) !== id && (
           <Link
@@ -51,6 +52,7 @@ export const CharacterCard = (character: Character) => {
             type="checkbox"
             checked={isFavorite}
             onChange={handleCheckboxChange}
+            role="add-to-favorites"
           />
         </label>
         <Image
