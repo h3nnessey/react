@@ -25,55 +25,53 @@ export const CharacterCard = (character: Character) => {
   };
 
   return (
-    <>
-      <div
-        className={classnames(styles.card, {
-          [styles.active]: Number(currentId) === id,
-        })}
-        title={name}
-        role="character-card"
-      >
-        {Number(currentId) !== id && (
-          <Link
-            className="link"
-            href={{
-              pathname: '/',
-              query: { ...router.query, id },
-            }}
-          />
-        )}
-        <label
-          className={styles.favorite}
-          title="Add to favorites"
-          onClick={event => event.stopPropagation()}
-        >
-          <input
-            className={styles.checkbox}
-            type="checkbox"
-            checked={isFavorite}
-            onChange={handleCheckboxChange}
-            role="add-to-favorites"
-          />
-        </label>
-        <Image
-          className={styles.image}
-          src={image}
-          width={80}
-          height={80}
-          alt={`${name} image`}
+    <div
+      className={classnames(styles.card, {
+        [styles.active]: Number(currentId) === id,
+      })}
+      title={name}
+      role="character-card"
+    >
+      {Number(currentId) !== id && (
+        <Link
+          className="link"
+          href={{
+            pathname: '/',
+            query: { ...router.query, id },
+          }}
         />
-        <div className={styles.about}>
-          <p className={styles.title}>{name}</p>
-          <p
-            className={classnames(
-              styles.description,
-              styles[status.toLowerCase()]
-            )}
-          >
-            {status}
-          </p>
-        </div>
+      )}
+      <label
+        className={styles.favorite}
+        title="Add to favorites"
+        onClick={event => event.stopPropagation()}
+      >
+        <input
+          className={styles.checkbox}
+          type="checkbox"
+          checked={isFavorite}
+          onChange={handleCheckboxChange}
+          role="add-to-favorites"
+        />
+      </label>
+      <Image
+        className={styles.image}
+        src={image}
+        width={80}
+        height={80}
+        alt={`${name} image`}
+      />
+      <div className={styles.about}>
+        <p className={styles.title}>{name}</p>
+        <p
+          className={classnames(
+            styles.description,
+            styles[status.toLowerCase()]
+          )}
+        >
+          {status}
+        </p>
       </div>
-    </>
+    </div>
   );
 };

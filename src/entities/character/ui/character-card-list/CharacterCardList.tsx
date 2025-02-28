@@ -14,17 +14,15 @@ export const CharacterCardList = ({
   className,
 }: CharacterCardListProps) => {
   return (
-    <>
+    <div className={classnames(styles.container, className)}>
       {error && <ErrorMessage message={error} />}
-      <div className={classnames(styles.container, className)}>
-        {data && (
-          <div className={styles.list} role="character-card-list">
-            {data.results.map(character => (
-              <CharacterCard key={character.id} {...character} />
-            ))}
-          </div>
-        )}
-      </div>
-    </>
+      {data && (
+        <div className={styles.list} role="character-card-list">
+          {data.results.map(character => (
+            <CharacterCard key={character.id} {...character} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
