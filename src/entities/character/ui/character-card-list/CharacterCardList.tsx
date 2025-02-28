@@ -4,7 +4,7 @@ import type { GetFilteredCharactersReturnType } from '../../api';
 import { CharacterCard } from '../character-card/CharacterCard';
 import styles from './CharacterCardList.module.scss';
 
-type CharacterCardListProps = GetFilteredCharactersReturnType & {
+export type CharacterCardListProps = GetFilteredCharactersReturnType & {
   className?: string;
 };
 
@@ -18,7 +18,7 @@ export const CharacterCardList = ({
       {error && <ErrorMessage message={error} />}
       <div className={classnames(styles.container, className)}>
         {data && (
-          <div className={styles.list}>
+          <div className={styles.list} role="character-card-list">
             {data.results.map(character => (
               <CharacterCard key={character.id} {...character} />
             ))}
