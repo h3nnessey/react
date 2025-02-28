@@ -14,7 +14,7 @@ export const ErrorMessage = ({
   children,
 }: ErrorMessageProps) => {
   return (
-    <div className={classnames(styles.error, className)}>
+    <div className={classnames(styles.error, className)} role="error-message">
       <h2 className={styles.title}>{message}</h2>
       {children}
     </div>

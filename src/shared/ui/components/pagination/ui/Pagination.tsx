@@ -24,7 +24,10 @@ export const Pagination = ({
 
   return (
     pages > 1 && (
-      <div className={classnames(styles.pagination, className)}>
+      <div
+        className={classnames(styles.pagination, className)}
+        role="pagination"
+      >
         {pagesToRender.map(({ content, page }, index) => (
           <Button
             key={index}

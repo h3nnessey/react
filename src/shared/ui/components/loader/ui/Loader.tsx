@@ -7,7 +7,7 @@ export interface LoaderProps {
 
 export const Loader = ({ className }: LoaderProps) => {
   return (
-    <div className={classnames(styles.container, className)}>
+    <div className={classnames(styles.container, className)} role="loader">
       <span className={styles.loader}></span>
     </div>
   );

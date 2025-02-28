@@ -27,6 +27,7 @@ export const Button = ({
         className
       )}
       {...props}
+      role="button"
     >
       <span>{children}</span>
     </button>

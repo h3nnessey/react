@@ -13,7 +13,12 @@ export const Switch = ({
   ...props
 }: SwitchProps) => {
   return (
-    <label className={classnames(styles.label, className)} title={title}>
+    <label
+      className={classnames(styles.label, className)}
+      title={title}
+      aria-checked={checked}
+      role="switch"
+    >
       <input
         type="checkbox"
         checked={checked}
