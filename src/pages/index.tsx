@@ -5,6 +5,7 @@ import type {
 } from 'next';
 import { Loader, Pagination } from '@/shared/ui/components';
 import { useRouterRouteChange } from '@/shared/lib/router';
+import { processSearchParams } from '@/shared/lib/url';
 import {
   CharacterCardList,
   CharacterDetails,
@@ -18,17 +19,14 @@ import styles from '@/styles/main-page/MainPage.module.scss';
 export default function MainPage({
   character,
   characters,
-  params: { name, page },
+  params,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { isFetching, router } = useRouterRouteChange();
 
   const handlePageChange = (page: number) => {
     router.push({
       pathname: '/',
-      query: {
-        name,
-        page,
-      },
+      search: processSearchParams({ ...params, page, id: null }),
     });
   };
 
@@ -37,7 +35,7 @@ export default function MainPage({
       <main className={styles.main}>
         <Pagination
           pages={characters.data?.info.pages || 1}
-          currentPage={Number(page) || 1}
+          currentPage={Number(params.page) || 1}
           disabled={isFetching}
           onPageChange={handlePageChange}
         />

@@ -1,6 +1,4 @@
-export const processSearchParams = (
-  params: Record<string, unknown | undefined> = {}
-) => {
+export const processSearchParams = (params: Record<string, unknown> = {}) => {
   const searchParams = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {

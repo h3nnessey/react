@@ -3,7 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 300px));
   grid-auto-rows: 80px;
   height: 100%;
-  place-content: start center;
+  place-content: start space-between;
   position: relative;
   gap: var(--space-xm);
 }

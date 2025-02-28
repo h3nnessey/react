@@ -6,7 +6,7 @@ import { processSearchParams } from '@/shared/lib/url';
 import type { GetCharacterReturnType } from '../../api';
 import styles from './CharacterDetails.module.scss';
 
-type CharacterDetailsProps = GetCharacterReturnType & {
+export type CharacterDetailsProps = GetCharacterReturnType & {
   className?: string;
 };
 
@@ -36,7 +36,7 @@ export const CharacterDetails = ({
             width={380}
             height={380}
           />
-          <table className={styles.table}>
+          <table className={styles.table} role="details-table">
             <tbody>
               <tr>
                 <th>Name</th>
