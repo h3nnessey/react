@@ -20,13 +20,18 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>Rick and Morty</title>
+        <meta name="description" content="Rick and Morty characters" />
+        <meta name="keywords" content="Rick and Morty, characters" />
+        <meta property="og:title" content="Rick and Morty" />
+        <meta property="og:description" content="Rick and Morty characters" />
+        <meta property="og:image" content="/bg.jpg" />
         <link rel="icon" href="/favicon.svg" />
+        <style jsx global>{`
+          html {
+            font-family: ${montserrat.style.fontFamily};
+          }
+        `}</style>
       </Head>
-      <style jsx global>{`
-        html {
-          font-family: ${montserrat.style.fontFamily};
-        }
-      `}</style>
       <Provider store={store}>
         <ThemeProvider>
           <Component {...pageProps} />
