@@ -3,8 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { classnames } from '@/shared/lib/styling';
-import { charactersSlice } from '../../model';
-import type { Character } from '../../model';
+import { charactersSlice, type Character } from '../../model';
 import styles from './CharacterCard.module.scss';
 
 export const CharacterCard = (character: Character) => {
