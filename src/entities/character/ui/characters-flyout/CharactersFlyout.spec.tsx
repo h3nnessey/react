@@ -21,7 +21,8 @@ describe('CharactersFlyout component', () => {
       store.dispatch(charactersSlice.actions.addToFavorites(characterMock));
     });
 
-    const buttonElement = screen.getByRole<HTMLButtonElement>('button');
+    const buttonElement =
+      screen.getByTestId<HTMLButtonElement>('unselect-button');
 
     expect(screen.queryByRole('characters-flyout')).toBeInTheDocument();
 

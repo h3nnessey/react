@@ -40,8 +40,9 @@ export const CharactersFlyout = () => {
           className={styles.btn}
           onClick={handleUnselectClick}
           variant="danger"
+          data-testid="unselect-button"
         >
-          <span>Unselect all</span>
+          Unselect all
         </Button>
       </div>
     </div>
