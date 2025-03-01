@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import type { MouseEventHandler } from 'react';
 import { Button, ErrorMessage } from '@/shared/ui/components';
 import { classnames } from '@/shared/lib/styling';
 import { processSearchParams } from '@/shared/lib/url';
@@ -24,8 +25,17 @@ export const CharacterDetails = ({
     });
   };
 
+  const handleOutsideClick: MouseEventHandler<HTMLDivElement> = event => {
+    if (event.target === event.currentTarget) {
+      handleClose();
+    }
+  };
+
   return (
-    <div className={classnames(styles.container, className)}>
+    <div
+      className={classnames(styles.container, className)}
+      onClick={handleOutsideClick}
+    >
       {error && <ErrorMessage message={error} />}
       {data && (
         <>
