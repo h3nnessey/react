@@ -1,0 +1,10 @@
+.container {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+}
+
+.title {
+  font-size: var(--font-size-huge);
+  font-weight: var(--font-weight-bold);
+}

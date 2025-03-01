@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import { Montserrat } from 'next/font/google';
 import { Provider } from 'react-redux';
 import { wrapper } from '@/store';
+import { ErrorBoundary } from '@/providers/error-boundary';
 import { ThemeProvider } from '@/shared/ui/theme';
 import '@/styles/globals.scss';
 
@@ -32,11 +33,13 @@ export default function App({ Component, pageProps }: AppProps) {
           }
         `}</style>
       </Head>
-      <Provider store={store}>
-        <ThemeProvider>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </Provider>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <ThemeProvider>
+            <Component {...pageProps} />
+          </ThemeProvider>
+        </Provider>
+      </ErrorBoundary>
     </>
   );
 }
