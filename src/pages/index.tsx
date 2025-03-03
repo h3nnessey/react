@@ -13,7 +13,6 @@ import {
   type GetCharactersReturnType,
   type GetCharactersParams,
 } from '@/entities/character';
-import Layout from './layout';
 import styles from '@/styles/main-page/MainPage.module.scss';
 
 export default function MainPage({
@@ -31,21 +30,19 @@ export default function MainPage({
   };
 
   return (
-    <Layout>
-      <main className={styles.main}>
-        <Pagination
-          pages={characters.data?.info.pages || 1}
-          currentPage={Number(params.page) || 1}
-          disabled={isFetching}
-          onPageChange={handlePageChange}
-        />
-        <div className={styles.container}>
-          {isFetching && <Loader className={styles.loader} />}
-          <CharacterCardList {...characters} />
-          {character && <CharacterDetails {...character} />}
-        </div>
-      </main>
-    </Layout>
+    <main className={styles.main}>
+      <Pagination
+        pages={characters.data?.info.pages || 1}
+        currentPage={Number(params.page) || 1}
+        disabled={isFetching}
+        onPageChange={handlePageChange}
+      />
+      <div className={styles.container}>
+        {isFetching && <Loader />}
+        <CharacterCardList {...characters} />
+        {character && <CharacterDetails {...character} />}
+      </div>
+    </main>
   );
 }
 

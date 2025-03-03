@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { wrapper } from '@/store';
 import { ErrorBoundary } from '@/providers/error-boundary';
 import { ThemeProvider } from '@/shared/ui/theme';
+import Layout from './layout';
 import '@/styles/globals.scss';
 
 const montserrat = Montserrat({
@@ -36,7 +37,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <ErrorBoundary>
         <Provider store={store}>
           <ThemeProvider>
-            <Component {...pageProps} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
           </ThemeProvider>
         </Provider>
       </ErrorBoundary>
