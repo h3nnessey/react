@@ -41,12 +41,10 @@ export const getCharacters = async ({
   name,
   page,
 }: GetCharactersParams) => {
-  let character = null;
-  const characters = await getFilteredCharacters({ name, page });
-
-  if (id) {
-    character = await getCharacterById(id.toString());
-  }
+  const [characters, character] = await Promise.all([
+    getFilteredCharacters({ name, page }),
+    getCharacterById(id),
+  ]);
 
   return {
     characters,
@@ -54,7 +52,11 @@ export const getCharacters = async ({
   };
 };
 
-export const getCharacterById = async (id: string) => {
+export const getCharacterById = async (id: Query) => {
+  if (!id) {
+    return null;
+  }
+
   const url = new URL(`${BASE_URL}/${id}`);
 
   try {
