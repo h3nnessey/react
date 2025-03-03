@@ -1,3 +1,9 @@
+.container {
+  display: grid;
+  place-content: center;
+  height: 100%;
+}
+
 .link {
   color: var(--color-accent);
   margin-left: var(--space-s);
