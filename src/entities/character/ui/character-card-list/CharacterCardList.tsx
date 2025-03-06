@@ -1,10 +1,14 @@
+'use client';
 import { classnames } from '@/shared/lib/styling';
-import { ErrorMessage } from '@/shared/ui/components';
-import type { GetFilteredCharactersReturnType } from '../../api';
+import { ErrorMessage, Loader } from '@/shared/ui/components';
+import type { GetCharactersOkResponse } from '../../api';
 import { CharacterCard } from '../character-card/CharacterCard';
 import styles from './CharacterCardList.module.scss';
+import { useSearchNavigation } from '@/providers/search-navigation-provider/lib/useSearchNavigation';
 
-export type CharacterCardListProps = GetFilteredCharactersReturnType & {
+export type CharacterCardListProps = {
+  data: GetCharactersOkResponse | null;
+  error: string | null;
   className?: string;
 };
 
@@ -13,8 +17,11 @@ export const CharacterCardList = ({
   error,
   className,
 }: CharacterCardListProps) => {
+  const { isLoading } = useSearchNavigation();
+
   return (
     <div className={classnames(styles.container, className)}>
+      {isLoading && <Loader />}
       {error && <ErrorMessage message={error} />}
       {data && (
         <div className={styles.list} role="character-card-list">

@@ -1,3 +1,4 @@
+'use client';
 import { useState, type ReactNode } from 'react';
 import { ThemeContext, Theme } from '../lib/ThemeContext';
 import { ThemeSwitcher } from './ThemeSwitcher';

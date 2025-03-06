@@ -1,25 +1,21 @@
+'use client';
 import { useRef, type FormEvent } from 'react';
-import { useRouter } from 'next/router';
+import { useSearchNavigation } from '@/providers/search-navigation-provider';
 import { Input, Button } from '@/shared/ui/components';
 import styles from './SearchForm.module.scss';
 
 export const SearchForm = () => {
-  const router = useRouter();
+  const { search, navigate } = useSearchNavigation();
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const search = router.query.name || '';
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newQuery = inputRef.current?.value.trim() || '';
 
-    if (search === newQuery) return;
+    if (newQuery === search) return;
 
-    router.push({
-      pathname: '/',
-      search: newQuery ? `?name=${newQuery}` : '',
-    });
+    navigate({ name: newQuery });
   };
 
   return (

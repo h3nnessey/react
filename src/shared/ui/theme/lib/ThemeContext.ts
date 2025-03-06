@@ -1,3 +1,4 @@
+'use client';
 import { createContext, FunctionComponent } from 'react';
 import type { ThemeSwitcherProps } from '../ui/ThemeSwitcher';
 

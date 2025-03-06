@@ -1,3 +1,4 @@
+'use client';
 import { useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { Button } from '@/shared/ui/components';

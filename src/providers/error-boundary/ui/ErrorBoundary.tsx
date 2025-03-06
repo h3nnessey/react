@@ -1,3 +1,4 @@
+'use client';
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { classnames } from '@/shared/lib/styling';
 import { ErrorMessage } from '@/shared/ui/components';

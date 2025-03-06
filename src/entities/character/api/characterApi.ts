@@ -53,10 +53,6 @@ export const getCharacters = async ({
 };
 
 export const getCharacterById = async (id: Query) => {
-  if (!id) {
-    return null;
-  }
-
   const url = new URL(`${BASE_URL}/${id}`);
 
   try {

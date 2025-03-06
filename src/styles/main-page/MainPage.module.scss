@@ -1,17 +1,8 @@
-.main {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-xm);
-}
-
 .container {
   position: relative;
   display: flex;
+  flex-direction: column;
   flex: 1;
   padding: var(--space-xs) 0;
   gap: var(--space-xm);
-}
-
-.loader {
-  z-index: 99;
 }

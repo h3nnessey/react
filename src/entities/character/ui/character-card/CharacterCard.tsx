@@ -1,6 +1,7 @@
+'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { classnames } from '@/shared/lib/styling';
 import { charactersSlice, type Character } from '../../model';
@@ -8,12 +9,12 @@ import styles from './CharacterCard.module.scss';
 
 export const CharacterCard = (character: Character) => {
   const { id, name, image, status } = character;
-  const router = useRouter();
+  const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const isFavorite = useAppSelector(state =>
     charactersSlice.selectors.isFavorite(state, id)
   );
-  const { id: currentId } = router.query;
+  const { id: currentId } = useParams();
 
   const handleCheckboxChange = () => {
     if (isFavorite) {
@@ -24,19 +25,13 @@ export const CharacterCard = (character: Character) => {
   };
 
   return (
-    <div
-      className={classnames(styles.card, {
-        [styles.active]: Number(currentId) === id,
-      })}
-      title={name}
-      role="character-card"
-    >
+    <div className={classnames(styles.card)} title={name} role="character-card">
       {Number(currentId) !== id && (
         <Link
           className="link"
           href={{
-            pathname: '/',
-            query: { ...router.query, id },
+            pathname: `/${id}`,
+            search: searchParams.toString(),
           }}
         />
       )}
@@ -59,6 +54,7 @@ export const CharacterCard = (character: Character) => {
         width={80}
         height={80}
         alt={`${name} image`}
+        priority
       />
       <div className={styles.about}>
         <p className={styles.title}>{name}</p>

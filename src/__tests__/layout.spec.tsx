@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { renderWithProviders } from '@/__mocks__';
-import Layout from '@/pages/layout';
+import Layout from '@/pagess/layout';
 
 vi.mock('next/router', () => ({
   useRouter: () => ({

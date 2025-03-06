@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { renderWithProviders } from '@/__mocks__';
-import NotFoundPage from '@/pages/404';
+import NotFoundPage from '@/pagess/404';
 
 const mockUseRouter = vi.hoisted(() => vi.fn());
 

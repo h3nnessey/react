@@ -24,9 +24,6 @@ body {
   background: var(--color-bg-primary);
   color: var(--color-light);
   min-height: 100vh;
-}
-
-#__next {
   display: flex;
   flex-direction: column;
   gap: var(--space-xm);
@@ -35,6 +32,36 @@ body {
   width: 100%;
   height: 100%;
   margin: 0 auto;
+}
+
+main {
+  display: grid;
+  grid-template-areas:
+    'pagination pagination'
+    'list details';
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+}
+
+.pagination {
+  grid-area: pagination;
+}
+
+.character-list {
+  grid-area: list;
+}
+
+.character-details {
+  grid-area: details;
+  width: 300px;
+}
+
+.character-details:empty {
+  display: none;
+}
+
+.character-details:empty ~ .character-list {
+  grid-column: 1 / -1;
 }
 
 .link {

@@ -1,9 +1,9 @@
+'use client';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import type { MouseEventHandler } from 'react';
 import { Button, ErrorMessage } from '@/shared/ui/components';
+import { useSearchNavigation } from '@/providers/search-navigation-provider/lib/useSearchNavigation';
 import { classnames } from '@/shared/lib/styling';
-import { processSearchParams } from '@/shared/lib/url';
 import type { GetCharacterReturnType } from '../../api';
 import styles from './CharacterDetails.module.scss';
 
@@ -16,13 +16,10 @@ export const CharacterDetails = ({
   error,
   className,
 }: CharacterDetailsProps) => {
-  const router = useRouter();
+  const { navigate } = useSearchNavigation();
 
   const handleClose = () => {
-    router.push({
-      pathname: '/',
-      search: processSearchParams({ ...router.query, id: undefined }),
-    });
+    navigate({ preserveParams: true });
   };
 
   const handleOutsideClick: MouseEventHandler<HTMLDivElement> = event => {
@@ -45,6 +42,7 @@ export const CharacterDetails = ({
             alt={`${data.name} image`}
             width={380}
             height={380}
+            priority
           />
           <table className={styles.table} role="details-table">
             <tbody>

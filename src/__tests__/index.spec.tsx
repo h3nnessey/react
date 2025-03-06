@@ -6,7 +6,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { fireEvent, screen } from '@testing-library/react';
 import { processSearchParams } from '@/shared/lib/url';
 import { characterMock, renderWithProviders } from '@/__mocks__';
-import MainPage, { getServerSideProps } from '@/pages';
+import MainPage, { getServerSideProps } from '@/pagess';
 
 const mockUseRouter = vi.hoisted(() => vi.fn());
 const mockUseRouterRouteChange = vi.hoisted(() => vi.fn());

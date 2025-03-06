@@ -1,3 +1,4 @@
+'use client';
 import { useDispatch, useSelector } from 'react-redux';
 import { createWrapper } from 'next-redux-wrapper';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
