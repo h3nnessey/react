@@ -40,6 +40,7 @@ export const CharacterCard = (character: Character) => {
             pathname: `/${id}`,
             search: searchParams.toString(),
           }}
+          role="link"
         />
       )}
       <label

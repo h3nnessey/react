@@ -9,6 +9,7 @@ import {
 } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 import { characterMock, renderWithProviders } from '@/__mocks__';
+import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
 import {
   CharacterDetails,
   type CharacterDetailsProps,
@@ -62,7 +63,11 @@ describe('CharacterDetails component', () => {
   const renderCharacterDetails = (
     characterDetailsProps: CharacterDetailsProps = props
   ) => {
-    renderWithProviders(<CharacterDetails {...characterDetailsProps} />);
+    renderWithProviders(
+      <SearchNavigationProvider>
+        <CharacterDetails {...characterDetailsProps} />
+      </SearchNavigationProvider>
+    );
 
     const tableElement = screen.queryByRole<HTMLTableElement>('details-table');
     const errorElement = screen.queryByRole<HTMLDivElement>('error-message');
