@@ -2,27 +2,25 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Header } from './Header';
 import { ThemeProvider } from '@/shared/ui/theme';
+import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
 
-const mockUseRouter = vi.hoisted(() => vi.fn());
-
-vi.mock(import('next/router'), async importOriginal => {
-  const mod = await importOriginal();
+vi.mock('next/navigation', async () => {
+  const mod = await import('next/navigation');
   return {
     ...mod,
-    useRouter: mockUseRouter,
+    useRouter: vi.fn(),
+    useSearchParams: vi.fn(() => new URLSearchParams()),
   };
 });
 
 describe('Header component', () => {
   it('should render correctly', () => {
-    mockUseRouter.mockReturnValue({
-      query: {},
-    });
-
     render(
-      <ThemeProvider>
-        <Header />
-      </ThemeProvider>
+      <SearchNavigationProvider>
+        <ThemeProvider>
+          <Header />
+        </ThemeProvider>
+      </SearchNavigationProvider>
     );
 
     const headerElement = screen.getByRole<HTMLHeadElement>('header');

@@ -20,7 +20,6 @@ describe('CharacterCard component', () => {
 
   beforeEach(() => {
     mockUseSearchParams.mockReturnValue(new URLSearchParams());
-
     mockUsePathname.mockReturnValue(`/${id}`);
   });
 
