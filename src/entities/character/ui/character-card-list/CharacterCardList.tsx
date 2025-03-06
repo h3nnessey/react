@@ -1,10 +1,10 @@
 'use client';
+import { useSearchNavigation } from '@/providers/search-navigation-provider';
 import { classnames } from '@/shared/lib/styling';
 import { ErrorMessage, Loader } from '@/shared/ui/components';
 import type { GetCharactersOkResponse } from '../../api';
 import { CharacterCard } from '../character-card/CharacterCard';
 import styles from './CharacterCardList.module.scss';
-import { useSearchNavigation } from '@/providers/search-navigation-provider/lib/useSearchNavigation';
 
 export type CharacterCardListProps = {
   data: GetCharactersOkResponse | null;

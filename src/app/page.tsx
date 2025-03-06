@@ -13,11 +13,7 @@ export default async function Home({
   return (
     <>
       <Pagination className="pagination" pages={result.data?.info.pages || 1} />
-      <CharacterCardList
-        className="character-list"
-        {...result}
-        key={`${name}-${page}`}
-      />
+      <CharacterCardList className="character-list" {...result} />
     </>
   );
 }

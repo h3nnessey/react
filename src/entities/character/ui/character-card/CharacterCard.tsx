@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useParams, useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '@/store';
 import { classnames } from '@/shared/lib/styling';
 import { charactersSlice, type Character } from '../../model';
@@ -14,7 +14,7 @@ export const CharacterCard = (character: Character) => {
   const isFavorite = useAppSelector(state =>
     charactersSlice.selectors.isFavorite(state, id)
   );
-  const { id: currentId } = useParams();
+  const currentId = usePathname().split('/').pop();
 
   const handleCheckboxChange = () => {
     if (isFavorite) {
@@ -25,7 +25,13 @@ export const CharacterCard = (character: Character) => {
   };
 
   return (
-    <div className={classnames(styles.card)} title={name} role="character-card">
+    <div
+      className={classnames(styles.card, {
+        [styles.active]: currentId === String(id),
+      })}
+      title={name}
+      role="character-card"
+    >
       {Number(currentId) !== id && (
         <Link
           className="link"

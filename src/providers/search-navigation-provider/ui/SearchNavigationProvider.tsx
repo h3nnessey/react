@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState, type ReactNode } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { processSearchParams } from '@/shared/lib/url';
 import {
@@ -7,10 +7,10 @@ import {
   type NavigateParams,
 } from '../lib/SearchNavigationContext';
 
-export const SearchNavigationProvider = ({
+const SearchNavigationProviderInner = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -43,5 +43,17 @@ export const SearchNavigationProvider = ({
     >
       {children}
     </SearchNavigationContext.Provider>
+  );
+};
+
+export const SearchNavigationProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
+  return (
+    <Suspense>
+      <SearchNavigationProviderInner>{children}</SearchNavigationProviderInner>
+    </Suspense>
   );
 };
