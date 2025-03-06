@@ -10,11 +10,12 @@ import styles from './CharacterCard.module.scss';
 export const CharacterCard = (character: Character) => {
   const { id, name, image, status } = character;
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const dispatch = useAppDispatch();
   const isFavorite = useAppSelector(state =>
     charactersSlice.selectors.isFavorite(state, id)
   );
-  const currentId = usePathname().split('/').pop();
+  const currentId = Number(pathname.split('/').pop());
 
   const handleCheckboxChange = () => {
     if (isFavorite) {
@@ -27,12 +28,12 @@ export const CharacterCard = (character: Character) => {
   return (
     <div
       className={classnames(styles.card, {
-        [styles.active]: currentId === String(id),
+        [styles.active]: currentId === id,
       })}
       title={name}
       role="character-card"
     >
-      {Number(currentId) !== id && (
+      {currentId !== id && (
         <Link
           className="link"
           href={{

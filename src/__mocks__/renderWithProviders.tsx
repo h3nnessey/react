@@ -3,6 +3,9 @@ import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import type { RenderOptions } from '@testing-library/react';
 import { makeStore, type AppStore, type RootState } from '@/store';
+import { ThemeProvider } from '@/shared/ui/theme';
+import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
+import { ErrorBoundary } from '@/providers/error-boundary';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: Partial<RootState>;
@@ -16,7 +19,13 @@ export function renderWithProviders(
   const { store = makeStore(), ...renderOptions } = extendedRenderOptions;
 
   const Wrapper = ({ children }: PropsWithChildren) => (
-    <Provider store={store}>{children}</Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <SearchNavigationProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </SearchNavigationProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 
   return {

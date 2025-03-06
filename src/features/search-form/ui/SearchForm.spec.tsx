@@ -1,94 +1,98 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
 import { SearchForm } from './SearchForm';
 
 const mockUseRouter = vi.hoisted(() => vi.fn());
+const mockUseSearchParams = vi.hoisted(() => vi.fn());
+const mockUseSearchNavigation = vi.hoisted(() => vi.fn());
 
-vi.mock(import('next/router'), async importOriginal => {
-  const mod = await importOriginal();
+vi.mock('next/navigation', async () => {
+  const mod = await import('next/navigation');
   return {
     ...mod,
     useRouter: mockUseRouter,
+    useSearchParams: mockUseSearchParams,
+  };
+});
+
+vi.mock('@/providers/search-navigation-provider', async () => {
+  const mod = await import('@/providers/search-navigation-provider');
+  return {
+    ...mod,
+    useSearchNavigation: mockUseSearchNavigation,
   };
 });
 
 describe('SearchForm component', () => {
   const name = 'rick';
-  const pathname = '/';
+  let mockNavigate: Mock;
 
-  const setupRouterMock = (
-    query: { name: string | undefined } = { name: '' },
-    push = vi.fn()
-  ) => {
-    mockUseRouter.mockReturnValue({
-      query,
-      push,
-    });
+  const renderSearchForm = () => {
+    return render(
+      <SearchNavigationProvider>
+        <SearchForm />
+      </SearchNavigationProvider>
+    );
   };
 
-  it('should render correctly with router.query.name as default value', () => {
-    setupRouterMock({ name: undefined });
-
-    render(<SearchForm />);
-
-    const inputElement = screen.getByRole<HTMLInputElement>('input');
-
-    expect(inputElement).toHaveValue('');
+  beforeEach(() => {
+    mockNavigate = vi.fn();
+    mockUseSearchParams.mockReturnValue(new URLSearchParams({ name }));
+    mockUseSearchNavigation.mockReturnValue({
+      search: name,
+      navigate: mockNavigate,
+    });
   });
 
-  it('should properly handle form submission with trimmed value', () => {
-    const value = '  morty      ';
-    const mockPush = vi.fn();
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-    setupRouterMock({ name }, mockPush);
-
-    render(<SearchForm />);
+  it('should render correctly', () => {
+    renderSearchForm();
 
     const formElement = screen.getByRole<HTMLFormElement>('search-form');
     const inputElement = screen.getByRole<HTMLInputElement>('input');
 
     expect(formElement).toBeInTheDocument();
+    expect(inputElement).toBeInTheDocument();
     expect(inputElement).toHaveValue(name);
-
-    fireEvent.input(inputElement, { target: { value } });
-    fireEvent.submit(formElement);
-
-    expect(mockPush).toHaveBeenCalledWith({
-      pathname,
-      search: `?name=${value.trim()}`,
-    });
   });
 
-  it('should properly handle form submission with no changes', () => {
-    const mockPush = vi.fn();
+  it('should properly handle form submission with trimmed value', () => {
+    const value = '  morty      ';
 
-    setupRouterMock({ name }, mockPush);
-
-    render(<SearchForm />);
-
-    const formElement = screen.getByRole<HTMLFormElement>('search-form');
-
-    fireEvent.submit(formElement);
-
-    expect(mockPush).not.toHaveBeenCalled();
-  });
-
-  it('should properly handle form submission with empty value', () => {
-    const mockPush = vi.fn();
-
-    setupRouterMock({ name }, mockPush);
-
-    render(<SearchForm />);
+    renderSearchForm();
 
     const formElement = screen.getByRole<HTMLFormElement>('search-form');
     const inputElement = screen.getByRole<HTMLInputElement>('input');
 
-    fireEvent.input(inputElement, { target: { value: null } });
+    fireEvent.input(inputElement, { target: { value } });
     fireEvent.submit(formElement);
 
-    expect(mockPush).toHaveBeenCalledWith({
-      pathname,
-      search: '',
-    });
+    expect(mockNavigate).toHaveBeenCalledWith({ name: value.trim() });
+  });
+
+  it('should properly handle form submission with no changes', () => {
+    renderSearchForm();
+
+    const formElement = screen.getByRole<HTMLFormElement>('search-form');
+
+    fireEvent.submit(formElement);
+
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('should properly handle form submission with empty value', () => {
+    renderSearchForm();
+
+    const formElement = screen.getByRole<HTMLFormElement>('search-form');
+    const inputElement = screen.getByRole<HTMLInputElement>('input');
+
+    fireEvent.input(inputElement, { target: { value: '' } });
+    fireEvent.submit(formElement);
+
+    expect(mockNavigate).toHaveBeenCalledWith({ name: '' });
   });
 });
