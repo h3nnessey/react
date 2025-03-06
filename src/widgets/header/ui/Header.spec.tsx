@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Header } from './Header';
-import { ThemeProvider } from '@/shared/ui/theme';
 import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
+import { ThemeProvider } from '@/shared/ui/theme';
+import { Header } from './Header';
 
 vi.mock('next/navigation', async () => {
   const mod = await import('next/navigation');

@@ -1,32 +1,23 @@
-import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { characterMock, renderWithProviders } from '@/__mocks__';
+import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
 import {
   CharacterCardList,
   type CharacterCardListProps,
 } from './CharacterCardList';
 
-const mockUseRouter = vi.hoisted(() => vi.fn());
-
-vi.mock(import('next/router'), async importOriginal => {
-  const mod = await importOriginal();
+vi.mock('next/navigation', async () => {
+  const mod = await import('next/navigation');
   return {
     ...mod,
-    useRouter: mockUseRouter,
+    useRouter: vi.fn(),
+    usePathname: vi.fn(() => '/1'),
+    useSearchParams: vi.fn(() => new URLSearchParams()),
   };
 });
 
 describe('CharacterCardList component', () => {
-  beforeEach(() => {
-    mockUseRouter.mockReturnValue({
-      query: {},
-    });
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   const props: CharacterCardListProps = {
     data: {
       results: Array.from({ length: 10 }, () => characterMock),
@@ -43,7 +34,11 @@ describe('CharacterCardList component', () => {
   it('should render correctly with no data', () => {
     const message = 'Error message';
 
-    renderWithProviders(<CharacterCardList data={null} error={message} />);
+    renderWithProviders(
+      <SearchNavigationProvider>
+        <CharacterCardList data={null} error={message} />
+      </SearchNavigationProvider>
+    );
 
     const characterCardListElement = screen.queryByRole<HTMLDivElement>(
       'character-card-list'
@@ -56,7 +51,11 @@ describe('CharacterCardList component', () => {
   });
 
   it('should render correctly with data', () => {
-    renderWithProviders(<CharacterCardList {...props} />);
+    renderWithProviders(
+      <SearchNavigationProvider>
+        <CharacterCardList {...props} />
+      </SearchNavigationProvider>
+    );
 
     const characterCardListElement = screen.queryByRole<HTMLDivElement>(
       'character-card-list'
