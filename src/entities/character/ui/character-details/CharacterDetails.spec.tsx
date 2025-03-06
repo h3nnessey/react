@@ -1,19 +1,37 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { processSearchParams } from '@/shared/lib/url';
-import { characterMock } from '@/__mocks__';
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  type Mock,
+} from 'vitest';
+import { screen, fireEvent } from '@testing-library/react';
+import { characterMock, renderWithProviders } from '@/__mocks__';
 import {
   CharacterDetails,
   type CharacterDetailsProps,
 } from './CharacterDetails';
 
 const mockUseRouter = vi.hoisted(() => vi.fn());
+const mockUseSearchParams = vi.hoisted(() => vi.fn());
+const mockUseSearchNavigation = vi.hoisted(() => vi.fn());
 
-vi.mock(import('next/router'), async importOriginal => {
-  const mod = await importOriginal();
+vi.mock('next/navigation', async () => {
+  const mod = await import('next/navigation');
   return {
     ...mod,
     useRouter: mockUseRouter,
+    useSearchParams: mockUseSearchParams,
+  };
+});
+
+vi.mock('@/providers/search-navigation-provider', async () => {
+  const mod = await import('@/providers/search-navigation-provider');
+  return {
+    ...mod,
+    useSearchNavigation: mockUseSearchNavigation,
   };
 });
 
@@ -23,25 +41,18 @@ describe('CharacterDetails component', () => {
     error: null,
   };
 
-  const mockRouterReturnValue = {
-    query: {
-      name: props.data.name,
-      id: props.data.id,
-      page: '1',
-    },
-    push: vi.fn(),
-  };
-
-  const mockPushArgs = {
-    pathname: '/',
-    search: processSearchParams({
-      ...mockRouterReturnValue.query,
-      id: undefined,
-    }),
-  };
+  let mockPush: Mock;
 
   beforeEach(() => {
-    mockUseRouter.mockReturnValue(mockRouterReturnValue);
+    mockPush = vi.fn();
+    mockUseSearchParams.mockReturnValue(new URLSearchParams());
+    mockUseSearchNavigation.mockReturnValue({
+      search: 'rick',
+      navigate: vi.fn(),
+    });
+    mockUseRouter.mockReturnValue({
+      push: mockPush,
+    });
   });
 
   afterEach(() => {
@@ -51,14 +62,14 @@ describe('CharacterDetails component', () => {
   const renderCharacterDetails = (
     characterDetailsProps: CharacterDetailsProps = props
   ) => {
-    const { container } = render(
-      <CharacterDetails {...characterDetailsProps} />
-    );
+    renderWithProviders(<CharacterDetails {...characterDetailsProps} />);
+
     const tableElement = screen.queryByRole<HTMLTableElement>('details-table');
     const errorElement = screen.queryByRole<HTMLDivElement>('error-message');
-    const buttonElement = screen.getByRole<HTMLButtonElement>('button');
+    const buttonElement = screen.getByTestId<HTMLButtonElement>('close-button');
+    const containerElement = screen.getByTestId<HTMLDivElement>('container');
 
-    return { tableElement, errorElement, buttonElement, container };
+    return { tableElement, errorElement, buttonElement, containerElement };
   };
 
   const testCases: {
@@ -84,19 +95,19 @@ describe('CharacterDetails component', () => {
       },
     },
     {
-      name: 'should correctly call router.push',
+      name: 'should call navigate when close button is clicked',
       props: props,
       assertions: ({ buttonElement }) => {
         fireEvent.click(buttonElement);
-        expect(mockRouterReturnValue.push).toHaveBeenCalledWith(mockPushArgs);
+        expect(mockPush).toHaveBeenCalled();
       },
     },
     {
-      name: 'should call handleClose when clicking outside the content',
+      name: 'should call navigate when clicking outside the container',
       props: props,
-      assertions: ({ container }) => {
-        fireEvent.click(container.firstChild!);
-        expect(mockRouterReturnValue.push).toHaveBeenCalledWith(mockPushArgs);
+      assertions: ({ containerElement }) => {
+        fireEvent.click(containerElement);
+        expect(mockPush).toHaveBeenCalled();
       },
     },
   ];

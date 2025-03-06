@@ -32,6 +32,7 @@ export const CharacterDetails = ({
     <div
       className={classnames(styles.container, className)}
       onClick={handleOutsideClick}
+      data-testid="container"
     >
       {error && <ErrorMessage message={error} />}
       {data && (
@@ -82,7 +83,12 @@ export const CharacterDetails = ({
           </table>
         </>
       )}
-      <Button className={styles.btn} onClick={handleClose} variant="danger">
+      <Button
+        className={styles.btn}
+        data-testid="close-button"
+        onClick={handleClose}
+        variant="danger"
+      >
         &times;
       </Button>
     </div>

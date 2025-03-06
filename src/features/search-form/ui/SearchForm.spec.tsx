@@ -1,4 +1,12 @@
-import { describe, it, expect, vi, beforeEach, afterEach, Mock } from 'vitest';
+import {
+  describe,
+  it,
+  expect,
+  vi,
+  beforeEach,
+  afterEach,
+  type Mock,
+} from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
 import { SearchForm } from './SearchForm';
