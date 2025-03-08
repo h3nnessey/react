@@ -4,7 +4,6 @@ import { ThemeProvider } from './ThemeProvider';
 import { ThemeContext, Theme } from '../lib/ThemeContext';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
-// Mock the ThemeSwitcher component
 vi.mock('./ThemeSwitcher', () => ({
   ThemeSwitcher: vi.fn(() => <div data-testid="theme-switcher" />),
 }));
@@ -19,7 +18,6 @@ describe('ThemeProvider', () => {
       </ThemeProvider>
     );
 
-    // Verify that the default theme is dark
     const themeElement = screen.getByTestId('theme');
     expect(themeElement).toHaveTextContent(Theme.Dark);
   });
@@ -40,21 +38,16 @@ describe('ThemeProvider', () => {
       </ThemeProvider>
     );
 
-    // Verify the initial theme is dark
     const themeElement = screen.getByTestId('theme');
     expect(themeElement).toHaveTextContent(Theme.Dark);
 
-    // Simulate clicking the button to switch the theme
     const switchButton = screen.getByTestId('switch-theme-button');
     fireEvent.click(switchButton);
 
-    // Verify the theme has switched to light
     expect(themeElement).toHaveTextContent(Theme.Light);
 
-    // Simulate clicking the button again to switch back to dark
     fireEvent.click(switchButton);
 
-    // Verify the theme has switched back to dark
     expect(themeElement).toHaveTextContent(Theme.Dark);
   });
 
@@ -65,7 +58,6 @@ describe('ThemeProvider', () => {
       </ThemeProvider>
     );
 
-    // Verify that the ThemeSwitcher component is rendered
     const themeSwitcherElement = screen.getByTestId('theme-switcher');
     expect(themeSwitcherElement).toBeInTheDocument();
   });

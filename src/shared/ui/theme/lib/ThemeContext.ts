@@ -1,4 +1,4 @@
-import { createContext, FunctionComponent } from 'react';
+import { createContext, type FunctionComponent } from 'react';
 import type { ThemeSwitcherProps } from '../ui/ThemeSwitcher';
 
 export enum Theme {

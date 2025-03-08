@@ -1,29 +1,31 @@
 import { classnames } from '@/shared/lib/styling';
-import { Loader } from '@/shared/ui/components';
+import { ErrorMessage, Loader } from '@/shared/ui/components';
 import { CharacterCard } from '../character-card/CharacterCard';
 import type { Character } from '../../model';
 import styles from './CharacterCardList.module.scss';
 
 export interface CharacterCardListProps {
   characters: Character[];
-  isLoading?: boolean;
   className?: string;
+  isLoading?: boolean;
 }
 
 export const CharacterCardList = ({
-  characters = [],
-  isLoading,
+  characters,
   className,
+  isLoading = false,
 }: CharacterCardListProps) => {
   return (
-    <div className={styles.container}>
+    <div className={classnames(styles.container, className, 'character-list')}>
       {isLoading && <Loader />}
-      {!!characters.length && (
-        <div className={classnames(styles.cardList, className)}>
+      {characters.length > 0 ? (
+        <div className={styles.list}>
           {characters.map(character => (
             <CharacterCard key={character.id} {...character} />
           ))}
         </div>
+      ) : (
+        <ErrorMessage message="Nothing found" />
       )}
     </div>
   );

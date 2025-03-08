@@ -1,2 +1,1 @@
-export * from './characterApi';
-export * from './deserializeError';
+export { getCharacterById, getFilteredCharacters } from './characterApi';

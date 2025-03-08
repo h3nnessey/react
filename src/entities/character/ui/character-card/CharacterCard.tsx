@@ -1,23 +1,19 @@
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { Link, useParams, useSearchParams } from 'react-router';
 import { useAppDispatch, useAppSelector } from '@/app/store';
 import { classnames } from '@/shared/lib/styling';
 import { charactersSlice } from '../../model';
-import type { Character, CharacterId } from '../../model';
+import type { Character } from '../../model';
 import styles from './CharacterCard.module.scss';
 
 export const CharacterCard = (character: Character) => {
   const { id, name, image, status } = character;
-  const { id: currentId } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const params = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
   const isFavorite = useAppSelector(state =>
     charactersSlice.selectors.isFavorite(state, id)
   );
-
-  const handleClick = (id: CharacterId) => {
-    navigate(`/${id}${location.search}`);
-  };
+  const isActive = Number(params.id) === id;
 
   const handleCheckboxChange = () => {
     if (isFavorite) {
@@ -31,11 +27,21 @@ export const CharacterCard = (character: Character) => {
     <>
       <div
         className={classnames(styles.card, {
-          [styles.active]: Number(currentId) === id,
+          [styles.active]: isActive,
         })}
         title={name}
-        onClick={() => handleClick(id)}
+        role="character-card"
       >
+        {!isActive && (
+          <Link
+            className="link"
+            to={{
+              pathname: `/${id}`,
+              search: searchParams.toString(),
+            }}
+            role="link"
+          />
+        )}
         <label
           className={styles.favorite}
           title="Add to favorites"

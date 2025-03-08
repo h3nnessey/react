@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/store';
+import { Button } from '@/shared/ui/components';
 import { createDownloadCharactersUrl } from '../../lib';
 import { charactersSlice } from '../../model';
 import styles from './CharactersFlyout.module.scss';
@@ -16,25 +17,34 @@ export const CharactersFlyout = () => {
     dispatch(charactersSlice.actions.clearFavorites());
   };
 
+  if (!favorites.length) {
+    return null;
+  }
+
   return (
-    !!favorites.length && (
-      <div className={styles.flyout} data-testid="characters-flyout">
-        <h2 className={styles.title}>
-          {favorites.length} characters are selected
-        </h2>
-        <div className={styles.controls}>
-          <button className={styles.btn} onClick={handleUnselectClick}>
-            <span>Unselect all</span>
-          </button>
+    <div className={styles.flyout} role="characters-flyout">
+      <h2 className={styles.title}>
+        {favorites.length} characters are selected
+      </h2>
+      <div className={styles.controls}>
+        <Button className={styles.btn}>
           <a
-            className={styles.link}
+            className="link"
             href={downloadUrl}
             download={`${favorites.length}_favorite_characters.csv`}
           >
-            <span>Download</span>
+            Download
           </a>
-        </div>
+        </Button>
+        <Button
+          className={styles.btn}
+          onClick={handleUnselectClick}
+          variant="danger"
+          data-testid="unselect-button"
+        >
+          Unselect all
+        </Button>
       </div>
-    )
+    </div>
   );
 };

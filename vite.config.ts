@@ -3,12 +3,11 @@
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
+import { reactRouter } from '@react-router/dev/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
-  base: './',
+  plugins: [reactRouter(), tsconfigPaths()],
   resolve: {
     alias: {
       '@': resolve(dirname(fileURLToPath(import.meta.url)), './src'),

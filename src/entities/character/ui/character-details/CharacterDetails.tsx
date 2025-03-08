@@ -1,34 +1,32 @@
-import { useLocation, useNavigate, useParams } from 'react-router';
-import { skipToken } from '@reduxjs/toolkit/query';
+import { Link } from 'react-router';
 import { Button, ErrorMessage, Loader } from '@/shared/ui/components';
-import { useGetCharacterByIdQuery, deserializeError } from '../../api';
+import { classnames } from '@/shared/lib/styling';
+import type { Character } from '../../model';
 import styles from './CharacterDetails.module.scss';
 
-export const CharacterDetails = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const { data, isLoading, isError, error } = useGetCharacterByIdQuery(
-    id ?? skipToken
-  );
-
-  const handleClick = () => {
-    navigate({
-      pathname: '/',
-      search: location.search,
-    });
+interface CharacterDetailsProps {
+  character: Character | null;
+  linkTo: {
+    pathname: string;
+    search: string;
   };
+  isLoading?: boolean;
+}
 
+export const CharacterDetails = ({
+  character,
+  isLoading = false,
+  linkTo,
+}: CharacterDetailsProps) => {
   return (
-    <div className={styles.container} key={id} role="character-details">
-      {isError && <ErrorMessage message={deserializeError(error)} />}
+    <div className={classnames(styles.container, 'character-details')}>
       {isLoading && <Loader />}
-      {data && (
+      {character ? (
         <>
+          <Link className={classnames(styles.link, 'link')} to={linkTo} />
           <img
-            src={data.image}
-            alt={data.name}
+            src={character.image}
+            alt={character.name}
             className={styles.image}
             role="img"
           />
@@ -36,42 +34,46 @@ export const CharacterDetails = () => {
             <tbody>
               <tr>
                 <th>Name</th>
-                <td role="name">{data.name}</td>
+                <td>{character.name}</td>
               </tr>
               <tr>
                 <th>Status</th>
-                <td role="status">{data.status}</td>
+                <td>{character.status}</td>
               </tr>
               <tr>
                 <th>Type</th>
-                <td role="type">{data.type || 'unknown'}</td>
+                <td>{character.type || 'unknown'}</td>
               </tr>
               <tr>
                 <th>Species</th>
-                <td role="species">{data.species}</td>
+                <td>{character.species}</td>
               </tr>
               <tr>
                 <th>Gender</th>
-                <td role="gender">{data.gender}</td>
+                <td>{character.gender}</td>
               </tr>
               <tr>
                 <th>Origin</th>
-                <td role="origin">{data.origin.name}</td>
+                <td>{character.origin.name}</td>
               </tr>
               <tr>
                 <th>Location</th>
-                <td role="location">{data.location.name}</td>
+                <td>{character.location.name}</td>
               </tr>
               <tr>
                 <th>Episodes</th>
-                <td role="episodes">{data.episode.length}</td>
+                <td>{character.episode.length}</td>
               </tr>
             </tbody>
           </table>
         </>
+      ) : (
+        <ErrorMessage message={'Character not found'} />
       )}
-      <Button onClick={handleClick} className={styles.btn} variant="danger">
-        &times;
+      <Button className={styles.btn} variant="danger">
+        <Link className="link" to={linkTo}>
+          <span className={styles.close}>Close</span>
+        </Link>
       </Button>
     </div>
   );
