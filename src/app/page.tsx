@@ -7,12 +7,15 @@ export default async function Home({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { name, page } = await searchParams;
-
   const result = await getFilteredCharacters({ name, page });
 
   return (
     <>
-      <Pagination className="pagination" pages={result.data?.info.pages || 1} />
+      <Pagination
+        className="pagination"
+        pages={result.data?.info.pages || 1}
+        currentPage={Number(page) || 1}
+      />
       <CharacterCardList className="character-list" {...result} />
     </>
   );

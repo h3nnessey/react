@@ -1,42 +1,37 @@
-'use client';
 import Image from 'next/image';
-import type { MouseEventHandler } from 'react';
+import Link from 'next/link';
 import { Button, ErrorMessage } from '@/shared/ui/components';
-import { useSearchNavigation } from '@/providers/search-navigation-provider/lib/useSearchNavigation';
 import { classnames } from '@/shared/lib/styling';
 import type { GetCharacterReturnType } from '../../api';
 import styles from './CharacterDetails.module.scss';
 
 export type CharacterDetailsProps = GetCharacterReturnType & {
   className?: string;
+  searchParams?: { [key: string]: string | string[] | undefined };
 };
 
 export const CharacterDetails = ({
   data,
   error,
   className,
+  searchParams = {},
 }: CharacterDetailsProps) => {
-  const { navigate } = useSearchNavigation();
-
-  const handleClose = () => {
-    navigate({ preserveParams: true });
-  };
-
-  const handleOutsideClick: MouseEventHandler<HTMLDivElement> = event => {
-    if (event.target === event.currentTarget) {
-      handleClose();
-    }
+  const href = {
+    pathname: '/',
+    query: {
+      ...searchParams,
+    },
   };
 
   return (
     <div
       className={classnames(styles.container, className)}
-      onClick={handleOutsideClick}
       data-testid="container"
     >
       {error && <ErrorMessage message={error} />}
       {data && (
         <>
+          <Link className={classnames(styles.link, 'link')} href={href} />
           <Image
             className={styles.image}
             src={data.image}
@@ -86,10 +81,11 @@ export const CharacterDetails = ({
       <Button
         className={styles.btn}
         data-testid="close-button"
-        onClick={handleClose}
         variant="danger"
       >
-        &times;
+        <Link className="link" href={href}>
+          &times;
+        </Link>
       </Button>
     </div>
   );

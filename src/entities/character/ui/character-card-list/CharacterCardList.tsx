@@ -1,8 +1,9 @@
 'use client';
-import { useSearchNavigation } from '@/providers/search-navigation-provider';
 import { classnames } from '@/shared/lib/styling';
 import { ErrorMessage, Loader } from '@/shared/ui/components';
+import { useAppSelector } from '@/store';
 import type { GetCharactersOkResponse } from '../../api';
+import { charactersSlice } from '../../model';
 import { CharacterCard } from '../character-card/CharacterCard';
 import styles from './CharacterCardList.module.scss';
 
@@ -17,7 +18,7 @@ export const CharacterCardList = ({
   error,
   className,
 }: CharacterCardListProps) => {
-  const { isLoading } = useSearchNavigation();
+  const isLoading = useAppSelector(charactersSlice.selectors.isLoading);
 
   return (
     <div className={classnames(styles.container, className)}>

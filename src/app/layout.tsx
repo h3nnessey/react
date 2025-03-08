@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import { ErrorBoundary } from '@/providers/error-boundary';
-import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
 import { StoreProvider } from '@/providers/store-provider';
 import { ThemeProvider } from '@/shared/ui/theme';
 import { CharactersFlyout } from '@/entities/character';
@@ -46,16 +45,14 @@ export default function RootLayout({
       <body className={montserrat.className}>
         <ErrorBoundary>
           <StoreProvider>
-            <SearchNavigationProvider>
-              <ThemeProvider>
-                <Header />
-                <main>
-                  {children}
-                  {<CharacterSlot character={character} />}
-                </main>
-                <CharactersFlyout />
-              </ThemeProvider>
-            </SearchNavigationProvider>
+            <ThemeProvider>
+              <Header />
+              <main>
+                {children}
+                {<CharacterSlot character={character} />}
+              </main>
+              <CharactersFlyout />
+            </ThemeProvider>
           </StoreProvider>
         </ErrorBoundary>
       </body>

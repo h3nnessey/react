@@ -1,5 +1,8 @@
 'use client';
-import { useSearchNavigation } from '@/providers/search-navigation-provider';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { charactersSlice } from '@/entities/character';
 import { Button } from '@/shared/ui/components';
 import { classnames } from '@/shared/lib/styling';
 import { getPagesToRender } from '../lib/getPagesToRender';
@@ -9,22 +12,26 @@ export interface PaginationProps {
   pages: number;
   disabled?: boolean;
   limit?: number;
+  currentPage?: number;
   className?: string;
 }
 
 export const Pagination = ({
   pages = 1,
   limit = 5,
+  currentPage = 1,
   className,
 }: PaginationProps) => {
-  const { page: currentPage, isLoading, navigate } = useSearchNavigation();
+  const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(charactersSlice.selectors.isLoading);
 
   if (pages <= 1) {
     return null;
   }
 
-  const handleClick = (newPage: number) => {
-    navigate({ page: newPage });
+  const handleClick = () => {
+    dispatch(charactersSlice.actions.setIsLoading(true));
   };
 
   const pagesToRender = getPagesToRender(pages, currentPage, limit);
@@ -37,9 +44,20 @@ export const Pagination = ({
           disabled={isLoading}
           className={styles.btn}
           active={currentPage === page}
-          onClick={() => handleClick(page)}
+          onClick={() => handleClick()}
         >
-          {content}
+          <Link
+            className="link"
+            href={{
+              pathname: '/',
+              query: {
+                ...Object.fromEntries(searchParams.entries()),
+                page,
+              },
+            }}
+          >
+            {content}
+          </Link>
         </Button>
       ))}
     </div>

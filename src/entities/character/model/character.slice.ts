@@ -3,10 +3,12 @@ import type { Character, CharacterId } from './character.model';
 
 export interface SelectedCharactersState {
   characters: Character[];
+  isLoading: boolean;
 }
 
 const initialState: SelectedCharactersState = {
   characters: [],
+  isLoading: false,
 };
 
 export const charactersSlice = createSlice({
@@ -16,6 +18,7 @@ export const charactersSlice = createSlice({
     getFavorites: state => state.characters,
     isFavorite: (state, id: CharacterId) =>
       !!state.characters.find(character => character.id === id),
+    isLoading: state => state.isLoading,
   },
   reducers: {
     addToFavorites: (state, action: PayloadAction<Character>) => {
@@ -28,6 +31,9 @@ export const charactersSlice = createSlice({
     },
     clearFavorites: () => {
       return initialState;
+    },
+    setIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
     },
   },
 });

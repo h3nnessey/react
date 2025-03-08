@@ -1,40 +1,10 @@
-import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterEach,
-  type Mock,
-} from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { screen } from '@testing-library/react';
 import { characterMock, renderWithProviders } from '@/__mocks__';
-import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
 import {
   CharacterDetails,
   type CharacterDetailsProps,
 } from './CharacterDetails';
-
-const mockUseRouter = vi.hoisted(() => vi.fn());
-const mockUseSearchParams = vi.hoisted(() => vi.fn());
-const mockUseSearchNavigation = vi.hoisted(() => vi.fn());
-
-vi.mock('next/navigation', async () => {
-  const mod = await import('next/navigation');
-  return {
-    ...mod,
-    useRouter: mockUseRouter,
-    useSearchParams: mockUseSearchParams,
-  };
-});
-
-vi.mock('@/providers/search-navigation-provider', async () => {
-  const mod = await import('@/providers/search-navigation-provider');
-  return {
-    ...mod,
-    useSearchNavigation: mockUseSearchNavigation,
-  };
-});
 
 describe('CharacterDetails component', () => {
   const props: CharacterDetailsProps = {
@@ -42,32 +12,10 @@ describe('CharacterDetails component', () => {
     error: null,
   };
 
-  let mockPush: Mock;
-
-  beforeEach(() => {
-    mockPush = vi.fn();
-    mockUseSearchParams.mockReturnValue(new URLSearchParams());
-    mockUseSearchNavigation.mockReturnValue({
-      search: 'rick',
-      navigate: vi.fn(),
-    });
-    mockUseRouter.mockReturnValue({
-      push: mockPush,
-    });
-  });
-
-  afterEach(() => {
-    vi.clearAllMocks();
-  });
-
   const renderCharacterDetails = (
     characterDetailsProps: CharacterDetailsProps = props
   ) => {
-    renderWithProviders(
-      <SearchNavigationProvider>
-        <CharacterDetails {...characterDetailsProps} />
-      </SearchNavigationProvider>
-    );
+    renderWithProviders(<CharacterDetails {...characterDetailsProps} />);
 
     const tableElement = screen.queryByRole<HTMLTableElement>('details-table');
     const errorElement = screen.queryByRole<HTMLDivElement>('error-message');
@@ -97,22 +45,6 @@ describe('CharacterDetails component', () => {
         expect(tableElement).toBeNull();
         expect(errorElement).toBeInTheDocument();
         expect(errorElement).toHaveTextContent('Error message');
-      },
-    },
-    {
-      name: 'should call navigate when close button is clicked',
-      props: props,
-      assertions: ({ buttonElement }) => {
-        fireEvent.click(buttonElement);
-        expect(mockPush).toHaveBeenCalled();
-      },
-    },
-    {
-      name: 'should call navigate when clicking outside the container',
-      props: props,
-      assertions: ({ containerElement }) => {
-        fireEvent.click(containerElement);
-        expect(mockPush).toHaveBeenCalled();
       },
     },
   ];

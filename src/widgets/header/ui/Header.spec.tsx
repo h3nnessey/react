@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
-import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
+import { screen } from '@testing-library/react';
+import { renderWithProviders } from '@/__mocks__';
 import { ThemeProvider } from '@/shared/ui/theme';
 import { Header } from './Header';
 
@@ -15,12 +15,10 @@ vi.mock('next/navigation', async () => {
 
 describe('Header component', () => {
   it('should render correctly', () => {
-    render(
-      <SearchNavigationProvider>
-        <ThemeProvider>
-          <Header />
-        </ThemeProvider>
-      </SearchNavigationProvider>
+    renderWithProviders(
+      <ThemeProvider>
+        <Header />
+      </ThemeProvider>
     );
 
     const headerElement = screen.getByRole<HTMLHeadElement>('header');

@@ -7,13 +7,12 @@ import {
   afterEach,
   type Mock,
 } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
+import { fireEvent, screen } from '@testing-library/react';
+import { renderWithProviders } from '@/__mocks__';
 import { SearchForm } from './SearchForm';
 
 const mockUseRouter = vi.hoisted(() => vi.fn());
 const mockUseSearchParams = vi.hoisted(() => vi.fn());
-const mockUseSearchNavigation = vi.hoisted(() => vi.fn());
 
 vi.mock('next/navigation', async () => {
   const mod = await import('next/navigation');
@@ -24,33 +23,18 @@ vi.mock('next/navigation', async () => {
   };
 });
 
-vi.mock('@/providers/search-navigation-provider', async () => {
-  const mod = await import('@/providers/search-navigation-provider');
-  return {
-    ...mod,
-    useSearchNavigation: mockUseSearchNavigation,
-  };
-});
-
 describe('SearchForm component', () => {
   const name = 'rick';
-  let mockNavigate: Mock;
+  let mockPush: Mock;
 
   const renderSearchForm = () => {
-    return render(
-      <SearchNavigationProvider>
-        <SearchForm />
-      </SearchNavigationProvider>
-    );
+    return renderWithProviders(<SearchForm />);
   };
 
   beforeEach(() => {
-    mockNavigate = vi.fn();
+    mockPush = vi.fn();
+    mockUseRouter.mockReturnValue({ push: mockPush });
     mockUseSearchParams.mockReturnValue(new URLSearchParams({ name }));
-    mockUseSearchNavigation.mockReturnValue({
-      search: name,
-      navigate: mockNavigate,
-    });
   });
 
   afterEach(() => {
@@ -58,6 +42,7 @@ describe('SearchForm component', () => {
   });
 
   it('should render correctly', () => {
+    mockUseSearchParams.mockReturnValue(new URLSearchParams({ name: '' }));
     renderSearchForm();
 
     const formElement = screen.getByRole<HTMLFormElement>('search-form');
@@ -65,7 +50,7 @@ describe('SearchForm component', () => {
 
     expect(formElement).toBeInTheDocument();
     expect(inputElement).toBeInTheDocument();
-    expect(inputElement).toHaveValue(name);
+    expect(inputElement).toHaveValue('');
   });
 
   it('should properly handle form submission with trimmed value', () => {
@@ -79,7 +64,7 @@ describe('SearchForm component', () => {
     fireEvent.input(inputElement, { target: { value } });
     fireEvent.submit(formElement);
 
-    expect(mockNavigate).toHaveBeenCalledWith({ name: value.trim() });
+    expect(mockPush).toHaveBeenCalledWith(`/?name=${value.trim()}`);
   });
 
   it('should properly handle form submission with no changes', () => {
@@ -89,7 +74,7 @@ describe('SearchForm component', () => {
 
     fireEvent.submit(formElement);
 
-    expect(mockNavigate).not.toHaveBeenCalled();
+    expect(mockPush).not.toHaveBeenCalled();
   });
 
   it('should properly handle form submission with empty value', () => {
@@ -101,6 +86,6 @@ describe('SearchForm component', () => {
     fireEvent.input(inputElement, { target: { value: '' } });
     fireEvent.submit(formElement);
 
-    expect(mockNavigate).toHaveBeenCalledWith({ name: '' });
+    expect(mockPush).toHaveBeenCalledWith('/');
   });
 });

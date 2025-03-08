@@ -1,19 +1,18 @@
 import { describe, it, expect, vi } from 'vitest';
 import { screen } from '@testing-library/react';
 import { characterMock, renderWithProviders } from '@/__mocks__';
-import { SearchNavigationProvider } from '@/providers/search-navigation-provider';
 import {
   CharacterCardList,
   type CharacterCardListProps,
 } from './CharacterCardList';
+import { act } from 'react';
+import { charactersSlice } from '../../model';
 
 vi.mock('next/navigation', async () => {
   const mod = await import('next/navigation');
   return {
     ...mod,
-    useRouter: vi.fn(),
     usePathname: vi.fn(() => '/1'),
-    useSearchParams: vi.fn(() => new URLSearchParams()),
   };
 });
 
@@ -34,11 +33,7 @@ describe('CharacterCardList component', () => {
   it('should render correctly with no data', () => {
     const message = 'Error message';
 
-    renderWithProviders(
-      <SearchNavigationProvider>
-        <CharacterCardList data={null} error={message} />
-      </SearchNavigationProvider>
-    );
+    renderWithProviders(<CharacterCardList data={null} error={message} />);
 
     const characterCardListElement = screen.queryByRole<HTMLDivElement>(
       'character-card-list'
@@ -51,11 +46,7 @@ describe('CharacterCardList component', () => {
   });
 
   it('should render correctly with data', () => {
-    renderWithProviders(
-      <SearchNavigationProvider>
-        <CharacterCardList {...props} />
-      </SearchNavigationProvider>
-    );
+    renderWithProviders(<CharacterCardList {...props} />);
 
     const characterCardListElement = screen.queryByRole<HTMLDivElement>(
       'character-card-list'
@@ -65,5 +56,17 @@ describe('CharacterCardList component', () => {
 
     expect(characterCardListElement).toBeInTheDocument();
     expect(errorMessageElement).toBeNull();
+  });
+
+  it('should show loader', () => {
+    const { store } = renderWithProviders(<CharacterCardList {...props} />);
+
+    act(() => {
+      store.dispatch(charactersSlice.actions.setIsLoading(true));
+    });
+
+    const loaderElement = screen.getByRole<HTMLDivElement>('loader');
+
+    expect(loaderElement).toBeInTheDocument();
   });
 });
