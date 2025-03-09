@@ -1,23 +1,19 @@
-import { useLocation, useNavigate, useParams } from 'react-router';
-import { useAppDispatch, useAppSelector } from '@/app/store';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from '@/store';
 import { classnames } from '@/shared/lib/styling';
-import { charactersSlice } from '../../model';
-import type { Character, CharacterId } from '../../model';
+import { charactersSlice, type Character } from '../../model';
 import styles from './CharacterCard.module.scss';
 
 export const CharacterCard = (character: Character) => {
   const { id, name, image, status } = character;
-  const { id: currentId } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const isFavorite = useAppSelector(state =>
     charactersSlice.selectors.isFavorite(state, id)
   );
-
-  const handleClick = (id: CharacterId) => {
-    navigate(`/${id}${location.search}`);
-  };
+  const { id: currentId } = router.query;
 
   const handleCheckboxChange = () => {
     if (isFavorite) {
@@ -28,39 +24,53 @@ export const CharacterCard = (character: Character) => {
   };
 
   return (
-    <>
-      <div
-        className={classnames(styles.card, {
-          [styles.active]: Number(currentId) === id,
-        })}
-        title={name}
-        onClick={() => handleClick(id)}
+    <div
+      className={classnames(styles.card, {
+        [styles.active]: Number(currentId) === id,
+      })}
+      title={name}
+      role="character-card"
+    >
+      {Number(currentId) !== id && (
+        <Link
+          className="link"
+          href={{
+            pathname: '/',
+            query: { ...router.query, id },
+          }}
+        />
+      )}
+      <label
+        className={styles.favorite}
+        title="Add to favorites"
+        onClick={event => event.stopPropagation()}
       >
-        <label
-          className={styles.favorite}
-          title="Add to favorites"
-          onClick={event => event.stopPropagation()}
+        <input
+          className={styles.checkbox}
+          type="checkbox"
+          checked={isFavorite}
+          onChange={handleCheckboxChange}
+          role="add-to-favorites"
+        />
+      </label>
+      <Image
+        className={styles.image}
+        src={image}
+        width={80}
+        height={80}
+        alt={`${name} image`}
+      />
+      <div className={styles.about}>
+        <p className={styles.title}>{name}</p>
+        <p
+          className={classnames(
+            styles.description,
+            styles[status.toLowerCase()]
+          )}
         >
-          <input
-            type="checkbox"
-            className={styles.checkbox}
-            checked={isFavorite}
-            onChange={handleCheckboxChange}
-          />
-        </label>
-        <img className={styles.image} src={image} alt={name} role="img" />
-        <div className={styles.about}>
-          <p className={styles.title}>{name}</p>
-          <p
-            className={classnames(
-              styles.description,
-              styles[status.toLowerCase()]
-            )}
-          >
-            {status}
-          </p>
-        </div>
+          {status}
+        </p>
       </div>
-    </>
+    </div>
   );
 };

@@ -1,19 +1,36 @@
-import { describe, expect, it } from 'vitest';
-import { BrowserRouter } from 'react-router';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Header } from './Header';
-import styles from './Header.module.scss';
+import { ThemeProvider } from '@/shared/ui/theme';
 
-describe('Header Component', () => {
-  it('should render with default className', () => {
+const mockUseRouter = vi.hoisted(() => vi.fn());
+
+vi.mock(import('next/router'), async importOriginal => {
+  const mod = await importOriginal();
+  return {
+    ...mod,
+    useRouter: mockUseRouter,
+  };
+});
+
+describe('Header component', () => {
+  it('should render correctly', () => {
+    mockUseRouter.mockReturnValue({
+      query: {},
+    });
+
     render(
-      <BrowserRouter>
+      <ThemeProvider>
         <Header />
-      </BrowserRouter>
+      </ThemeProvider>
     );
 
-    const headerElement = screen.getByRole('header');
+    const headerElement = screen.getByRole<HTMLHeadElement>('header');
+    const switchElement = screen.getByRole<HTMLLabelElement>('switch');
+    const formElement = screen.getByRole<HTMLFormElement>('search-form');
+
     expect(headerElement).toBeInTheDocument();
-    expect(headerElement).toHaveClass(styles.header);
+    expect(switchElement).toBeInTheDocument();
+    expect(formElement).toBeInTheDocument();
   });
 });

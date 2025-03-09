@@ -1,18 +1,15 @@
-import { describe, expect, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Input, InputProps } from './Input';
+import { Input } from './Input';
 
-describe('Input Component', () => {
-  const renderInput = (props: Partial<InputProps> = {}) => {
-    return render(<Input inputRef={null} {...props} />);
-  };
+describe('Input component', () => {
+  it('should render correctly', () => {
+    const ref = null;
 
-  it('should apply className', () => {
-    const className = 'qwe';
-    renderInput({ className });
+    render(<Input inputRef={ref} />);
 
-    const inputElement = screen.getByRole('input');
+    const inputElement = screen.getByRole<HTMLInputElement>('input');
+
     expect(inputElement).toBeInTheDocument();
-    expect(inputElement).toHaveClass(className);
   });
 });

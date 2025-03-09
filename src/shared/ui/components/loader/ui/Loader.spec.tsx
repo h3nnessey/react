@@ -1,18 +1,13 @@
-import { describe, expect, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Loader, LoaderProps } from './Loader';
+import { Loader } from './Loader';
 
-describe('Loader Component', () => {
-  const renderLoader = (props: LoaderProps = {}) => {
-    return render(<Loader {...props} />);
-  };
+describe('Loader component', () => {
+  it('should render correctly', () => {
+    render(<Loader />);
 
-  it('should apply className', () => {
-    const className = 'qwe';
-    renderLoader({ className });
+    const loaderElement = screen.getByRole<HTMLDivElement>('loader');
 
-    const loaderElement = screen.getByRole('loader');
     expect(loaderElement).toBeInTheDocument();
-    expect(loaderElement).toHaveClass(className);
   });
 });

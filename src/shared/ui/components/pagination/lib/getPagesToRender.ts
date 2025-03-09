@@ -18,28 +18,28 @@ export const getPagesToRender = (
   }
 
   if (start > 1) {
-    pagesToRender.push({ content: '1', to: 1 });
+    pagesToRender.push({ content: '1', page: 1 });
     if (start > 2) {
       pagesToRender.push({
         content: '...',
-        to: Math.max(1, currentPage - limit),
+        page: Math.max(1, currentPage - limit),
       });
     }
   }
 
   for (let i = start; i <= end; i += 1) {
-    pagesToRender.push({ content: i.toString(), to: i });
+    pagesToRender.push({ content: i.toString(), page: i });
   }
 
   if (end < maxPages) {
     if (end < maxPages - 1) {
       pagesToRender.push({
         content: '...',
-        to: Math.min(maxPages, currentPage + limit),
+        page: Math.min(maxPages, currentPage + limit),
       });
     }
 
-    pagesToRender.push({ content: maxPages.toString(), to: maxPages });
+    pagesToRender.push({ content: maxPages.toString(), page: maxPages });
   }
 
   return pagesToRender;

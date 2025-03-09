@@ -1,0 +1,1 @@
+export { processSearchParams } from './processSearchParams';

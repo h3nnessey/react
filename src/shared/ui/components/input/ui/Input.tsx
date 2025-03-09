@@ -12,8 +12,8 @@ export const Input = ({ inputRef, className, ...props }: InputProps) => {
     <input
       className={classnames(styles.input, className)}
       ref={inputRef}
-      role="input"
       {...props}
+      role="input"
     />
   );
 };

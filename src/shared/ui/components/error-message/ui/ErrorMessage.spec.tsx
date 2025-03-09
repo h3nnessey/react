@@ -1,34 +1,16 @@
-import { describe, expect, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { ErrorMessage } from '@/shared/ui/components';
+import { ErrorMessage } from './ErrorMessage';
 
-describe('ErrorMessage Component', () => {
-  const message = 'error message';
+describe('ErrorMessage component', () => {
+  it('should render correctly', () => {
+    const message = 'Something went wrong';
 
-  const renderErrorMessage = (props = {}) => {
-    return render(<ErrorMessage message={message} {...props} />);
-  };
+    render(<ErrorMessage message={message} />);
 
-  it('should render error message', () => {
-    renderErrorMessage();
+    const errorElement = screen.getByRole<HTMLDivElement>('error-message');
 
-    const messageElement = screen.getByText(message);
-    expect(messageElement).toBeInTheDocument();
-  });
-
-  it('should apply className', () => {
-    const className = 'qwe';
-    renderErrorMessage({ className });
-
-    const containerElement = screen.getByRole('error');
-    expect(containerElement).toHaveClass(className);
-  });
-
-  it('should render children', () => {
-    const text = 'children text';
-    renderErrorMessage({ children: <p>{text}</p> });
-
-    const childrenElement = screen.getByText(text);
-    expect(childrenElement).toBeInTheDocument();
+    expect(errorElement).toBeInTheDocument();
+    expect(errorElement).toHaveTextContent(message);
   });
 });

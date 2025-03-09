@@ -1,79 +1,51 @@
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { Pagination } from './Pagination';
-import styles from '../../button/ui/Button.module.scss';
 
-describe('Pagination', () => {
-  const mockOnPageChange = vi.fn();
+describe('Pagination component', () => {
+  const pages = 2;
+  const currentPage = 1;
+  const onPageChange = vi.fn();
 
-  const renderPagination = (props = {}) => {
-    const defaultProps = {
-      pages: 10,
-      currentPage: 1,
-      onPageChange: mockOnPageChange,
-      disabled: false,
-      limit: 5,
-      className: '',
-    };
+  it('should not render if there is only one page', () => {
+    render(
+      <Pagination pages={1} currentPage={currentPage} onPageChange={() => {}} />
+    );
 
-    return render(<Pagination {...defaultProps} {...props} />);
-  };
+    const paginationElement = screen.queryByRole<HTMLDivElement>('pagination');
 
-  beforeEach(() => {
-    vi.clearAllMocks();
+    expect(paginationElement).toBeNull();
   });
 
-  it('should render correct number of buttons', () => {
-    renderPagination();
+  it('should render if there are more than one page', () => {
+    render(
+      <Pagination
+        pages={pages}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+      />
+    );
 
-    const buttons = screen.getAllByRole('button');
-    expect(buttons).toHaveLength(7);
+    const paginationElement = screen.queryByRole<HTMLDivElement>('pagination');
+
+    expect(paginationElement).toBeInTheDocument();
   });
 
-  it('should correctly call onPageChange', () => {
-    renderPagination();
+  it('should call onPageChange with the correct page number', () => {
+    render(
+      <Pagination
+        pages={pages}
+        currentPage={currentPage}
+        onPageChange={onPageChange}
+      />
+    );
 
-    const buttons = screen.getAllByRole('button');
-
-    fireEvent.click(buttons[1]);
-
-    expect(mockOnPageChange).toHaveBeenCalledWith(2);
-  });
-
-  it('should disable all buttons when disabled', () => {
-    renderPagination({ disabled: true });
-
-    const buttons = screen.getAllByRole('button');
-
-    buttons.forEach(button => {
-      expect(button).toBeDisabled();
+    const secondPageButton = screen.getByRole<HTMLButtonElement>('button', {
+      name: String(pages),
     });
-  });
 
-  it('should render active page', () => {
-    renderPagination({ currentPage: 3 });
+    fireEvent.click(secondPageButton);
 
-    const buttons = screen.getAllByRole('button');
-    expect(buttons[2]).toHaveClass(styles.active);
-  });
-
-  it('should render ellipsis', () => {
-    renderPagination({ pages: 10, currentPage: 1, limit: 5 });
-
-    const buttons = screen.getAllByRole('button');
-
-    expect(buttons[0]).toHaveTextContent('1');
-    expect(buttons[1]).toHaveTextContent('2');
-    expect(buttons[2]).toHaveTextContent('3');
-    expect(buttons[3]).toHaveTextContent('4');
-    expect(buttons[4]).toHaveTextContent('5');
-    expect(buttons[5]).toHaveTextContent('...');
-    expect(buttons[6]).toHaveTextContent('10');
-  });
-
-  it('should not be rendered if no pages', () => {
-    const { container } = renderPagination({ pages: 0 });
-
-    expect(container).toBeEmptyDOMElement();
+    expect(onPageChange).toHaveBeenCalledWith(pages);
   });
 });

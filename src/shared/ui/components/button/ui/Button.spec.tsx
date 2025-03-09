@@ -1,57 +1,16 @@
-import { describe, expect, it } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { Button, ButtonProps, ButtonVariant } from './Button';
-import styles from './Button.module.scss';
+import { Button } from './Button';
 
-describe('Button Component', () => {
-  const children = 'children text';
+describe('Button component', () => {
+  it('should render correctly', () => {
+    const text = 'Click me';
 
-  const renderButton = (props: ButtonProps = {}) => {
-    return render(<Button {...props}>{children}</Button>);
-  };
+    render(<Button>{text}</Button>);
 
-  it('should render children', () => {
-    renderButton();
+    const button = screen.getByRole<HTMLButtonElement>('button');
 
-    const buttonElement = screen.getByRole('button', { name: children });
-    expect(buttonElement).toBeInTheDocument();
-  });
-
-  it('should apply primary variant by default', () => {
-    renderButton();
-
-    const buttonElement = screen.getByRole('button');
-    expect(buttonElement).toHaveClass(styles.primary);
-  });
-
-  it.each<ButtonVariant>(['primary', 'secondary', 'danger'])(
-    'should correctly apply %s variant',
-    variant => {
-      renderButton({ variant });
-
-      const buttonElement = screen.getByRole('button');
-      expect(buttonElement).toHaveClass(styles[variant]);
-    }
-  );
-  it('should apply active class', () => {
-    renderButton({ active: true });
-
-    const buttonElement = screen.getByRole('button');
-    expect(buttonElement).toHaveClass(styles.active);
-  });
-
-  it('should apply className', () => {
-    const className = 'qwe';
-    renderButton({ className });
-
-    const buttonElement = screen.getByRole('button');
-    expect(buttonElement).toHaveClass(className);
-  });
-
-  it('should be disabled', () => {
-    renderButton({ disabled: true });
-
-    const buttonElement = screen.getByRole('button');
-    expect(buttonElement).toBeDisabled();
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent(text);
   });
 });

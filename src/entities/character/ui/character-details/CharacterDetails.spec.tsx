@@ -1,130 +1,111 @@
-import { MemoryRouter, Route, Routes } from 'react-router';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { processSearchParams } from '@/shared/lib/url';
+import { characterMock } from '@/__mocks__';
 import {
-  describe,
-  it,
-  expect,
-  vi,
-  beforeEach,
-  afterAll,
-  beforeAll,
-  afterEach,
-} from 'vitest';
-import { http, HttpResponse } from 'msw';
-import { screen, fireEvent } from '@testing-library/react';
-import { server, renderWithProviders, mockCharacter } from '@/__tests__';
-import { CharacterDetails } from '@/entities/character/ui/character-details/CharacterDetails';
+  CharacterDetails,
+  type CharacterDetailsProps,
+} from './CharacterDetails';
 
-vi.mock('@/shared/ui/components', () => ({
-  Loader: vi.fn(() => <div data-testid="loader">Loader</div>),
-  ErrorMessage: vi.fn(({ message }) => (
-    <div data-testid="error-message">{message}</div>
-  )),
-  Button: vi.fn(({ onClick, children }) => (
-    <button onClick={onClick} data-testid="close-button">
-      {children}
-    </button>
-  )),
-}));
+const mockUseRouter = vi.hoisted(() => vi.fn());
 
-const url = 'https://rickandmortyapi.com/api/character/1';
-
-const mockUseNavigate = vi.hoisted(() => vi.fn());
-const mockUseParams = vi.hoisted(() => vi.fn());
-
-vi.mock(import('react-router'), async importOriginal => {
-  const actual = await importOriginal();
+vi.mock(import('next/router'), async importOriginal => {
+  const mod = await importOriginal();
   return {
-    ...actual,
-    useNavigate: mockUseNavigate,
-    useParams: mockUseParams,
+    ...mod,
+    useRouter: mockUseRouter,
   };
 });
 
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+describe('CharacterDetails component', () => {
+  const props: CharacterDetailsProps = {
+    data: characterMock,
+    error: null,
+  };
 
-describe('CharacterDetails', () => {
+  const mockRouterReturnValue = {
+    query: {
+      name: props.data.name,
+      id: props.data.id,
+      page: '1',
+    },
+    push: vi.fn(),
+  };
+
+  const mockPushArgs = {
+    pathname: '/',
+    search: processSearchParams({
+      ...mockRouterReturnValue.query,
+      id: undefined,
+    }),
+  };
+
   beforeEach(() => {
+    mockUseRouter.mockReturnValue(mockRouterReturnValue);
+  });
+
+  afterEach(() => {
     vi.clearAllMocks();
-    mockUseParams.mockReturnValue({ id: '1' });
-    mockUseNavigate.mockReturnValue(vi.fn());
   });
 
-  it('renders character details when data is loaded', async () => {
-    server.use(
-      http.get(url, () => {
-        return HttpResponse.json(mockCharacter);
-      })
+  const renderCharacterDetails = (
+    characterDetailsProps: CharacterDetailsProps = props
+  ) => {
+    const { container } = render(
+      <CharacterDetails {...characterDetailsProps} />
     );
+    const tableElement = screen.queryByRole<HTMLTableElement>('details-table');
+    const errorElement = screen.queryByRole<HTMLDivElement>('error-message');
+    const buttonElement = screen.getByRole<HTMLButtonElement>('button');
 
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/1']}>
-        <Routes>
-          <Route path="/:id" element={<CharacterDetails />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    return { tableElement, errorElement, buttonElement, container };
+  };
 
-    const { name, status, species, gender, origin, location, episode, image } =
-      mockCharacter;
+  const testCases: {
+    name: string;
+    props: CharacterDetailsProps;
+    assertions: (args: ReturnType<typeof renderCharacterDetails>) => void;
+  }[] = [
+    {
+      name: 'should render correctly with data',
+      props: props,
+      assertions: ({ tableElement, errorElement }) => {
+        expect(tableElement).toBeInTheDocument();
+        expect(errorElement).toBeNull();
+      },
+    },
+    {
+      name: 'should render correctly if there is an error',
+      props: { data: null, error: 'Error message' },
+      assertions: ({ tableElement, errorElement }) => {
+        expect(tableElement).toBeNull();
+        expect(errorElement).toBeInTheDocument();
+        expect(errorElement).toHaveTextContent('Error message');
+      },
+    },
+    {
+      name: 'should correctly call router.push',
+      props: props,
+      assertions: ({ buttonElement }) => {
+        fireEvent.click(buttonElement);
+        expect(mockRouterReturnValue.push).toHaveBeenCalledWith(mockPushArgs);
+      },
+    },
+    {
+      name: 'should call handleClose when clicking outside the content',
+      props: props,
+      assertions: ({ container }) => {
+        fireEvent.click(container.firstChild!);
+        expect(mockRouterReturnValue.push).toHaveBeenCalledWith(mockPushArgs);
+      },
+    },
+  ];
 
-    expect(await screen.findByRole('img')).toHaveAttribute('src', image);
-    expect(await screen.findByRole('name')).toHaveTextContent(name);
-    expect(await screen.findByRole('status')).toHaveTextContent(status);
-    expect(await screen.findByRole('species')).toHaveTextContent(species);
-    expect(await screen.findByRole('gender')).toHaveTextContent(gender);
-    expect(await screen.findByRole('origin')).toHaveTextContent(origin.name);
-    expect(await screen.findByRole('location')).toHaveTextContent(
-      location.name
-    );
-    expect(await screen.findByRole('episodes')).toHaveTextContent(
-      episode.length.toString()
-    );
-  });
+  testCases.forEach(({ name, props, assertions }) => {
+    it(name, () => {
+      const renderResult = renderCharacterDetails(props);
 
-  it('shows a loader while loading', async () => {
-    server.use(
-      http.get(url, async () => {
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        return HttpResponse.json(mockCharacter);
-      })
-    );
-
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/1']}>
-        <Routes>
-          <Route path="/:id" element={<CharacterDetails />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
-    expect(await screen.findByTestId('loader')).toBeInTheDocument();
-  });
-
-  it('navigates back to home page when close button is clicked', async () => {
-    server.use(
-      http.get(url, () => {
-        return HttpResponse.json(mockCharacter);
-      })
-    );
-
-    const mockNavigate = vi.fn();
-
-    mockUseNavigate.mockReturnValue(mockNavigate);
-
-    renderWithProviders(
-      <MemoryRouter initialEntries={['/1']}>
-        <Routes>
-          <Route path="/:id" element={<CharacterDetails />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
-    const closeButton = await screen.findByTestId('close-button');
-
-    fireEvent.click(closeButton);
-
-    expect(mockNavigate).toHaveBeenCalledWith({ pathname: '/', search: '' });
+      assertions(renderResult);
+    });
   });
 });

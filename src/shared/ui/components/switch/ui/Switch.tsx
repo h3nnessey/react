@@ -16,6 +16,7 @@ export const Switch = ({
     <label
       className={classnames(styles.label, className)}
       title={title}
+      aria-checked={checked}
       role="switch"
     >
       <input

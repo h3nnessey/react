@@ -1,76 +1,90 @@
-import { useLocation, useNavigate, useParams } from 'react-router';
-import { skipToken } from '@reduxjs/toolkit/query';
-import { Button, ErrorMessage, Loader } from '@/shared/ui/components';
-import { useGetCharacterByIdQuery, deserializeError } from '../../api';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import type { MouseEventHandler } from 'react';
+import { Button, ErrorMessage } from '@/shared/ui/components';
+import { classnames } from '@/shared/lib/styling';
+import { processSearchParams } from '@/shared/lib/url';
+import type { GetCharacterReturnType } from '../../api';
 import styles from './CharacterDetails.module.scss';
 
-export const CharacterDetails = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const location = useLocation();
+export type CharacterDetailsProps = GetCharacterReturnType & {
+  className?: string;
+};
 
-  const { data, isLoading, isError, error } = useGetCharacterByIdQuery(
-    id ?? skipToken
-  );
+export const CharacterDetails = ({
+  data,
+  error,
+  className,
+}: CharacterDetailsProps) => {
+  const router = useRouter();
 
-  const handleClick = () => {
-    navigate({
+  const handleClose = () => {
+    router.push({
       pathname: '/',
-      search: location.search,
+      search: processSearchParams({ ...router.query, id: undefined }),
     });
   };
 
+  const handleOutsideClick: MouseEventHandler<HTMLDivElement> = event => {
+    if (event.target === event.currentTarget) {
+      handleClose();
+    }
+  };
+
   return (
-    <div className={styles.container} key={id} role="character-details">
-      {isError && <ErrorMessage message={deserializeError(error)} />}
-      {isLoading && <Loader />}
+    <div
+      className={classnames(styles.container, className)}
+      onClick={handleOutsideClick}
+    >
+      {error && <ErrorMessage message={error} />}
       {data && (
         <>
-          <img
-            src={data.image}
-            alt={data.name}
+          <Image
             className={styles.image}
-            role="img"
+            src={data.image}
+            alt={`${data.name} image`}
+            width={380}
+            height={380}
           />
-          <table className={styles.table}>
+          <table className={styles.table} role="details-table">
             <tbody>
               <tr>
                 <th>Name</th>
-                <td role="name">{data.name}</td>
+                <td>{data.name}</td>
               </tr>
               <tr>
                 <th>Status</th>
-                <td role="status">{data.status}</td>
+                <td>{data.status}</td>
               </tr>
               <tr>
                 <th>Type</th>
-                <td role="type">{data.type || 'unknown'}</td>
+                <td>{data.type || 'unknown'}</td>
               </tr>
               <tr>
                 <th>Species</th>
-                <td role="species">{data.species}</td>
+                <td>{data.species}</td>
               </tr>
               <tr>
                 <th>Gender</th>
-                <td role="gender">{data.gender}</td>
+                <td>{data.gender}</td>
               </tr>
               <tr>
                 <th>Origin</th>
-                <td role="origin">{data.origin.name}</td>
+                <td>{data.origin.name}</td>
               </tr>
               <tr>
                 <th>Location</th>
-                <td role="location">{data.location.name}</td>
+                <td>{data.location.name}</td>
               </tr>
               <tr>
                 <th>Episodes</th>
-                <td role="episodes">{data.episode.length}</td>
+                <td>{data.episode.length}</td>
               </tr>
             </tbody>
           </table>
         </>
       )}
-      <Button onClick={handleClick} className={styles.btn} variant="danger">
+      <Button className={styles.btn} onClick={handleClose} variant="danger">
         &times;
       </Button>
     </div>
