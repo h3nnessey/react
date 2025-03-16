@@ -1,12 +1,12 @@
 import { createSlice, nanoid, type PayloadAction } from '@reduxjs/toolkit';
-import { COUNTRIES, type Country } from '@/shared/constants';
+import { COUNTRIES } from '@/shared/constants/countries';
 import type { FormEntity, FormId } from './forms.model';
 
 interface FormsState {
-  entities: Record<FormId, FormEntity | undefined>;
+  entities: Record<FormId, FormEntity>;
   ids: FormId[];
   lastSubmittedFormId: FormId | null;
-  countries: Country[];
+  countries: string[];
 }
 
 const initialState: FormsState = {
@@ -23,6 +23,10 @@ export const formsSlice = createSlice({
     forms: state => state.ids.map(id => state.entities[id]),
     countries: state => state.countries,
     isLastSubmitted: state => (id: FormId) => state.lastSubmittedFormId === id,
+    uncontrolledForms: state =>
+      state.ids
+        .map(id => state.entities[id])
+        .filter(form => form.type === 'uncontrolled'),
   },
   reducers: {
     addForm(state, action: PayloadAction<Omit<FormEntity, 'id'>>) {

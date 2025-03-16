@@ -1,0 +1,70 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #0051ff;
+    outline: none;
+  }
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+}
+
+.checkboxLabel {
+  font-size: 1rem;
+  color: #333;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 1rem;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.errorContainer {
+  height: 1.5rem;
+  overflow: hidden;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.errorContainer.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.error {
+  color: #d61427;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
